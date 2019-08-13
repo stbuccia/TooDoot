@@ -1,5 +1,6 @@
 package com.example.todot;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -10,12 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import model.Task;
+
+import static model.Task.getSavedTasks;
 
 
 public class TodoFragment extends Fragment {
@@ -27,11 +29,11 @@ public class TodoFragment extends Fragment {
     FloatingActionButton button;
     ArrayList<Task> myTasks = new ArrayList<Task>();
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_todo, null);
-
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.cardRV);
         mRecyclerView.setHasFixedSize(true);
@@ -39,6 +41,7 @@ public class TodoFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        myTasks = getSavedTasks(getContext(), getActivity());
         mAdapter = new TaskAdapter(myTasks);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -46,7 +49,7 @@ public class TodoFragment extends Fragment {
                 DividerItemDecoration.VERTICAL));
 
         //set up button
-        button = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
+        button = view.findViewById(R.id.floatingActionButton);
         button.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -55,12 +58,11 @@ public class TodoFragment extends Fragment {
                 //get start and end date
                 Calendar cal = Calendar.getInstance();
                 Date startDate = cal.getTime();
-                cal.set(Calendar.HOUR_OF_DAY, 23);
-                cal.set(Calendar.MINUTE, 59);
-                Date endDate = cal.getTime();
 
+                Task task = new Task("Fare un esempio", "", startDate, 0);
+                task.addTaskInFile(getContext(), getActivity());
+                myTasks.add(task);
 
-                myTasks.add(new Task("Fare un esempio", "", startDate, endDate, 3));
                 mAdapter.notifyItemInserted(myTasks.size() + 1);
             }
         });
