@@ -1,4 +1,4 @@
-package com.example.todot;
+package com.example.todot2;
 
 import org.junit.Test;
 
