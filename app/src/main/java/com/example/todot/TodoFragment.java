@@ -59,7 +59,7 @@ public class TodoFragment extends Fragment {
                 Calendar cal = Calendar.getInstance();
                 Date startDate = cal.getTime();
 
-                Task task = new Task("Fare un esempio", "", startDate, 0);
+                Task task = new Task("Fare un esempio", "", startDate, 0, new ArrayList<String>());
                 task.addTaskInFile(getContext(), getActivity());
                 myTasks.add(task);
 

@@ -3,8 +3,11 @@ package model;
 import android.content.Context;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.text.Format;
@@ -13,8 +16,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static model.Task.State.COMPLETED;
 import static model.Task.State.ONGOING;
@@ -50,12 +56,13 @@ public class Task {
         return s;
     }
 
-    public Task(String n, String d, Date date, int p) {
+    public Task(String n, String d, Date date, int p, ArrayList<String> t) {
         name = n;
         description = d;
         //tags
         creation_date = date;
         priority = new Priority(p);
+        tags = t;
         uncompleteTask();
     }
 
@@ -73,7 +80,7 @@ public class Task {
         //(A) letters in bracket indicate priority
         if (text.split("\\s")[0].matches("^\\([A-Z]\\)")) {
             priority = new Priority(Priority.fromCharToInt(text.charAt(2))); //letter is in second position
-            text = text.substring(4); //4 is length of "(A)"
+            text = text.substring(4); //4 is length of "(A) "
         }
         else
             priority = new Priority(0);
@@ -81,22 +88,37 @@ public class Task {
         //completation date
         if (state == COMPLETED){
             completation_date = ((SimpleDateFormat) formatter).parse(text.split("\\s")[0]);
-            text = text.substring(text.split("\\s")[0].length());
+            text = text.substring(text.split("\\s")[0].length() + 1);
 
         }
+
         //optional: creation date
         try{
             creation_date = ((SimpleDateFormat) formatter).parse(text.split("\\s")[0]);
-            text = text.substring(text.split("\\s")[0].length());
+            text = text.substring(text.split("\\s")[0].length() + 1);
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        //tags
+        String regex = "@\\s*(\\w+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
+        while (matcher.find()){
+            tags.add(text.substring(matcher.start() + 1, matcher.end()));
+        }
+        text = text.replaceAll(regex, "");
+        text = text.replaceAll("\\s+"," ");
+
+
         //task name and description
-        //name = text.split(" ::")[0];
-        name = text;
+        name = text.split(" ::")[0];
+        //name = text;
         if (text.split("::").length > 1)
-            description = text.split(" ::")[1];
+            description = text.substring(text.split(" ::")[0].length() + 3);
+        else
+            description = "";
     }
 
     private String getTextTask(){
@@ -104,9 +126,26 @@ public class Task {
         String text = "";
         if (state == COMPLETED)
             text = "x ";
-        text += "(" + priority.getCharValue() + ") " + ((SimpleDateFormat) formatter).format(creation_date) + " " + name;
+
+        if (priority.getValue() > 0)
+            text += "(" + priority.getCharValue() + ") ";
+
+        if (state == COMPLETED)
+            text += ((SimpleDateFormat) formatter).format(completation_date) + " ";
+
+        if (creation_date != null)
+            text += ((SimpleDateFormat) formatter).format(creation_date) + " ";
+
+        text += name;
+
         if (description != "")
-            text +=" ::" + description;
+            text += " ::" + description;
+
+        Iterator i = tags.iterator();
+        while (i.hasNext())
+            text += (" @" + i.next());
+        text = text.replaceAll("\\s+"," ");
+
         return text;
     }
 
@@ -137,7 +176,6 @@ public class Task {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
 
-                //Toast.makeText(activity, line, Toast.LENGTH_LONG).show();
                 try{
                     tasks.add(new Task(line));
                 }
@@ -153,21 +191,46 @@ public class Task {
 
     }
 
-    public void getTaskInFile(Context context, Context activity){
+    public void updateTaskInFile(Context context){
         File file = new File(context.getFilesDir(), "todo.txt");
         try {
+            BufferedReader fileIn = new BufferedReader(new FileReader(file));
+            StringBuffer inputBuffer = new StringBuffer();
+            String line;
+
+            while ((line = fileIn.readLine()) != null) {
+                if (line.equals(textdef)){
+                    line = getTextTask();
+                    textdef = line;
+                }
+                inputBuffer.append(line);
+                inputBuffer.append('\n');
+            }
+            fileIn.close();
+
+
+            FileOutputStream fileOut = new FileOutputStream(file);
+            fileOut.write(inputBuffer.toString().getBytes());
+            fileOut.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        /*
+        try {
             Scanner scanner = new Scanner(file);
-            String text = getTextTask();
-            while (scanner.hasNextLine()) {
+            String first, last;
+            while (scanner.hasNextLine() && line.equal) {
                 String line = scanner.nextLine();
-                if(line == text) {
+                first += line + '\n';
+                if(line == textdef) {
                     Toast.makeText(activity, line, Toast.LENGTH_LONG).show();
                 }
                 //Toast.makeText(activity, line, Toast.LENGTH_LONG).show();
             }
         } catch(FileNotFoundException e) {
-            Toast.makeText(activity, "Todo.txt non trovato", Toast.LENGTH_LONG).show();
-        }
+            Toast.makeText(activity, "todo.txt non trovato", Toast.LENGTH_LONG).show();
+        }*/
     }
 
 
@@ -175,16 +238,18 @@ public class Task {
         return name;
     }
 
+    public boolean isComplete(){
+        return (state == COMPLETED);
+    }
     public void completeTask(){
         state = COMPLETED;
         completation_date = getCurrentDate();
     }
 
     public void uncompleteTask(){
-        //TODO: consider the day
+        //TODO: consider the day?
         Date now = getCurrentDate();
-        if (creation_date.after(now))
-        if (creation_date.after(now))
+        if (creation_date == null || creation_date.after(now))
             state = ONGOING;
         else
             state = PENDING;
