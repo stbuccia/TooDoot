@@ -1,6 +1,6 @@
 package com.example.todot;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -50,20 +50,19 @@ public class TodoFragment extends Fragment {
 
         //set up button
         button = view.findViewById(R.id.floatingActionButton);
-        button.setOnClickListener(new View.OnClickListener()
-        {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                //get start and end date
+            public void onClick(View v) {
+                /*
                 Calendar cal = Calendar.getInstance();
-                Date startDate = cal.getTime();
 
-                Task task = new Task("Fare un esempio", "", startDate, 0, new ArrayList<String>());
+                Task task = new Task("Fare un esempio", "", cal.getTime();, 0, new ArrayList<String>());
                 task.addTaskInFile(getContext(), getActivity());
                 myTasks.add(task);
 
-                mAdapter.notifyItemInserted(myTasks.size() + 1);
+                mAdapter.notifyItemInserted(myTasks.size() + 1);*/
+                Intent i = new Intent(getActivity(), AddTaskActivity.class);
+                startActivity(i);
             }
         });
         return view;

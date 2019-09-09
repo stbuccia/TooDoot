@@ -57,20 +57,6 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
-    public void onClickBtn(View v) {
-        /*
-        //get start and end date
-        Calendar cal = Calendar.getInstance();
-        Date startDate = cal.getTime();
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 59);
-        Date endDate = cal.getTime();
-
-        Task task = new Task("Fare un esempio", "", startDate, endDate, 3);
-        task.saveTask(getApplicationContext(), this);*/
-
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

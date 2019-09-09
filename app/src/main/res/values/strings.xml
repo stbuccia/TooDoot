@@ -7,6 +7,10 @@
     <string name="setting">Settings</string>
     <string name="textview">TextView</string>
     <string name="taskname">Textview</string>
+    <string name="add_task">add_task</string>
+    <string name="new_task">New task</string>
+    <string name="button">Button</string>
+    <string name="save">Save</string>
 
     <string-array name="nav_item_activity_titles">
         <item>ToDo</item>
