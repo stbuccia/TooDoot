@@ -1,11 +1,15 @@
 package com.example.todot;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputLayout;
 import android.widget.EditText;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,7 +27,7 @@ public class AddTaskActivity extends AppCompatActivity {
         editText.requestFocus();
 
         //set up button
-        Button button = findViewById(R.id.save_button);
+        MaterialButton button = findViewById(R.id.save_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

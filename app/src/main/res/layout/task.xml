@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:padding="0dp">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="60dp"
         card_view:cardCornerRadius="0dp"
@@ -24,8 +24,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="0dp"
-                android:button="@drawable/custom_checkbox"
-                android:tint="@color/colorPrimary" />
+                android:button="@drawable/custom_checkbox"/>
 
             <TextView
                 android:id="@+id/taskname"
@@ -39,5 +38,5 @@
         </RelativeLayout>
 
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

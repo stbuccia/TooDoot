@@ -2,21 +2,23 @@ package com.example.todot;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import model.Task;
 
+import static java.security.AccessController.getContext;
 import static model.Task.getSavedTasks;
 
 
@@ -50,7 +52,7 @@ public class TodoFragment extends Fragment {
 
         //set up button
         button = view.findViewById(R.id.floatingActionButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        ((View) button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*
@@ -62,7 +64,7 @@ public class TodoFragment extends Fragment {
 
                 mAdapter.notifyItemInserted(myTasks.size() + 1);*/
                 Intent i = new Intent(getActivity(), AddTaskActivity.class);
-                startActivity(i);
+                /*startActivity(i);*/
             }
         });
         return view;
