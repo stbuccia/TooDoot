@@ -68,4 +68,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        
+        //loading the default fragment
+        loadFragment(new TodoFragment());
+
+    }
+
 }

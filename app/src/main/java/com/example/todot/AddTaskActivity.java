@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputLayout;
-import android.widget.EditText;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,7 +21,8 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        final EditText editText = findViewById(R.id.textInputEditText);
+
+        final TextInputEditText editText = findViewById(R.id.textInputEditText);
         editText.requestFocus();
 
         //set up button
@@ -37,8 +36,11 @@ public class AddTaskActivity extends AppCompatActivity {
                 task.addTaskInFile(getBaseContext());
 
                 Intent i = new Intent(AddTaskActivity.this, MainActivity.class);
-                startActivity(i);
+                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivityIfNeeded(i, 0);
+                finish();
             }
         });
     }
+
 }

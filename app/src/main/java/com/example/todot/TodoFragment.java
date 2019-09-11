@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 import model.Task;
 
-import static java.security.AccessController.getContext;
 import static model.Task.getSavedTasks;
 
 
@@ -64,7 +63,7 @@ public class TodoFragment extends Fragment {
 
                 mAdapter.notifyItemInserted(myTasks.size() + 1);*/
                 Intent i = new Intent(getActivity(), AddTaskActivity.class);
-                /*startActivity(i);*/
+                startActivity(i);
             }
         });
         return view;

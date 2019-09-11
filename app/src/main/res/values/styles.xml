@@ -7,7 +7,6 @@
         <item name="colorPrimaryVariant">@color/design_default_color_primary_variant</item>
         <item name="colorOnBackground">@color/design_default_color_background</item>
         <item name="colorOnPrimary">@color/design_default_color_on_primary</item>
-        <item name="android:textColorPrimary">@color/design_default_color_on_primary</item>
 
     </style>
     
@@ -16,7 +15,8 @@
         <item name="tint">?attr/colorOnBackground</item>
     </style>
 
-
-
+    <style name="Widget.MyApp.MyAppBar" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
 
 </resources>
