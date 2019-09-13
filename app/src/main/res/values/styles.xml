@@ -19,4 +19,15 @@
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
+    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+    
+    <style name="Widget.MyApp.MyMaterialButton" parent="Widget.MaterialComponents.Button.TextButton" >
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
+
+    
 </resources>

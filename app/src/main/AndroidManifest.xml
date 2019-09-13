@@ -11,9 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp">
         <activity
-            android:name=".AddTaskActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
-        <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
@@ -21,6 +18,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".AddTaskFragment"
+            android:windowSoftInputMode="adjustResize">
+
         </activity>
     </application>
 

@@ -1,6 +1,5 @@
 package com.example.todot;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,16 +53,8 @@ public class TodoFragment extends Fragment {
         ((View) button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                Calendar cal = Calendar.getInstance();
-
-                Task task = new Task("Fare un esempio", "", cal.getTime();, 0, new ArrayList<String>());
-                task.addTaskInFile(getContext(), getActivity());
-                myTasks.add(task);
-
-                mAdapter.notifyItemInserted(myTasks.size() + 1);*/
-                Intent i = new Intent(getActivity(), AddTaskActivity.class);
-                startActivity(i);
+                AddTaskFragment bottomSheetFragment = new AddTaskFragment();
+                bottomSheetFragment.show(getFragmentManager(), bottomSheetFragment.getTag());
             }
         });
         return view;
