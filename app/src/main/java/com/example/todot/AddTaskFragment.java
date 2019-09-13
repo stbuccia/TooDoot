@@ -2,14 +2,15 @@ package com.example.todot;
 
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
@@ -54,10 +55,16 @@ public class AddTaskFragment extends BottomSheetDialogFragment {
                 Task task = new Task(editText.getText().toString(), "", cal.getTime(), 0, new ArrayList<String>());
                 task.addTaskInFile(getActivity());
                 AddTaskFragment.super.dismiss();
+
+                //refresh todo fragment
+                Fragment todoFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.detach(todoFragment);
+                transaction.attach(todoFragment);
+                transaction.commit();
             }
         });
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 
         return view;

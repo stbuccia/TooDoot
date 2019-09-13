@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="Theme.MyApp" parent="Theme.MaterialComponents.Light">
@@ -23,10 +23,10 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+
     </style>
     
-    <style name="Widget.MyApp.MyMaterialButton" parent="Widget.MaterialComponents.Button.TextButton" >
-        <item name="android:textColor">?attr/colorPrimary</item>
+    <style name="Widget.MyApp.MyIconButton" parent="Widget.MaterialComponents.Button.Icon" >
     </style>
 
     
