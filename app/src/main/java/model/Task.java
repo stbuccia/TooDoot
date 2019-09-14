@@ -1,7 +1,6 @@
 package model;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -241,6 +240,7 @@ public class Task {
     public boolean isComplete(){
         return (state == COMPLETED);
     }
+
     public void completeTask(){
         state = COMPLETED;
         completation_date = getCurrentDate();

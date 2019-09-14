@@ -16,24 +16,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <CheckBox
+            <CheckBox xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/checkBox"
-                android:layout_width="35dp"
+                style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="8dp"
-                android:layout_marginBottom="0dp" />
-
-            <TextView
-                android:id="@+id/taskname"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_toEndOf="@+id/checkBox"
-                android:textSize="18sp" />
+                android:layout_marginBottom="0dp"
+                android:paddingLeft="@dimen/default_gap"
+                android:paddingRight="@dimen/default_gap"
+                android:textSize="18sp"
+                app:useMaterialThemeColors="false" />
 
         </RelativeLayout>
 
