@@ -1,13 +1,14 @@
 package com.example.todot;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -19,11 +20,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleView;
         public CheckBox checkButton;
+        private boolean firstTime = true;
 
         public ViewHolder(View v) {
             super(v);
+            /*
             titleView = (TextView) v.findViewById(R.id.taskname);
-            titleView.setGravity(Gravity.CENTER_VERTICAL);
+            titleView.setGravity(Gravity.CENTER_VERTICAL);*/
 
             checkButton = v.findViewById(R.id.checkBox);
         }
@@ -42,17 +45,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.titleView.setText(tasklist.get(position).getName());
-        holder.checkButton.setChecked(tasklist.get(position).isComplete());
+        final Task task = tasklist.get(position);
+        holder.checkButton.setText(task.getName());
+        holder.checkButton.setChecked(task.isComplete());
+
         holder.checkButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if ( isChecked ) {
-                    tasklist.get(position).completeTask();
-                }else{
-                    tasklist.get(position).uncompleteTask();
+                if (buttonView.isPressed()) {
+                    if (isChecked) {
+                        task.completeTask();
+                    } else {
+                        task.uncompleteTask();
+                        Toast.makeText(buttonView.getContext(), "unchecked", Toast.LENGTH_LONG).show();
+                    }
+                    task.updateTaskInFile(buttonView.getContext());
                 }
-                tasklist.get(position).updateTaskInFile(buttonView.getContext());
             }
         });
     }

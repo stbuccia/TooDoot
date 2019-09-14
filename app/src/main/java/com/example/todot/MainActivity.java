@@ -1,14 +1,16 @@
 package com.example.todot;
 
+
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        public boolean onNavigationItemSelected(@   NonNull MenuItem item) {
             Fragment fragment = null;
             switch (item.getItemId()) {
                 case R.id.navigation_todo:
@@ -57,20 +59,6 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
-    public void onClickBtn(View v) {
-        /*
-        //get start and end date
-        Calendar cal = Calendar.getInstance();
-        Date startDate = cal.getTime();
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 59);
-        Date endDate = cal.getTime();
-
-        Task task = new Task("Fare un esempio", "", startDate, endDate, 3);
-        task.saveTask(getApplicationContext(), this);*/
-
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -78,6 +66,15 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.activity_main_action, menu);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        
+        //loading the default fragment
+        loadFragment(new TodoFragment());
+
     }
 
 }

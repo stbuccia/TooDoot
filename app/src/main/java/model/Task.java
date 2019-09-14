@@ -149,7 +149,7 @@ public class Task {
         return text;
     }
 
-    public void addTaskInFile(Context context, Context activity){
+    public void addTaskInFile(Context context){
         //add in description
         textdef = getTextTask();
         String text = textdef + "\n";
@@ -160,10 +160,9 @@ public class Task {
             f.seek(f.length());
             f.write(text.getBytes());
             f.close();
-            //Toast.makeText(activity, "Tutto a buon fine", Toast.LENGTH_LONG).show();
         }
         catch(IOException e){
-            Toast.makeText(activity, "Qualcosa non va", Toast.LENGTH_LONG).show();
+            System.out.println(e.getMessage());
         }
 
     }
@@ -241,6 +240,7 @@ public class Task {
     public boolean isComplete(){
         return (state == COMPLETED);
     }
+
     public void completeTask(){
         state = COMPLETED;
         completation_date = getCurrentDate();

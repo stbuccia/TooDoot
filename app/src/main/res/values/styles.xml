@@ -1,11 +1,33 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.MyApp" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/design_default_color_primary</item>
+        <item name="colorPrimaryVariant">@color/design_default_color_primary_variant</item>
+        <item name="colorOnBackground">@color/design_default_color_background</item>
+        <item name="colorOnPrimary">@color/design_default_color_on_primary</item>
+
+    </style>
+    
+    <style name="Widget.MyApp.MyFloatingButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="tint">?attr/colorOnBackground</item>
     </style>
 
+    <style name="Widget.MyApp.MyAppBar" parent="Widget.AppCompat.Light.ActionBar">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="DialogStyle" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+    </style>
+    
+    <style name="Widget.MyApp.MyIconButton" parent="Widget.MaterialComponents.Button.TextButton.Icon" >
+    </style>
+
+    
 </resources>

@@ -6,11 +6,18 @@
     <string name="search">Search</string>
     <string name="setting">Settings</string>
     <string name="textview">TextView</string>
-    <string name="taskname">Textview</string>
+    <string name="task_name">Task Name</string>
+    <string name="add_task">add_task</string>
+    <string name="new_task">New task</string>
+    <string name="button">Button</string>
+    <string name="save">Save</string>
 
     <string-array name="nav_item_activity_titles">
         <item>ToDo</item>
         <item>Calendar</item>
         <item>Graphic</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
