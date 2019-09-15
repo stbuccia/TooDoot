@@ -29,5 +29,8 @@
     <style name="Widget.MyApp.MyIconButton" parent="Widget.MaterialComponents.Button.TextButton.Icon" >
     </style>
 
+    <style name="Widget.MyApp.MyChip" parent="Widget.MaterialComponents.Chip.Action">
+    </style>
+
     
 </resources>
