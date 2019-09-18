@@ -86,6 +86,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
         TagDialog tagDialog = new TagDialog(getContext(), view, id.choose_tag_button);
 
 
+        ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button);
         chipgroup = view.findViewById(id.chip_group);
 
         return view;

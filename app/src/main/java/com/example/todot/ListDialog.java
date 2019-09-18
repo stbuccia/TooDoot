@@ -8,11 +8,11 @@ import com.google.android.material.chip.Chip;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class TagDialog extends ButtonsDialog {
+public class ListDialog extends ButtonsDialog{
 
-    private  Chip[] tag_chips;
+    private Chip[] list_chips;
 
-    public TagDialog(final Context context, View view, int idButton){
+    public ListDialog(final Context context, View view, int idButton){
         super(context, view, idButton);
         setListener(new View.OnClickListener() {
             @Override
@@ -23,7 +23,7 @@ public class TagDialog extends ButtonsDialog {
 
     }
     private void showTagDialog(ArrayList<String> tags){
-        d.setTitle("Add Tags");
+        d.setTitle("Add Lists");
         d.setContentView(R.layout.taglist_dialog);
 
         final EditTextCursorWatcher text = d.findViewById(R.id.taglistInputEditText);
@@ -34,7 +34,7 @@ public class TagDialog extends ButtonsDialog {
             @Override
             public void onClick(View v) {
 
-                showTags(new ArrayList(Arrays.asList(text.getText().toString().split(" "))));
+                showLists(new ArrayList(Arrays.asList(text.getText().toString().split(" "))));
                 d.dismiss();
             }
         });
@@ -42,26 +42,28 @@ public class TagDialog extends ButtonsDialog {
 
     }
 
-    private void showTags(final ArrayList<String> tags){
-        tag_chips = new Chip[tags.size()];
-        for(int i = 0; i < tags.size(); i++ ){
+    private void showLists(final ArrayList<String> lists){
+        list_chips = new Chip[lists.size()];
+        for(int i = 0; i < lists.size(); i++ ){
             final int finalI = i;
-            if (tags.get(i) != "") {
-                tag_chips[i] = addChip(i, new View.OnClickListener() {
+
+            if (lists.get(i) != "") {
+                list_chips[i] = addChip(i, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        showTagDialog(tags);
+                        showTagDialog(lists);
                     }
                 });
-                tag_chips[i].setText(tags.get(i));
-                tag_chips[i].setOnCloseIconClickListener(new View.OnClickListener() {
+                list_chips[i].setText(lists.get(i));
+                list_chips[i].setOnCloseIconClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        tags.remove(tag_chips[finalI]);
+                        lists.remove(list_chips[finalI]);
                         chipgroup.removeView(view.findViewById(finalI));
                     }
                 });
             }
         }
     }
+
 }
