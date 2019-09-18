@@ -2,4 +2,5 @@
 <resources>
     <item name="date_chip" type="id" />
     <item name="priority_chip" type="id" />
+    <item name="taglistInputLayout" type="id" />
 </resources>

@@ -32,5 +32,12 @@
     <style name="Widget.MyApp.MyChip" parent="Widget.MaterialComponents.Chip.Action">
     </style>
 
-    
+    <style name="ChipTextApperance" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="android:textColor">@color/design_default_color_on_primary</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:backgroundTint">@color/design_default_color_primary</item>
+    </style>
+
+
+
 </resources>
