@@ -1,6 +1,7 @@
 package com.example.todot;
 
 import android.content.Context;
+import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -37,16 +38,16 @@ public class TagDialog extends ButtonsDialog {
 
         //text.setUp(tags);
         text.setAdapter(adapter);
+        text.setInputType(InputType.TYPE_CLASS_TEXT);
         text.setText(tags);
-        text.addChipTerminator(' ', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_TO_TERMINATOR);
         text.setThreshold(0);
+        text.addChipTerminator(' ', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_TO_TERMINATOR);
         text.enableEditChipOnTouch(true, true);
         setupButtons(d, new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
 
-                //tags = new ArrayList(Arrays.asList(text.getText().toString().split(" ")));
                 tags = (ArrayList<String>) text.getChipValues();
                 //remove empty tags
                 showTags();

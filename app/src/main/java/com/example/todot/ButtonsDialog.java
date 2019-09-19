@@ -57,14 +57,15 @@ public class ButtonsDialog {
         if (chip == null){
             chip = new Chip(context);
 
-            chip.setBackgroundColor(ContextCompat.getColor(context, R.color.design_default_color_primary));
-            chip.setTextColor(R.color.design_default_color_on_primary);
+            chip.setBackgroundResource(R.color.design_default_color_primary);
+            chip.setTextColor(ContextCompat.getColor(context, R.color.design_default_color_on_primary));
             chip.setId(id);
             chip.setLayoutParams(new ConstraintLayout.LayoutParams(
                     ConstraintLayout.LayoutParams.WRAP_CONTENT,
                     ConstraintLayout.LayoutParams.WRAP_CONTENT));
             chipgroup.addView(chip);
             chip.setCloseIconVisible(true);
+            chip.setCloseIconResource(R.drawable.ic_clear_24px);
             chip.setOnClickListener(listener);
 
         }

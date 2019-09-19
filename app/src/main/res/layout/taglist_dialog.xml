@@ -38,13 +38,16 @@
                 android:id="@+id/taglistInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:chipSpacing="2dp"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:minHeight="46dp"
+                android:scrollbars="vertical"
                 app:chipBackground="@color/design_default_color_primary"
+                app:chipHeight="30dp"
+                app:chipSpacing="2dp"
                 app:chipTextColor="@color/design_default_color_on_primary"
                 app:chipTextSize="16dp"
-                app:chipHeight="30dp"
-                app:chipVerticalSpacing="3dp"
-                />
+                app:chipVerticalSpacing="3dp" />
 
 
         </com.google.android.material.textfield.TextInputLayout>

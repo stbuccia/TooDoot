@@ -1,6 +1,7 @@
 package com.example.todot;
 
 import android.content.Context;
+import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -35,6 +36,7 @@ public class ListDialog extends ButtonsDialog{
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, suggestions);
 
         text.setText(lists);
+        text.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         text.setAdapter(adapter);
         text.addChipTerminator(' ', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_TO_TERMINATOR);
         text.enableEditChipOnTouch(true, true);
