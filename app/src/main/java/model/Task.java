@@ -59,15 +59,6 @@ public class Task {
         return s;
     }
 
-    public Task(String n, String d, Date date, int p, ArrayList<String> t) {
-        name = n;
-        description = d;
-        //tags
-        creation_date = date;
-        priority = new Priority(p);
-        tags = t;
-        uncompleteTask();
-    }
 
     public Task(String n, String d, Date date, char p, ArrayList<String> t, ArrayList<String> l) {
         name = n;
@@ -139,11 +130,11 @@ public class Task {
         pattern = Pattern.compile(regex);
         matcher = pattern.matcher(text);
         while (matcher.find()){
-            String listText = new String();
-            listText = text.substring(matcher.start() + 1, matcher.end());
+            String listText  = text.substring(matcher.start() + 1, matcher.end());
             lists.add(listText);
-            ArrayList<String> addList = new ArrayList<String>();
-            addAllLists(addList);
+            ArrayList<String> addLists = new ArrayList<String>();
+            addLists.add(listText);
+            addAllLists(addLists);
         }
         text = text.replaceAll(regex, "");
         text = text.replaceAll("\\s+"," ");
@@ -282,13 +273,15 @@ public class Task {
 
     private void addAllTags(ArrayList<String> newTags){
         for(int i = 0; i < newTags.size(); i++){
-            allTags.add(newTags.get(i));
+            if (!allTags.contains(newTags.get(i)))
+                allTags.add(newTags.get(i));
         }
     }
 
     private void addAllLists(ArrayList<String> newLists){
         for(int i = 0; i < newLists.size(); i++){
-            allLists.add(newLists.get(i));
+            if (!allLists.contains(newLists.get(i)))
+                allLists.add(newLists.get(i));
         }
     }
 

@@ -31,16 +31,8 @@ public class TagDialog extends ButtonsDialog {
 
         final NachoTextView text = d.findViewById(R.id.taglistInputEditText);
 
-        /*
-        String[] COUNTRIES = new String[] {
-                "Belgium", "France", "Italy", "Germany", "Spain"
-        };
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String> (context, R.layout.item_list, COUNTRIES);
-        text.setAdapter(adapter);
-        text.setThreshold(0);*/
-
-        String[] suggestions = (model.Task.getAllLists()).toArray(new String[model.Task.getAllLists().size()]);
+        String[] suggestions = (model.Task.getAllTags()).toArray(new String[model.Task.getAllTags().size()]);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, suggestions);
 
         //text.setUp(tags);
