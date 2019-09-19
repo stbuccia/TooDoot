@@ -74,7 +74,7 @@ public class PriorityDialog extends ButtonsDialog{
             priority = (char)('A' + (val - 2));
             String txt;
             txt = priority + "";
-            priority_chip = addChip(R.id.priority_chip, new View.OnClickListener() {
+            priority_chip = addChip(R.id.priority_chip, R.drawable.ic_priority_18px, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     showPriorityDialog();

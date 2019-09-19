@@ -3,6 +3,7 @@ package com.example.todot;
 import android.content.Context;
 import android.text.InputType;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 
 import com.google.android.material.chip.Chip;
@@ -35,11 +36,20 @@ public class ListDialog extends ButtonsDialog{
         String[] suggestions = (model.Task.getAllLists()).toArray(new String[model.Task.getAllLists().size()]);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, suggestions);
 
+        //focus on editext
+        text.requestFocus();
+        text.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(text, InputMethodManager.SHOW_IMPLICIT);
+            }
+        }, 150);
         text.setText(lists);
         text.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         text.setAdapter(adapter);
         text.addChipTerminator(' ', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_TO_TERMINATOR);
-        text.enableEditChipOnTouch(true, true);
+        text.enableEditChipOnTouch(false, true);
 
         text.setThreshold(0);
 
@@ -62,7 +72,7 @@ public class ListDialog extends ButtonsDialog{
         list_chips = new Chip[lists.size()];
         for(int i = 0; i < lists.size(); i++ ){
             final int id = 50 + i;
-            list_chips[i] = addChip(id, new View.OnClickListener() {
+            list_chips[i] = addChip(id, R.drawable.ic_list_18px, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     showListDialog();

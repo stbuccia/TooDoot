@@ -26,7 +26,7 @@ public class CalendarDialog extends ButtonsDialog implements DatePickerDialog.On
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        final DatePickerDialog datePickerDialog = new DatePickerDialog(context, CalendarDialog.this, year, month, day);
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(context, R.style.datepicker, CalendarDialog.this, year, month, day);
 
         dateButtonListener = new View.OnClickListener() {
             @Override
@@ -43,7 +43,7 @@ public class CalendarDialog extends ButtonsDialog implements DatePickerDialog.On
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
         date = calendar.getTime();
-        date_chip= addChip(R.id.date_chip, dateButtonListener);
+        date_chip= addChip(R.id.date_chip, R.drawable.ic_event, dateButtonListener);
         date_chip.setOnCloseIconClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

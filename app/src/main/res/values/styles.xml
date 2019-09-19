@@ -15,7 +15,7 @@
         <item name="tint">?attr/colorOnBackground</item>
     </style>
 
-    <style name="Widget.MyApp.MyAppBar" parent="Widget.AppCompat.Light.ActionBar">
+    <style name="Widget.MyApp.MyAppBar" parent="Widget.MaterialComponents.ActionBar.Primary">
         <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
 
@@ -25,11 +25,19 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
 
     </style>
-    
+
+    <style name="datepicker" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorPrimary">@color/design_default_color_primary</item>
+        <item name="colorPrimaryDark">@color/design_default_color_primary</item>
+        <item name="colorAccent">@color/design_default_color_primary</item>
+    </style>
+
     <style name="Widget.MyApp.MyIconButton" parent="Widget.MaterialComponents.Button.TextButton.Icon" >
     </style>
 
-    <style name="Widget.MyApp.MyChip" parent="Widget.MaterialComponents.Chip.Action">
+    <style name="MyChipApperance" parent="Widget.MaterialComponents.Chip.Action">
+        <item name="chipBackgroundColor">@color/design_default_color_primary</item>
+        <item name="android:textColor">@color/design_default_color_on_primary</item>
     </style>
 
     <style name="ChipTextApperance" parent="Widget.MaterialComponents.Chip.Entry">

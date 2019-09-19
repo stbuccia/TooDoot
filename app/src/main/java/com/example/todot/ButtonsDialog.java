@@ -3,6 +3,8 @@ package com.example.todot;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 
@@ -50,14 +52,15 @@ public class ButtonsDialog {
     }
 
     @SuppressLint("ResourceAsColor")
-    public Chip addChip(int id, View.OnClickListener listener){
+    public Chip addChip(int id, int iconId, View.OnClickListener listener){
 
         Chip chip;
         chip = view.findViewById(id);
         if (chip == null){
-            chip = new Chip(context);
+            chip = new Chip(new ContextThemeWrapper(context, R.style.MyChipApperance), null, 0);
 
-            chip.setBackgroundResource(R.color.design_default_color_primary);
+
+            chip.setChipBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.design_default_color_primary)));
             chip.setTextColor(ContextCompat.getColor(context, R.color.design_default_color_on_primary));
             chip.setId(id);
             chip.setLayoutParams(new ConstraintLayout.LayoutParams(
@@ -66,6 +69,9 @@ public class ButtonsDialog {
             chipgroup.addView(chip);
             chip.setCloseIconVisible(true);
             chip.setCloseIconResource(R.drawable.ic_clear_24px);
+            chip.getCloseIcon().setTint(ContextCompat.getColor(context, R.color.design_default_color_on_primary));
+            chip.setChipIconTint(ColorStateList.valueOf(ContextCompat.getColor(context, R.color.design_default_color_on_primary)));
+            chip.setChipIconResource(iconId);
             chip.setOnClickListener(listener);
 
         }

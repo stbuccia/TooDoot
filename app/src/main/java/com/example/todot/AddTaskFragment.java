@@ -74,16 +74,18 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Task task = new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority() , tagDialog.getTags(), listDialog.getLists());
-                task.addTaskInFile(getActivity());
-                AddTaskFragment.super.dismiss();
+                if (editText.getText().toString() != "") {
+                    Task task = new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority(), tagDialog.getTags(), listDialog.getLists());
+                    task.addTaskInFile(getActivity());
+                    AddTaskFragment.super.dismiss();
 
-                //refresh todo fragment
-                Fragment todoFragment = getActivity().getSupportFragmentManager().findFragmentById(id.fragment_container);
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.detach(todoFragment);
-                transaction.attach(todoFragment);
-                transaction.commit();
+                    //refresh todo fragment
+                    Fragment todoFragment = getActivity().getSupportFragmentManager().findFragmentById(id.fragment_container);
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.detach(todoFragment);
+                    transaction.attach(todoFragment);
+                    transaction.commit();
+                }
             }
         });
         return view;

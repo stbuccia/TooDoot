@@ -2,7 +2,7 @@
 <chip
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:textAppearance="@style/ChipTextApperance"
+    android:textColor="@color/design_default_color_on_primary"
     app:closeIconEnabled="false"
     app:chipBackgroundColor="@color/design_default_color_primary"/>
 
