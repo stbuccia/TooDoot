@@ -29,10 +29,13 @@ import static model.Task.State.PENDING;
 public class Task {
     private String name;
     private String description;
-    // list
     List<String> tags = new ArrayList<String>();
+    List<String> lists = new ArrayList<String>();
     private Date creation_date;
     private Date completation_date;
+    private static ArrayList<String> allTags = new ArrayList<>();
+    private static ArrayList<String> allLists = new ArrayList<>();
+
 
     private Priority priority;
 
@@ -66,7 +69,23 @@ public class Task {
         uncompleteTask();
     }
 
-
+    public Task(String n, String d, Date date, char p, ArrayList<String> t, ArrayList<String> l) {
+        name = n;
+        description = d;
+        if (date != null)
+            creation_date = date;
+        if (p != ' ')
+            priority = new Priority(Priority.fromCharToInt(p));
+        if (t.size() != 0) {
+            tags = t;
+            addAllTags(t);
+        }
+        if (l.size() != 0) {
+            lists = l;
+            addAllLists(l);
+        }
+        uncompleteTask();
+    }
 
     private Task(String text) throws ParseException {
         Format formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -89,7 +108,6 @@ public class Task {
         if (state == COMPLETED){
             completation_date = ((SimpleDateFormat) formatter).parse(text.split("\\s")[0]);
             text = text.substring(text.split("\\s")[0].length() + 1);
-
         }
 
         //optional: creation date
@@ -106,12 +124,29 @@ public class Task {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()){
-            tags.add(text.substring(matcher.start() + 1, matcher.end()));
+            String tagText = (text.substring(matcher.start() + 1, matcher.end()));
+            tags.add(tagText);
+            ArrayList<String> addTags = new ArrayList<String>();
+            addTags.add(tagText);
+            addAllTags(addTags);
         }
         text = text.replaceAll(regex, "");
         text = text.replaceAll("\\s+"," ");
 
 
+        //lists
+        regex = "\\+\\s*(\\w+)";
+        pattern = Pattern.compile(regex);
+        matcher = pattern.matcher(text);
+        while (matcher.find()){
+            String listText = new String();
+            listText = text.substring(matcher.start() + 1, matcher.end());
+            lists.add(listText);
+            ArrayList<String> addList = new ArrayList<String>();
+            addAllLists(addList);
+        }
+        text = text.replaceAll(regex, "");
+        text = text.replaceAll("\\s+"," ");
         //task name and description
         name = text.split(" ::")[0];
         //name = text;
@@ -144,6 +179,11 @@ public class Task {
         Iterator i = tags.iterator();
         while (i.hasNext())
             text += (" @" + i.next());
+
+
+        i = lists.iterator();
+        while (i.hasNext())
+            text += (" +" + i.next());
         text = text.replaceAll("\\s+"," ");
 
         return text;
@@ -215,21 +255,6 @@ public class Task {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        /*
-        try {
-            Scanner scanner = new Scanner(file);
-            String first, last;
-            while (scanner.hasNextLine() && line.equal) {
-                String line = scanner.nextLine();
-                first += line + '\n';
-                if(line == textdef) {
-                    Toast.makeText(activity, line, Toast.LENGTH_LONG).show();
-                }
-                //Toast.makeText(activity, line, Toast.LENGTH_LONG).show();
-            }
-        } catch(FileNotFoundException e) {
-            Toast.makeText(activity, "todo.txt non trovato", Toast.LENGTH_LONG).show();
-        }*/
     }
 
 
@@ -255,4 +280,23 @@ public class Task {
             state = PENDING;
     }
 
+    private void addAllTags(ArrayList<String> newTags){
+        for(int i = 0; i < newTags.size(); i++){
+            allTags.add(newTags.get(i));
+        }
+    }
+
+    private void addAllLists(ArrayList<String> newLists){
+        for(int i = 0; i < newLists.size(); i++){
+            allLists.add(newLists.get(i));
+        }
+    }
+
+    public static ArrayList<String> getAllTags(){
+        return allTags;
+    }
+
+    public static ArrayList<String> getAllLists(){
+        return allLists;
+    }
 }

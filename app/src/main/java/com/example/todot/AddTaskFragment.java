@@ -17,9 +17,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import model.Task;
 
 import static com.example.todot.R.id;
@@ -54,13 +51,30 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             }
         }, 200);
 
+
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+
+        //set up date button
+        final CalendarDialog calendarDialog = new CalendarDialog(getContext(), view, id.select_date_button);
+
+        //set up priority button
+
+        final PriorityDialog priorityDialog = new PriorityDialog(getContext(), view, id.choose_priority_button);
+        //set up tag button
+
+        final TagDialog tagDialog = new TagDialog(getContext(), view, id.choose_tag_button);
+
+
+        final ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button);
+        chipgroup = view.findViewById(id.chip_group);
+
         //set up save button
         MaterialButton saveButton = view.findViewById(id.save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar cal = Calendar.getInstance();
-                Task task = new Task(editText.getText().toString(), "", cal.getTime(), 0, new ArrayList<String>());
+                Task task = new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority() , tagDialog.getTags(), listDialog.getLists());
                 task.addTaskInFile(getActivity());
                 AddTaskFragment.super.dismiss();
 
@@ -72,23 +86,6 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
                 transaction.commit();
             }
         });
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
-
-        //set up date button
-        CalendarDialog calendarDialog = new CalendarDialog(getContext(), view, id.select_date_button);
-
-        //set up priority button
-
-        PriorityDialog priorityDialog = new PriorityDialog(getContext(), view, id.choose_priority_button);
-        //set up tag button
-
-        TagDialog tagDialog = new TagDialog(getContext(), view, id.choose_tag_button);
-
-
-        ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button);
-        chipgroup = view.findViewById(id.chip_group);
-
         return view;
 
     }

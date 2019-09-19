@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="wrap_content"
@@ -33,13 +34,37 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-            <com.example.todot.EditTextCursorWatcher
+            <com.hootsuite.nachos.NachoTextView
                 android:id="@+id/taglistInputEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                app:chipSpacing="2dp"
+                app:chipBackground="@color/design_default_color_primary"
+                app:chipTextColor="@color/design_default_color_on_primary"
+                app:chipTextSize="16dp"
+                app:chipHeight="30dp"
+                app:chipVerticalSpacing="3dp"
+                />
 
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!--androidx.appcompat.app.AlertController.RecycleListView
+            android:id="@+id/suggestion_list"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/taglistInputLayout">
+
+        </androidx.appcompat.app.AlertController.RecycleListView-->
+
+        <include layout="@layout/item_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include layout="@layout/buttons" />

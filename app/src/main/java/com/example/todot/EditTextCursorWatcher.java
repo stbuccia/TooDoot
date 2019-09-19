@@ -1,18 +1,20 @@
 package com.example.todot;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
+import android.widget.AutoCompleteTextView;
 
 import com.google.android.material.chip.ChipDrawable;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
-public class EditTextCursorWatcher extends TextInputEditText {
+@SuppressLint("AppCompatCustomView")
+public class EditTextCursorWatcher extends AutoCompleteTextView {
     private ImageSpan[] spans = new ImageSpan[50];
     private int [] spannedLengths = new int[50];
     private int lastSpanPos = 0;

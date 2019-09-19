@@ -9,11 +9,13 @@ import com.google.android.material.chip.Chip;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class CalendarDialog extends ButtonsDialog implements DatePickerDialog.OnDateSetListener{
 
     private DatePickerDialog datePickerDialog;
     private View.OnClickListener dateButtonListener;
+    private Date date;
 
     private Chip date_chip = null;
 
@@ -40,6 +42,7 @@ public class CalendarDialog extends ButtonsDialog implements DatePickerDialog.On
         SimpleDateFormat dateFormat = new SimpleDateFormat("E, dd MMM yyyy");
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, day);
+        date = calendar.getTime();
         date_chip= addChip(R.id.date_chip, dateButtonListener);
         date_chip.setOnCloseIconClickListener(new View.OnClickListener() {
             @Override
@@ -49,5 +52,13 @@ public class CalendarDialog extends ButtonsDialog implements DatePickerDialog.On
         });
 
         date_chip.setText(dateFormat.format(calendar.getTime()));
+    }
+
+    public Chip getChip(){
+        return date_chip;
+    }
+
+    public Date getDate(){
+        return date;
     }
 }

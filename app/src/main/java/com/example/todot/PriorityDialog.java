@@ -12,6 +12,7 @@ public class PriorityDialog extends ButtonsDialog{
 
 
     private Chip priority_chip = null;
+    private char priority = '0';
 
     public PriorityDialog(final Context context, View view, int idButton){
         super(context, view, idButton);
@@ -64,12 +65,15 @@ public class PriorityDialog extends ButtonsDialog{
     private void prioritySet(int val){
         if (val == 1){
             priority_chip = view.findViewById(R.id.priority_chip);
-            if (priority_chip != null)
+            if (priority_chip != null) {
                 ((ViewGroup) priority_chip.getParent()).removeView(priority_chip);
+            }
+            priority = '0';
         }
         else if (val > 1) {
+            priority = (char)('A' + (val - 2));
             String txt;
-            txt = (char)('A' + (val - 2)) + "";
+            txt = priority + "";
             priority_chip = addChip(R.id.priority_chip, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -80,10 +84,19 @@ public class PriorityDialog extends ButtonsDialog{
                 @Override
                 public void onClick(View view) {
                     chipgroup.removeView(priority_chip);
+                    priority = '0';
                 }
             });
             priority_chip.setText(txt);
         }
+    }
+
+    public Chip getChip(){
+        return priority_chip;
+    }
+
+    public char getPriority(){
+        return priority;
     }
 
 }
