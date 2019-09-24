@@ -1,6 +1,8 @@
 package model;
 
-public class Priority {
+import java.io.Serializable;
+
+public class Priority implements Serializable {
     private int value;
     public int maxVal = 26;
     public int minVal = 0; //0 is unknown
@@ -8,9 +10,9 @@ public class Priority {
 
     Priority(int v){
         if (v <= maxVal && v >= minVal)
-            value = v;
+            this.value = v;
         else
-            value = defaultVal;
+            this.value = defaultVal;
     }
 
     public void setValue(int v) {
@@ -26,14 +28,14 @@ public class Priority {
         if (v == 0)
             return '0';
         else
-            return (char) (v + 64);
+            return (char) ((v - 1) + 'A');
     }
 
     public static int fromCharToInt(char c){
         if (c == '0')
             return 0;
         else
-            return (int)(c - 64);
+            return (int)(c - 'A') + 1;
     }
 
     public char getCharValue(){

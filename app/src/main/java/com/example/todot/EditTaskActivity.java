@@ -4,13 +4,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import java.text.ParseException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import model.Task;
 
@@ -18,8 +20,12 @@ public class EditTaskActivity extends AppCompatActivity {
 
     Task task;
     EditTaskActivity activity = this;
+    CalendarDialog calendarDialog;
+    PriorityDialog priorityDialog;
     ListDialog listDialog;
     TagDialog tagDialog;
+    EditText name;
+    EditText description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,22 +33,33 @@ public class EditTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_task);
 
 
-        try {
-            task = new Task("(A) Prova");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
+        task = (Task) getIntent().getSerializableExtra("TASK_CLICKED");
 
+        name = findViewById(R.id.task_name);
+        description = findViewById(R.id.task_description);
 
-        changeView(findViewById(R.id.priority), (getLayoutInflater().inflate(R.layout.add_priority_button, (ViewGroup)findViewById(R.id.priority).getParent(), false)));
+        name.setText(task.getName());
+        description.setText(task.getDescription());
 
         setPriorityBtn();
+
         setDateBtn();
 
-        //changeView(findViewById(R.id.list), getLayoutInflater().inflate(R.layout.add_list_button, (ViewGroup)findViewById(R.id.list).getParent(), false) );
         setListBtn();
         setTagBtn();
+
+        priorityDialog.onPrioritySet(task.getPriority().getValue() + 1);
+        if (task.getCreation_date() != null) {
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(task.getCreation_date());
+            calendarDialog.onDateSet(null, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+        }
+        listDialog.setLists(task.getLists());
+        listDialog.onListSet();
+
+        tagDialog.setTags(task.getTags());
+        tagDialog.onTagSet();
 
     }
 
@@ -66,7 +83,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
     public void setDateBtn(){
         changeView(findViewById(R.id.date), getLayoutInflater().inflate(R.layout.add_date_button, (ViewGroup)findViewById(R.id.date).getParent(), false) );
-        CalendarDialog calendarDialog = new CalendarDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_date) {
+        calendarDialog = new CalendarDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_date) {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 super.onDateSet(datePicker, year, month, day);
@@ -94,7 +111,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
     public void setPriorityBtn(){
         changeView(findViewById(R.id.priority), getLayoutInflater().inflate(R.layout.add_priority_button, (ViewGroup)findViewById(R.id.priority).getParent(), false) );
-        PriorityDialog priorityDialog = new PriorityDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_priority) {
+        priorityDialog = new PriorityDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_priority) {
             @Override
             public void onPrioritySet(int val) {
                 super.onPrioritySet(val);
@@ -127,8 +144,8 @@ public class EditTaskActivity extends AppCompatActivity {
 
         listDialog = new ListDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_lists){
             @Override
-            public void onSetLists(){
-                super.onSetLists();
+            public void onListSet(){
+                super.onListSet();
                 setListChipGroup(getChips(), getLists().size());
             }
         };
@@ -164,8 +181,8 @@ public class EditTaskActivity extends AppCompatActivity {
 
         tagDialog = new TagDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_tags) {
             @Override
-            public void onSetTag(){
-                super.onSetTag();
+            public void onTagSet(){
+                super.onTagSet();
                 setTagChipGroup(getChips(), getTags().size());
             }
         };

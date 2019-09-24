@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,21 +34,6 @@ public class CalendarDialog extends ButtonsDialog implements DatePickerDialog.On
         dateButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                datePickerDialog.show();
-            }
-        };
-        setupDatePicker();
-
-        setListener(dateButtonListener);
-    }
-
-    public CalendarDialog(final Context context, View view, final int idButton, ChipGroup chipGroup){
-        super(context, view, idButton, chipGroup);
-        dateButtonListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*view.findViewById(idButton).setVisibility(View.INVISIBLE);
-                view.findViewById(chipgroupId).setVisibility(View.VISIBLE);*/
                 datePickerDialog.show();
             }
         };

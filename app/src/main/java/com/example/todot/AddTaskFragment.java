@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -83,17 +84,74 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
 
 
         //set up date button
-        final CalendarDialog calendarDialog = new CalendarDialog(getContext(), view, id.select_date_button);
+        final CalendarDialog calendarDialog = new CalendarDialog(getContext(), view, id.select_date_button){
+            @Override
+            public void onDateSet(final DatePicker datePicker, int year, int month, int day){
+                super.onDateSet(datePicker, year, month, day);
+                chip.setChipIconResource(R.drawable.ic_event);
+                addChip();
+            }
+        };
 
         //set up priority button
 
-        final PriorityDialog priorityDialog = new PriorityDialog(getContext(), view, id.choose_priority_button);
+        final PriorityDialog priorityDialog = new PriorityDialog(getContext(), view, id.choose_priority_button){
+            @Override
+            public void onPrioritySet(int val){
+                super.onPrioritySet(val);
+                if (val > 1 ) {
+                    chip.setChipIconResource(R.drawable.ic_priority_24px);
+                    addChip();
+                }
+
+            }
+        };
         //set up tag button
 
-        final TagDialog tagDialog = new TagDialog(getContext(), view, id.choose_tag_button);
+        final TagDialog tagDialog = new TagDialog(getContext(), view, id.choose_tag_button){
+            @Override
+            public void onTagSet(){
+                        
+                if (tag_chips != null)
+                    for (int j = 0; j < tag_chips.length; j++){
+                        try {
+                            chipgroup.removeView(tag_chips[j]);
+                        }
+                        catch (Exception e){}
+                    }
+
+                super.onTagSet();
+
+                for(int i = 0; i < getTags().size(); i++ ) {
+                    chip = super.tag_chips[i];
+                    chip.setChipIconResource(R.drawable.ic_tag_24px);
+                    addChip();
+                }
+            }
+        };
 
 
-        final ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button);
+        final ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button){
+            @Override
+            public void onListSet() {
+                if (list_chips != null)
+                    for (int j = 0; j < list_chips.length; j++){
+                        try {
+                            chipgroup.removeView(list_chips[j]);
+                        }
+                        catch (Exception e){}
+                    }
+
+                super.onListSet();
+
+
+                for(int i = 0; i < getLists().size(); i++ ) {
+                    chip = super.list_chips[i];
+                    chip.setChipIconResource(R.drawable.ic_list_18px);
+                    addChip();
+                }
+            }
+        };
         chipgroup = view.findViewById(id.chip_group);
 
         //set up save button

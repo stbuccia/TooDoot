@@ -12,10 +12,11 @@ import com.hootsuite.nachos.NachoTextView;
 import com.hootsuite.nachos.terminator.ChipTerminatorHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TagDialog extends ButtonsDialog {
 
-    private  Chip[] tag_chips;
+    protected Chip[] tag_chips = null;
     private ArrayList<String> tags = new ArrayList<String>();
 
     public TagDialog(final Context context, View view, int idButton){
@@ -73,7 +74,7 @@ public class TagDialog extends ButtonsDialog {
             public void onClick(View v) {
 
                 tags = (ArrayList<String>) text.getChipValues();
-                onSetTag();
+                onTagSet();
                 dismiss();
             }
         });
@@ -81,7 +82,7 @@ public class TagDialog extends ButtonsDialog {
 
     }
 
-    public void onSetTag(){
+    public void onTagSet(){
         tag_chips = new Chip[tags.size()];
         for(int i = 0; i < tags.size(); i++ ){
             final int finalI = i;
@@ -116,5 +117,9 @@ public class TagDialog extends ButtonsDialog {
 
     public ArrayList<String> getTags(){
         return tags;
+    }
+
+    public void setTags(List<String> lists){
+        this.tags = (ArrayList<String>)lists;
     }
 }

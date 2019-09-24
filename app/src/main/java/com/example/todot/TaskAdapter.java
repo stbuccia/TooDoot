@@ -1,12 +1,14 @@
 package com.example.todot;
 
+import android.content.Context;
+import android.content.Intent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,13 +22,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleView;
         public CheckBox checkButton;
-        private boolean firstTime = true;
 
         public ViewHolder(View v) {
             super(v);
-            /*
             titleView = (TextView) v.findViewById(R.id.taskname);
-            titleView.setGravity(Gravity.CENTER_VERTICAL);*/
+            titleView.setGravity(Gravity.CENTER_VERTICAL);
 
             checkButton = v.findViewById(R.id.checkBox);
         }
@@ -46,7 +46,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Task task = tasklist.get(position);
-        holder.checkButton.setText(task.getName());
+        holder.titleView.setText(tasklist.get(position).getName());
         holder.checkButton.setChecked(task.isComplete());
 
         holder.checkButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
@@ -58,10 +58,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                         task.completeTask();
                     } else {
                         task.uncompleteTask();
-                        Toast.makeText(buttonView.getContext(), "unchecked", Toast.LENGTH_LONG).show();
                     }
                     task.updateTaskInFile(buttonView.getContext());
                 }
+            }
+        });
+
+        holder.titleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, EditTaskActivity.class);
+                intent.putExtra("TASK_CLICKED", task);
+                context.startActivity(intent);
             }
         });
     }

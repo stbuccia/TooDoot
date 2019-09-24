@@ -96,12 +96,12 @@
                 android:id="@+id/priority"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/choose_priority_button"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/task_description"
-                app:layout_constraintTop_toTopOf="@+id/choose_priority_button">
-
-            </HorizontalScrollView>
+                app:layout_constraintTop_toTopOf="@+id/choose_priority_button"></HorizontalScrollView>
 
 
 
@@ -120,8 +120,10 @@
                 android:id="@+id/date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/select_date_button"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/priority"
                 app:layout_constraintTop_toTopOf="@+id/select_date_button">
 
@@ -143,7 +145,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/choose_list_button"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/choose_list_button"
                 app:layout_constraintTop_toTopOf="@+id/choose_list_button" />
 
@@ -163,6 +167,8 @@
                 android:id="@+id/tag"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/choose_tag_button"
                 app:layout_constraintStart_toStartOf="@+id/list"
                 app:layout_constraintTop_toTopOf="@+id/choose_tag_button" />

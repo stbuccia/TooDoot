@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.io.Serializable;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,7 +27,7 @@ import static model.Task.State.COMPLETED;
 import static model.Task.State.ONGOING;
 import static model.Task.State.PENDING;
 
-public class Task {
+public class Task implements Serializable {
     private String name;
     private String description;
     List<String> tags = new ArrayList<String>();
@@ -89,7 +90,7 @@ public class Task {
         }
         //(A) letters in bracket indicate priority
         if (text.split("\\s")[0].matches("^\\([A-Z]\\)")) {
-            priority = new Priority(Priority.fromCharToInt(text.charAt(2))); //letter is in second position
+            priority = new Priority(Priority.fromCharToInt(text.charAt(1))); //letter is in second position
             text = text.substring(4); //4 is length of "(A) "
         }
         else
@@ -307,6 +308,10 @@ public class Task {
 
     public List<String> getTags() {
         return tags;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setCreation_date(Date creation_date) {
