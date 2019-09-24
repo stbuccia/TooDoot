@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.hootsuite.nachos.NachoTextView;
 import com.hootsuite.nachos.terminator.ChipTerminatorHandler;
 
@@ -27,11 +28,23 @@ public class ListDialog extends ButtonsDialog{
         });
 
     }
-    private void showListDialog(){
-        d.setTitle("Add Lists");
-        d.setContentView(R.layout.taglist_dialog);
 
-        final NachoTextView text = d.findViewById(R.id.taglistInputEditText);
+    public ListDialog(final Context context, View view, final int idButton, ChipGroup chipGroup){
+        super(context, view, idButton, chipGroup);
+        setListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showListDialog();
+            }
+        });
+
+    }
+
+    private void showListDialog(){
+        setTitle("Add Lists");
+        setContentView(R.layout.taglist_dialog);
+
+        final NachoTextView text = findViewById(R.id.taglistInputEditText);
 
         String[] suggestions = (model.Task.getAllLists()).toArray(new String[model.Task.getAllLists().size()]);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, suggestions);
@@ -54,36 +67,39 @@ public class ListDialog extends ButtonsDialog{
         text.setThreshold(0);
 
 
-        setupButtons(d, new View.OnClickListener()
+        setupButtons(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
 
                 lists = (ArrayList<String>) text.getChipValues();
-                showLists();
-                d.dismiss();
+                onSetLists();
+                dismiss();
             }
         });
-        d.show();
+        show();
 
     }
 
-    private void showLists(){
+    public void onSetLists(){
         list_chips = new Chip[lists.size()];
         for(int i = 0; i < lists.size(); i++ ){
             final int id = 50 + i;
-            list_chips[i] = addChip(id, R.drawable.ic_list_18px, new View.OnClickListener() {
+
+            setChip(id, -1, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     showListDialog();
                 }
             });
+           // addChip();
+            list_chips[i] = chip;
             list_chips[i].setText(lists.get(i));
             final int finalI = i;
             list_chips[i].setOnCloseIconClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    lists.remove(list_chips[finalI].getText());
+                    removeList(finalI);
                     chipgroup.removeView(view.findViewById(id));
                 }
             });
@@ -91,6 +107,11 @@ public class ListDialog extends ButtonsDialog{
     }
     public Chip[] getChips(){
         return list_chips;
+    }
+
+    public void removeList(int i){
+        lists.remove(list_chips[i].getText());
+
     }
 
     public ArrayList<String> getLists(){

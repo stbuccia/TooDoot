@@ -17,7 +17,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
-        style="@style/Widget.MyApp.MyFloatingButton"
+        style="@style/Theme.MyApp.MyFloatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

@@ -7,12 +7,12 @@ import android.view.ViewGroup;
 import android.widget.NumberPicker;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 public class PriorityDialog extends ButtonsDialog{
 
 
-    private Chip priority_chip = null;
-    private char priority = '0';
+    protected char priority = '0';
 
     public PriorityDialog(final Context context, View view, int idButton){
         super(context, view, idButton);
@@ -25,13 +25,24 @@ public class PriorityDialog extends ButtonsDialog{
 
     }
 
+    public PriorityDialog(final Context context, View view, final int idButton, ChipGroup chipGroup){
+        super(context, view, idButton, chipGroup);
+        setListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPriorityDialog();
+            }
+        });
+
+    }
+
     public void showPriorityDialog() {
 
 
-        d.setTitle("Select Priority");
-        d.setContentView(R.layout.priority_dialog);
+        setTitle("Select Priority");
+        setContentView(R.layout.priority_dialog);
 
-        final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker);
+        final NumberPicker np = (NumberPicker) findViewById(R.id.numberPicker);
         String[] alphabet = new String[27];
 
         alphabet[0] = "Nessuna";
@@ -47,26 +58,26 @@ public class PriorityDialog extends ButtonsDialog{
         np.setMaxValue(alphabet.length);
         np.setWrapSelectorWheel(true);
 
-        setupButtons(d, new View.OnClickListener()
+        setupButtons(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
-                prioritySet(np.getValue());
-                d.dismiss();
+                onPrioritySet(np.getValue());
+                dismiss();
             }
         });
 
-        d.show();
+        show();
 
     }
 
 
 
-    private void prioritySet(int val){
+    public void onPrioritySet(int val){
         if (val == 1){
-            priority_chip = view.findViewById(R.id.priority_chip);
-            if (priority_chip != null) {
-                ((ViewGroup) priority_chip.getParent()).removeView(priority_chip);
+            chip = view.findViewById(R.id.priority_chip);
+            if (chip != null) {
+                ((ViewGroup) chip.getParent()).removeView(chip);
             }
             priority = '0';
         }
@@ -74,25 +85,26 @@ public class PriorityDialog extends ButtonsDialog{
             priority = (char)('A' + (val - 2));
             String txt;
             txt = priority + "";
-            priority_chip = addChip(R.id.priority_chip, R.drawable.ic_priority_18px, new View.OnClickListener() {
+            setChip(R.id.priority_chip, -1, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     showPriorityDialog();
                 }
-            });
-            priority_chip.setOnCloseIconClickListener(new View.OnClickListener() {
+            });/*
+            addChip();*/
+            chip.setOnCloseIconClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    chipgroup.removeView(priority_chip);
+                    chipgroup.removeView(chip);
                     priority = '0';
                 }
             });
-            priority_chip.setText(txt);
+            chip.setText(txt);
         }
     }
 
     public Chip getChip(){
-        return priority_chip;
+        return chip;
     }
 
     public char getPriority(){

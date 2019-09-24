@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.DatePicker;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,52 +14,89 @@ import java.util.Date;
 
 public class CalendarDialog extends ButtonsDialog implements DatePickerDialog.OnDateSetListener{
 
-    private DatePickerDialog datePickerDialog;
+    protected DatePickerDialog datePickerDialog;
     private View.OnClickListener dateButtonListener;
-    private Date date;
+    private Date date = null;
 
-    private Chip date_chip = null;
 
-    public CalendarDialog(Context context, View view, int idButton){
-        super(context, view, idButton);
+    private void setupDatePicker(){
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        final DatePickerDialog datePickerDialog = new DatePickerDialog(context, R.style.datepicker, CalendarDialog.this, year, month, day);
+        datePickerDialog = new DatePickerDialog(context, R.style.datepicker, CalendarDialog.this, year, month, day);
 
+
+    }
+
+    public CalendarDialog(Context context, View view, int idButton){
+        super(context, view, idButton);
         dateButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 datePickerDialog.show();
             }
         };
+        setupDatePicker();
+
+        setListener(dateButtonListener);
+    }
+
+    public CalendarDialog(final Context context, View view, final int idButton, ChipGroup chipGroup){
+        super(context, view, idButton, chipGroup);
+        dateButtonListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*view.findViewById(idButton).setVisibility(View.INVISIBLE);
+                view.findViewById(chipgroupId).setVisibility(View.VISIBLE);*/
+                datePickerDialog.show();
+            }
+        };
+        setupDatePicker();
+
         setListener(dateButtonListener);
     }
 
     @Override
-    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("E, dd MMM yyyy");
+    public void onDateSet(final DatePicker datePicker, int year, int month, int day) {
+        SimpleDateFormat dateFormat;
         Calendar calendar = Calendar.getInstance();
+        if (year ==  calendar.get(Calendar.YEAR))
+            dateFormat = new SimpleDateFormat("E, dd MMM");
+        else
+            dateFormat = new SimpleDateFormat("E, dd MMM yyyy");
         calendar.set(year, month, day);
         date = calendar.getTime();
-        date_chip= addChip(R.id.date_chip, R.drawable.ic_event, dateButtonListener);
-        date_chip.setOnCloseIconClickListener(new View.OnClickListener() {
+
+        setChip(R.id.date_chip, -1, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chipgroup.removeView(date_chip);
+                datePickerDialog.show();
+            }
+        });
+        chip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chipgroup.removeView(chip);
             }
         });
 
-        date_chip.setText(dateFormat.format(calendar.getTime()));
+        chip.setText(dateFormat.format(date));
+
+
     }
 
+
+
+
     public Chip getChip(){
-        return date_chip;
+        return chip;
     }
 
     public Date getDate(){
         return date;
     }
+
+
 }

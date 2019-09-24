@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.hootsuite.nachos.NachoTextView;
 import com.hootsuite.nachos.terminator.ChipTerminatorHandler;
 
@@ -27,11 +28,22 @@ public class TagDialog extends ButtonsDialog {
         });
 
     }
-    private void showTagDialog(){
-        d.setTitle("Add Tags");
-        d.setContentView(R.layout.taglist_dialog);
 
-        final NachoTextView text = d.findViewById(R.id.taglistInputEditText);
+    public TagDialog(final Context context, View view, final int idButton, ChipGroup chipGroup){
+        super(context, view, idButton, chipGroup);
+        setListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showTagDialog();
+            }
+        });
+
+    }
+    private void showTagDialog(){
+        setTitle("Add Tags");
+        setContentView(R.layout.taglist_dialog);
+
+        final NachoTextView text = findViewById(R.id.taglistInputEditText);
 
         String[] suggestions = (model.Task.getAllTags()).toArray(new String[model.Task.getAllTags().size()]);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, suggestions);
@@ -47,7 +59,7 @@ public class TagDialog extends ButtonsDialog {
             }
         }, 150);
         text.setText(tags);
-        text.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        text.setInputType(InputType.TYPE_CLASS_TEXT);
         text.setAdapter(adapter);
         text.addChipTerminator(' ', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_TO_TERMINATOR);
         text.enableEditChipOnTouch(false, true);
@@ -55,36 +67,37 @@ public class TagDialog extends ButtonsDialog {
         text.setThreshold(0);
 
 
-        setupButtons(d, new View.OnClickListener()
+        setupButtons(new View.OnClickListener()
         {
             @Override
             public void onClick(View v) {
 
                 tags = (ArrayList<String>) text.getChipValues();
-                //remove empty tags
-                showTags();
-                d.dismiss();
+                onSetTag();
+                dismiss();
             }
         });
-        d.show();
+        show();
 
     }
 
-    private void showTags(){
+    public void onSetTag(){
         tag_chips = new Chip[tags.size()];
         for(int i = 0; i < tags.size(); i++ ){
             final int finalI = i;
-            tag_chips[i] = addChip(i, R.drawable.ic_tag_24px, new View.OnClickListener() {
+            setChip(i, -1, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     showTagDialog();
                 }
             });
+            //addChip();
+            tag_chips[i] = chip;
             tag_chips[i].setText(tags.get(i));
             tag_chips[i].setOnCloseIconClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    tags.remove(tag_chips[finalI].getText());
+                    removeTag(finalI);
                     chipgroup.removeView(view.findViewById(finalI));
                 }
             });
@@ -94,6 +107,11 @@ public class TagDialog extends ButtonsDialog {
 
     public Chip[] getChips(){
         return tag_chips;
+    }
+
+
+    public void removeTag(int i){
+        tags.remove(tag_chips[i].getText());
     }
 
     public ArrayList<String> getTags(){

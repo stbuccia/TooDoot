@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_task_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditTaskActivity">
+
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/app_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/design_default_color_on_primary" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_toolbar"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- name -->
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/task_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/task_name" />
+
+            <EditText
+                android:id="@+id/task_name"
+                style="@style/Base.Widget.MaterialComponents.TextInputEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:hint="Name Task"
+                android:textColorHint="@color/hintColor"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/checkBox"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <!-- description -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/set_description_button"
+                style="@style/MyDescrIconButton"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@+id/checkBox"
+                app:layout_constraintTop_toTopOf="@+id/task_description" />
+
+            <EditText
+                android:id="@+id/task_description"
+                style="@style/Base.Widget.MaterialComponents.TextInputEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="8dp"
+                android:hint="Add Description"
+                android:textColorHint="@color/hintColor"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/set_description_button"
+                app:layout_constraintTop_toBottomOf="@+id/task_name" />
+
+
+            <!-- priority -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/choose_priority_button"
+                style="@style/MyPriorityIconButton"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/set_description_button"
+                app:layout_constraintTop_toBottomOf="@+id/task_description" />
+
+            <HorizontalScrollView
+                android:id="@+id/priority"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/choose_priority_button"
+                app:layout_constraintStart_toStartOf="@+id/task_description"
+                app:layout_constraintTop_toTopOf="@+id/choose_priority_button"></HorizontalScrollView>
+
+
+            <!--
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/task_priority"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:text="Add Priority"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textStyle="bold"
+                android:textColor="@color/hintColor"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/task_description"
+                app:layout_constraintTop_toBottomOf="@+id/task_description" />
+
+            <HorizontalScrollView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/task_description"
+                app:layout_constraintTop_toBottomOf="@+id/task_description">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/task_priority_chipgroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+            </HorizontalScrollView>
+
+            -->
+
+            <!-- date -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/select_date_button"
+                style="@style/MyCalIconButton"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/choose_priority_button"
+                app:layout_constraintTop_toBottomOf="@+id/choose_priority_button" />
+
+
+            <HorizontalScrollView
+                android:id="@+id/date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/select_date_button"
+                app:layout_constraintStart_toStartOf="@+id/priority"
+                app:layout_constraintTop_toTopOf="@+id/select_date_button">
+
+            </HorizontalScrollView>
+
+
+            <!--com.google.android.material.button.MaterialButton
+                android:id="@+id/task_date"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:text="Add Date"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textStyle="bold"
+                android:textColor="@color/hintColor"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/task_priority"
+                app:layout_constraintTop_toBottomOf="@+id/task_priority" />
+
+            <HorizontalScrollView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/task_priority"
+                app:layout_constraintTop_toBottomOf="@+id/task_priority">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/task_date_chipgroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+            </HorizontalScrollView-->
+
+            <!-- list -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/choose_list_button"
+                style="@style/MyListIconButton"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/select_date_button"
+                app:layout_constraintTop_toBottomOf="@+id/select_date_button" />
+
+
+            <HorizontalScrollView
+                android:id="@+id/list"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/choose_list_button"
+                app:layout_constraintStart_toEndOf="@+id/choose_list_button"
+                app:layout_constraintTop_toTopOf="@+id/choose_list_button" />
+
+
+            <!--
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/task_lists"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:text="Add List"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textStyle="bold"
+                android:textColor="@color/hintColor"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/task_date"
+                app:layout_constraintTop_toBottomOf="@+id/task_date" />
+
+            <HorizontalScrollView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/task_date"
+                app:layout_constraintTop_toBottomOf="@+id/task_date">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/task_lists_chipgroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+            </HorizontalScrollView>
+            -->
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/choose_tag_button"
+                style="@style/MyTagIconButton"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/choose_list_button"
+                app:layout_constraintTop_toBottomOf="@+id/choose_list_button" />
+
+
+            <HorizontalScrollView
+                android:id="@+id/tag"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/choose_tag_button"
+                app:layout_constraintStart_toStartOf="@+id/list"
+                app:layout_constraintTop_toTopOf="@+id/choose_tag_button" />
+
+            <!--
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/task_tags"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:text="Add Tag"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textStyle="bold"
+                android:textColor="@color/hintColor"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/task_lists"
+                app:layout_constraintTop_toBottomOf="@+id/task_lists" />
+
+            <HorizontalScrollView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/task_lists"
+                app:layout_constraintTop_toBottomOf="@+id/task_lists">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/task_tags_chipgroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+            </HorizontalScrollView-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

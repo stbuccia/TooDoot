@@ -31,7 +31,7 @@ public class Task {
     private String description;
     List<String> tags = new ArrayList<String>();
     List<String> lists = new ArrayList<String>();
-    private Date creation_date;
+    private Date creation_date = null;
     private Date completation_date;
     private static ArrayList<String> allTags = new ArrayList<>();
     private static ArrayList<String> allLists = new ArrayList<>();
@@ -78,7 +78,7 @@ public class Task {
         uncompleteTask();
     }
 
-    private Task(String text) throws ParseException {
+    public Task(String text) throws ParseException {
         Format formatter = new SimpleDateFormat("yyyy-MM-dd");
         textdef = text;
         text = text.replaceAll("\\s+"," ");
@@ -292,4 +292,41 @@ public class Task {
     public static ArrayList<String> getAllLists(){
         return allLists;
     }
+
+    public Priority getPriority(){
+        return priority;
+    }
+
+    public Date getCreation_date() {
+        return creation_date;
+    }
+
+    public List<String> getLists() {
+        return lists;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setCreation_date(Date creation_date) {
+        this.creation_date = creation_date;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public void setLists(List<String> lists) {
+        this.lists = lists;
+    }
+
+    public void setPriority(Priority priority) {
+        this.priority = priority;
+    }
+
 }

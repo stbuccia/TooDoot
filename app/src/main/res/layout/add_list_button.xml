@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    app:layout_constraintBottom_toBottomOf="@+id/choose_list_button"
+    app:layout_constraintStart_toEndOf="@+id/choose_list_button"
+    app:layout_constraintTop_toTopOf="@+id/choose_list_button" >
+
+    <com.google.android.material.button.MaterialButton
+       android:id="@+id/task_lists"
+       style="@style/Widget.MaterialComponents.Button.TextButton"
+       android:layout_width="wrap_content"
+       android:layout_height="match_parent"
+       android:background="@null"
+       android:text="Add List"
+       android:textAllCaps="false"
+       android:textAppearance="@style/TextAppearance.AppCompat"
+       android:textStyle="bold"
+       android:textColor="@color/hintColor"
+       android:textSize="18sp" />
+
+</HorizontalScrollView>
