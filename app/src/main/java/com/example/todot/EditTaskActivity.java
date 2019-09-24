@@ -135,25 +135,26 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
     public Chip[] setListChipGroup(final Chip[] chips, int size){
-        if (activity.findViewById(R.id.task_lists_chipgroup) == null) {
-            changeView(activity.findViewById(R.id.list), getLayoutInflater().inflate(R.layout.list_chipgroup, (ViewGroup) activity.findViewById(R.id.list).getParent(), false));
-        }
-        else ((ChipGroup) activity.findViewById(R.id.task_lists_chipgroup)).removeAllViews();
+        if (size == 0) setListBtn();
+        else {
+            if (activity.findViewById(R.id.task_lists_chipgroup) == null) {
+                changeView(activity.findViewById(R.id.list), getLayoutInflater().inflate(R.layout.list_chipgroup, (ViewGroup) activity.findViewById(R.id.list).getParent(), false));
+            } else ((ChipGroup) activity.findViewById(R.id.task_lists_chipgroup)).removeAllViews();
 
-        for (int i = 0 ; i < size; i++) {
-            ((ChipGroup) activity.findViewById(R.id.task_lists_chipgroup)).addView(chips[i]);
-            final int finalI = i;
-            chips[i].setOnCloseIconClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((ChipGroup) activity.findViewById(R.id.task_lists_chipgroup)).removeView(chips[finalI]);
-                    listDialog.removeList(finalI);
-                    if (listDialog.getLists().size() == 0)
-                        setListBtn();
-                }
-            });
+            for (int i = 0; i < size; i++) {
+                ((ChipGroup) activity.findViewById(R.id.task_lists_chipgroup)).addView(chips[i]);
+                final int finalI = i;
+                chips[i].setOnCloseIconClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((ChipGroup) activity.findViewById(R.id.task_lists_chipgroup)).removeView(chips[finalI]);
+                        listDialog.removeList(finalI);
+                        if (listDialog.getLists().size() == 0)
+                            setListBtn();
+                    }
+                });
+            }
         }
-
         return chips;
 
     }
@@ -171,25 +172,27 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
     public Chip[] setTagChipGroup(final Chip[] chips, int size){
-        if (activity.findViewById(R.id.task_tags_chipgroup) == null) {
-            changeView(activity.findViewById(R.id.tag), getLayoutInflater().inflate(R.layout.tag_chipgroup, (ViewGroup) activity.findViewById(R.id.tag).getParent(), false));
-        }
-        else ((ChipGroup) activity.findViewById(R.id.task_tags_chipgroup)).removeAllViews();
+        if (size == 0) setTagBtn();
+        else {
+            if (activity.findViewById(R.id.task_tags_chipgroup) == null) {
+                changeView(activity.findViewById(R.id.tag), getLayoutInflater().inflate(R.layout.tag_chipgroup, (ViewGroup) activity.findViewById(R.id.tag).getParent(), false));
+            } else ((ChipGroup) activity.findViewById(R.id.task_tags_chipgroup)).removeAllViews();
 
-        for (int i = 0 ; i < size; i++) {
-            ((ChipGroup) activity.findViewById(R.id.task_tags_chipgroup)).addView(chips[i]);
-            final int finalI = i;
-            chips[i].setOnCloseIconClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((ChipGroup) activity.findViewById(R.id.task_tags_chipgroup)).removeView(chips[finalI]);
-                    tagDialog.removeTag(finalI);
-                    if (tagDialog.getTags().size() == 0)
-                        setTagBtn();
-                }
-            });
-        }
+            for (int i = 0; i < size; i++) {
+                ((ChipGroup) activity.findViewById(R.id.task_tags_chipgroup)).addView(chips[i]);
+                final int finalI = i;
+                chips[i].setOnCloseIconClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((ChipGroup) activity.findViewById(R.id.task_tags_chipgroup)).removeView(chips[finalI]);
+                        tagDialog.removeTag(finalI);
+                        if (tagDialog.getTags().size() == 0)
+                            setTagBtn();
+                    }
+                });
+            }
 
+        }
         return chips;
 
     }

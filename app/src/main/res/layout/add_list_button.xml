@@ -5,8 +5,9 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
     app:layout_constraintBottom_toBottomOf="@+id/choose_list_button"
-    app:layout_constraintStart_toEndOf="@+id/choose_list_button"
+    app:layout_constraintStart_toStartOf="@+id/date"
     app:layout_constraintTop_toTopOf="@+id/choose_list_button" >
 
     <com.google.android.material.button.MaterialButton
