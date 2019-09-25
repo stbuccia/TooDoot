@@ -4,10 +4,12 @@ import android.content.Context;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
@@ -248,6 +250,32 @@ public class Task implements Serializable {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void removeTaskInFile(Context context){
+        File file = new File(context.getFilesDir(), "todo.txt");
+        File tmp = new File(context.getFilesDir(), "tmp.txt");
+        try {
+            BufferedReader fileIn = new BufferedReader(new FileReader(file));
+            BufferedWriter fileTmp = new BufferedWriter(new FileWriter(tmp));
+            StringBuffer inputBuffer = new StringBuffer();
+            String line;
+
+            while ((line = fileIn.readLine()) != null) {
+                String trimmedLine = line.trim();
+                if (trimmedLine.equals(textdef)) {
+                    continue;
+                }
+                fileTmp.write(line + System.getProperty("line.separator"));
+            }
+            fileTmp.close();
+            fileIn.close();
+            tmp.renameTo(file);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
 

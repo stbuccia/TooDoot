@@ -12,5 +12,5 @@
 
     <item
         android:title="@string/setting"
-        android:iconTint="@color/design_default_color_on_primary" tools:targetApi="o"/>
+        android:iconTint="@color/design_default_color_on_primary"/>
 </menu>

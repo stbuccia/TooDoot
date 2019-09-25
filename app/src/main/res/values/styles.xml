@@ -64,6 +64,16 @@
         <item name="icon">@drawable/ic_description_24</item>
     </style>
 
+    <style name="MyRemoveIconButton" parent="Widget.MaterialComponents.Button.TextButton.Icon" >
+        <item name="android:layout_width">@android:dimen/app_icon_size</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@null</item>
+        <item name="icon">@drawable/ic_outline_delete_outline_24px</item>
+        <item name="iconTint">@color/design_default_color_on_primary</item>
+        <item name="android:textColor">@color/design_default_color_on_primary</item>
+
+    </style>
+
     <style name="MyChipApperance" parent="Widget.MaterialComponents.Chip.Action">
         <item name="chipBackgroundColor">@color/design_default_color_primary</item>
         <item name="android:textColor">@color/design_default_color_on_primary</item>
@@ -73,6 +83,14 @@
         <item name="android:textColor">@color/design_default_color_on_primary</item>
         <item name="android:textSize">12dp</item>
         <item name="android:backgroundTint">@color/design_default_color_primary</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- Customize color of navigation drawer icon and back arrow -->
+        <item name="colorControlNormal">@color/design_default_color_on_primary</item>
+    </style>
+    <style name="ToolbarColoredBackArrow" parent="Theme.MyApp">
+        <item name="android:textColorSecondary">@color/design_default_color_on_primary</item>
     </style>
 
 

@@ -1,6 +1,12 @@
 package com.example.todot;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -8,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -17,6 +24,8 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 
 import model.Task;
+
+import static com.example.todot.R.drawable.ic_arrow_back_24px;
 
 public class EditTaskActivity extends AppCompatActivity {
 
@@ -46,6 +55,24 @@ public class EditTaskActivity extends AppCompatActivity {
         name.setText(task.getName());
         description.setText(task.getDescription());
         checkBox.setChecked(task.isComplete());
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        final Drawable upArrow = getResources().getDrawable(ic_arrow_back_24px);
+        upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
 
         setPriorityBtn();
 
@@ -77,7 +104,7 @@ public class EditTaskActivity extends AppCompatActivity {
         if (checkBox.isChecked())
             task.completeTask();
         else
-            task.uncompleteTask();  
+            task.uncompleteTask();
         if (activity.findViewById(R.id.task_date_chipgroup) != null) {
             task.setCreation_date(calendarDialog.getDate());
         } else
@@ -105,6 +132,21 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.delete_icon_button, menu);
+
+        for(int i = 0; i < menu.size(); i++){
+            Drawable drawable = menu.getItem(i).getIcon();
+            if(drawable != null) {
+                drawable.mutate();
+                drawable.setColorFilter(getResources().getColor(R.color.design_default_color_on_primary), PorterDuff.Mode.SRC_ATOP);
+            }
+        }
+
+        return true;
+    }
 
     private void changeView(View from, View to){
 
@@ -251,4 +293,12 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.delete_button) {
+            task.removeTaskInFile(activity);
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
 }

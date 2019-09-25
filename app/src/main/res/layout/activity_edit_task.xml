@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/design_default_color_on_primary" />
+        app:titleTextColor="@color/design_default_color_on_primary"/>
 
 
     <ScrollView
@@ -48,7 +48,6 @@
                 style="@style/Base.Widget.MaterialComponents.TextInputEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:hint="Name Task"

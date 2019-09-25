@@ -3,14 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/app_bar_search"
-        android:icon="@drawable/ic_outline_search_24px"
-        android:title="@string/search"
+        android:id="@+id/delete_button"
+        android:icon="@drawable/ic_outline_delete_outline_24px"
+        android:title="@string/delete"
         android:iconTint="@color/design_default_color_on_primary"
-        app:actionViewClass="android.widget.SearchView"
+        style="MyRemoveIconButton"
         app:showAsAction="ifRoom" tools:targetApi="o"/>
 
-    <item
-        android:title="@string/setting"
-        android:iconTint="@color/design_default_color_on_primary" tools:targetApi="o"/>
 </menu>
