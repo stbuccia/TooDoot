@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp">
-        <activity android:name=".EditTaskActivity"></activity>
+        <activity
+            android:name=".EditTaskActivity">
+        </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
@@ -20,9 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AddTaskFragment"
-            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

@@ -165,8 +165,9 @@ public class Task implements Serializable {
 
         text += name;
 
-        if (description != "")
+        if (description.length() != 0) {
             text += " ::" + description;
+        }
 
         Iterator i = tags.iterator();
         while (i.hasNext())
@@ -334,4 +335,11 @@ public class Task implements Serializable {
         this.priority = priority;
     }
 
+    public void setPriority(char priority) {
+        this.priority = new Priority(Priority.fromCharToInt(priority));
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

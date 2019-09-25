@@ -3,6 +3,7 @@ package com.example.todot;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -12,6 +13,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 
 import model.Task;
@@ -26,6 +28,7 @@ public class EditTaskActivity extends AppCompatActivity {
     TagDialog tagDialog;
     EditText name;
     EditText description;
+    CheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +41,11 @@ public class EditTaskActivity extends AppCompatActivity {
 
         name = findViewById(R.id.task_name);
         description = findViewById(R.id.task_description);
+        checkBox = findViewById(R.id.checkBox);
 
         name.setText(task.getName());
         description.setText(task.getDescription());
+        checkBox.setChecked(task.isComplete());
 
         setPriorityBtn();
 
@@ -64,11 +69,42 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume (){
-        super.onResume();
+    public void onBackPressed() {
 
+        task.setName(name.getText().toString());
+        task.setDescription(description.getText().toString());
 
+        if (checkBox.isChecked())
+            task.completeTask();
+        else
+            task.uncompleteTask();  
+        if (activity.findViewById(R.id.task_date_chipgroup) != null) {
+            task.setCreation_date(calendarDialog.getDate());
+        } else
+            task.setCreation_date(null);
+
+        if (activity.findViewById(R.id.task_priority_chipgroup) != null) {
+            task.setPriority(priorityDialog.getPriority());
+        } else
+            task.setPriority('0');
+
+        if (activity.findViewById(R.id.task_lists_chipgroup) != null){
+            task.setLists(listDialog.getLists());
+        }
+        else
+            task.setLists(Collections.<String>emptyList());
+
+        if (activity.findViewById(R.id.task_tags_chipgroup) != null){
+            task.setTags(tagDialog.getTags());
+        }
+        else
+            task.setTags(Collections.<String>emptyList());
+
+        task.updateTaskInFile(this);
+        super.onBackPressed();
     }
+
+
 
     private void changeView(View from, View to){
 
