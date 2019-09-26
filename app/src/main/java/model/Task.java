@@ -253,6 +253,7 @@ public class Task implements Serializable {
     }
 
     public void removeTaskInFile(Context context){
+        //Copy all file except interested line
         File file = new File(context.getFilesDir(), "todo.txt");
         File tmp = new File(context.getFilesDir(), "tmp.txt");
         try {
@@ -341,6 +342,10 @@ public class Task implements Serializable {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getTextdef() {
+        return textdef;
     }
 
     public void setCreation_date(Date creation_date) {

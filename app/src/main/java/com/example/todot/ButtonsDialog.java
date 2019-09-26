@@ -24,6 +24,7 @@ public class ButtonsDialog extends Dialog {
 
     public ButtonsDialog(Context context, View view, int idButton) {
         super(context);
+        getWindow().setBackgroundDrawableResource(R.color.design_default_color_background);
         if (idButton != -1)
             button = view.findViewById(idButton);
         this.view = view;

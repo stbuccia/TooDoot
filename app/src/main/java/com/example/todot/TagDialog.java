@@ -1,10 +1,16 @@
 package com.example.todot;
 
 import android.content.Context;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -14,10 +20,13 @@ import com.hootsuite.nachos.terminator.ChipTerminatorHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+import static model.Task.getAllTags;
+
 public class TagDialog extends ButtonsDialog {
 
     protected Chip[] tag_chips = null;
     private ArrayList<String> tags = new ArrayList<String>();
+    private TagListAdapter mAdapter;
 
     public TagDialog(final Context context, View view, int idButton){
         super(context, view, idButton);
@@ -27,6 +36,7 @@ public class TagDialog extends ButtonsDialog {
                 showTagDialog();
             }
         });
+
 
     }
 
@@ -43,6 +53,25 @@ public class TagDialog extends ButtonsDialog {
     private void showTagDialog(){
         setTitle("Add Tags");
         setContentView(R.layout.taglist_dialog);
+
+
+
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.cardList);
+        mRecyclerView.setHasFixedSize(true);
+
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getOwnerActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        //mAdapter = new TagListAdapter(model.Task.getAllTags());
+
+
+        mAdapter = new TagListAdapter(getAllTags());
+        mRecyclerView.setAdapter(mAdapter);
+
+
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
 
         final NachoTextView text = findViewById(R.id.taglistInputEditText);
 
@@ -61,11 +90,30 @@ public class TagDialog extends ButtonsDialog {
         }, 150);
         text.setText(tags);
         text.setInputType(InputType.TYPE_CLASS_TEXT);
-        text.setAdapter(adapter);
+        /*text.setAdapter(adapter);*/
         text.addChipTerminator(' ', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_TO_TERMINATOR);
         text.enableEditChipOnTouch(false, true);
 
-        text.setThreshold(0);
+        //text.setThreshold(0);
+        text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                String s = charSequence.toString();
+
+                s = s.substring(0, count);
+                String lastWord = s.substring(s.lastIndexOf(" ") + 1);
+                mAdapter.getFilter().filter(lastWord);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
 
         setupButtons(new View.OnClickListener()

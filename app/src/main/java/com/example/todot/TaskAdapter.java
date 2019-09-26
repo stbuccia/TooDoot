@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,8 +18,9 @@ import java.util.ArrayList;
 
 import model.Task;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> implements Filterable {
     private ArrayList<Task> tasklist;
+    private ArrayList<Task> tasklistFiltered;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleView;
@@ -34,6 +37,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     public TaskAdapter(ArrayList<Task> data) {
         tasklist = data;
+        tasklistFiltered = tasklist;
     }
 
     @Override
@@ -45,8 +49,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final Task task = tasklist.get(position);
-        holder.titleView.setText(tasklist.get(position).getName());
+        final Task task = tasklistFiltered.get(position);
+        holder.titleView.setText(tasklistFiltered.get(position).getName());
         holder.checkButton.setChecked(task.isComplete());
 
         holder.checkButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
@@ -77,6 +81,39 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return tasklist.size();
+        return tasklistFiltered.size();
+    }
+
+
+    @Override
+    public Filter getFilter(){
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+
+                String charString = charSequence.toString();
+                if (charString.isEmpty())
+                    tasklistFiltered = tasklist;
+                else {
+                    ArrayList<Task> filteredList = new ArrayList<>();
+                    for (Task row : tasklist){
+                        if (row.getTextdef().toLowerCase().contains(charString.toLowerCase())){
+                            filteredList.add(row);
+                        }
+                    }
+                    tasklistFiltered = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = tasklistFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                tasklistFiltered = (ArrayList<Task>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

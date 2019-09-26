@@ -23,7 +23,7 @@ import static model.Task.getSavedTasks;
 public class TodoFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private TaskAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     FloatingActionButton button;
@@ -65,5 +65,9 @@ public class TodoFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public void filter(String sequence){
+       mAdapter.getFilter().filter(sequence);
     }
 }
