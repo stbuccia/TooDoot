@@ -4,6 +4,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -14,15 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hootsuite.nachos.NachoTextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ViewHolder> implements Filterable {
 
     private ArrayList<String> taglists;
     private ArrayList<String> taglistsFiltered;
-
+    private NachoTextView text;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        private CheckBox checkButton;
         public TextView titleView;
 
         public ViewHolder(View v) {
@@ -30,13 +34,17 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ViewHold
             titleView = v.findViewById(R.id.taglistname);
             titleView.setGravity(Gravity.CENTER_VERTICAL);
 
+            checkButton = v.findViewById(R.id.checkBox);
+
+
         }
     }
 
-    public TagListAdapter(ArrayList<String> data) {
+    public TagListAdapter(ArrayList<String> data, NachoTextView edittext) {
 
         taglists = data;
         taglistsFiltered = taglists;
+        text = edittext;
 
     }
 
@@ -53,17 +61,22 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ViewHold
         final String tl = taglistsFiltered.get(position);
         holder.titleView.setText(taglistsFiltered.get(position));
 
-        holder.titleView.setOnClickListener(new View.OnClickListener() {
+        holder.checkButton.setChecked(isInEditText(text, tl));
+
+        holder.checkButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+
             @Override
-            public void onClick(View view) {
-                NachoTextView text = view.getRootView().findViewById(R.id.taglistInputEditText);
-                String updatetxt = "";
-                for (String chiptxt : text.getChipValues())
-                    updatetxt += chiptxt + " ";
-                text.setText(updatetxt + " " + tl + " ");
-                text.setSelection(text.getText().length());
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (buttonView.isPressed()) {
+                    if (isChecked) {
+                        addToEditText(text, tl);
+                    } else {
+                        removeToEditText(text, tl);
+                    }
+                }
             }
         });
+
 
     }
 
@@ -103,5 +116,24 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ViewHold
         };
     }
 
+    private boolean isInEditText(NachoTextView text, String search){
+        List<String> chipstxt = text.getChipValues();
+        return chipstxt.contains(search);
+    }
+
+    private void addToEditText (NachoTextView text, String s){
+        StringBuilder updatetxt = new StringBuilder();
+        for (String chiptxt : text.getChipValues())
+            updatetxt.append(chiptxt).append(" ");
+        text.setText(new StringBuilder().append(updatetxt).append(" ").append(s).append(" ").toString());
+        text.setSelection(text.getText().length());
+
+    }
+
+    private void removeToEditText(NachoTextView text, String s){
+        List<String> chipstxt = text.getChipValues();
+        chipstxt.remove(s);
+        text.setText(chipstxt);
+    }
 
 }

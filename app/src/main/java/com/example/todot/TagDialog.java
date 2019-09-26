@@ -51,8 +51,11 @@ public class TagDialog extends ButtonsDialog {
 
     }
     private void showTagDialog(){
-        setTitle("Add Tags");
+        setTitle("Set Tags");
         setContentView(R.layout.taglist_dialog);
+
+
+        final NachoTextView text = findViewById(R.id.taglistInputEditText);
 
 
 
@@ -66,14 +69,13 @@ public class TagDialog extends ButtonsDialog {
         //mAdapter = new TagListAdapter(model.Task.getAllTags());
 
 
-        mAdapter = new TagListAdapter(getAllTags());
+        mAdapter = new TagListAdapter(getAllTags(), text);
         mRecyclerView.setAdapter(mAdapter);
 
 
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(mRecyclerView.getContext(),
+                mLayoutManager.getOrientation()));
 
-        final NachoTextView text = findViewById(R.id.taglistInputEditText);
 
         String[] suggestions = (model.Task.getAllTags()).toArray(new String[model.Task.getAllTags().size()]);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, suggestions);
@@ -104,7 +106,6 @@ public class TagDialog extends ButtonsDialog {
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 String s = charSequence.toString();
 
-                s = s.substring(0, count);
                 String lastWord = s.substring(s.lastIndexOf(" ") + 1);
                 mAdapter.getFilter().filter(lastWord);
             }
