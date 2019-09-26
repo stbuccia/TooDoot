@@ -29,6 +29,8 @@ import model.Task;
 import static com.example.todot.R.id;
 import static com.example.todot.R.layout;
 import static com.example.todot.R.style;
+import static model.Task.getAllLists;
+import static model.Task.getAllTags;
 
 public class AddTaskFragment extends BottomSheetDialogFragment{
 
@@ -108,22 +110,22 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
         };
         //set up tag button
 
-        final TagDialog tagDialog = new TagDialog(getContext(), view, id.choose_tag_button){
+        final ListDialog tagDialog = new ListDialog(getContext(), view, id.choose_tag_button, getAllTags(), "Set Tags", 0){
             @Override
-            public void onTagSet(){
+            public void onListSet(){
                         
-                if (tag_chips != null)
-                    for (int j = 0; j < tag_chips.length; j++){
+                if (list_chips != null)
+                    for (int j = 0; j < list_chips.length; j++){
                         try {
-                            chipgroup.removeView(tag_chips[j]);
+                            chipgroup.removeView(list_chips[j]);
                         }
                         catch (Exception e){}
                     }
 
-                super.onTagSet();
+                super.onListSet();
 
-                for(int i = 0; i < getTags().size(); i++ ) {
-                    chip = super.tag_chips[i];
+                for(int i = 0; i < getLists().size(); i++ ) {
+                    chip = super.list_chips[i];
                     chip.setChipIconResource(R.drawable.ic_tag_24px);
                     addChip();
                 }
@@ -131,7 +133,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
         };
 
 
-        final ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button){
+        final ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button, getAllLists(), "SetLists", 500){
             @Override
             public void onListSet() {
                 if (list_chips != null)
@@ -160,7 +162,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             @Override
             public void onClick(View v) {
                 if (editText.getText().toString() != "") {
-                    Task task = new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority(), tagDialog.getTags(), listDialog.getLists());
+                    Task task = new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists());
                     task.addTaskInFile(getActivity());
                     AddTaskFragment.super.dismiss();
 

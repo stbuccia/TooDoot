@@ -276,6 +276,8 @@ public class Task implements Serializable {
         catch (Exception e){
             System.out.println(e.getMessage());
         }
+        allTags = new ArrayList<>();
+        allLists = new ArrayList<>();
 
     }
 

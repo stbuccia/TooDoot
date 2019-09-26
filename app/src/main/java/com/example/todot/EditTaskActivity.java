@@ -27,6 +27,8 @@ import java.util.GregorianCalendar;
 import model.Task;
 
 import static com.example.todot.R.drawable.ic_arrow_back_24px;
+import static model.Task.getAllLists;
+import static model.Task.getAllTags;
 
 public class EditTaskActivity extends AppCompatActivity {
 
@@ -35,7 +37,7 @@ public class EditTaskActivity extends AppCompatActivity {
     CalendarDialog calendarDialog;
     PriorityDialog priorityDialog;
     ListDialog listDialog;
-    TagDialog tagDialog;
+    ListDialog tagDialog;
     EditText name;
     EditText description;
     CheckBox checkBox;
@@ -93,8 +95,8 @@ public class EditTaskActivity extends AppCompatActivity {
         listDialog.setLists(task.getLists());
         listDialog.onListSet();
 
-        tagDialog.setTags(task.getTags());
-        tagDialog.onTagSet();
+        tagDialog.setLists(task.getTags());
+        tagDialog.onListSet();
 
     }
 
@@ -125,7 +127,7 @@ public class EditTaskActivity extends AppCompatActivity {
             task.setLists(Collections.<String>emptyList());
 
         if (activity.findViewById(R.id.task_tags_chipgroup) != null){
-            task.setTags(tagDialog.getTags());
+            task.setTags(tagDialog.getLists());
         }
         else
             task.setTags(Collections.<String>emptyList());
@@ -223,7 +225,7 @@ public class EditTaskActivity extends AppCompatActivity {
     public void setListBtn(){
         changeView(findViewById(R.id.list), getLayoutInflater().inflate(R.layout.add_list_button, (ViewGroup)findViewById(R.id.list).getParent(), false) );
 
-        listDialog = new ListDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_lists){
+        listDialog = new ListDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_lists, getAllLists(), "Set Lists", 500){
             @Override
             public void onListSet(){
                 super.onListSet();
@@ -260,11 +262,11 @@ public class EditTaskActivity extends AppCompatActivity {
     public void setTagBtn(){
         changeView(findViewById(R.id.tag), getLayoutInflater().inflate(R.layout.add_tag_button, (ViewGroup)findViewById(R.id.tag).getParent(), false) );
 
-        tagDialog = new TagDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_tags) {
+        tagDialog = new ListDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_tags, getAllTags(), "Set Tags", 0) {
             @Override
-            public void onTagSet(){
-                super.onTagSet();
-                setTagChipGroup(getChips(), getTags().size());
+            public void onListSet(){
+                super.onListSet();
+                setTagChipGroup(getChips(), getLists().size());
             }
         };
     }
@@ -283,8 +285,8 @@ public class EditTaskActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         ((ChipGroup) activity.findViewById(R.id.task_tags_chipgroup)).removeView(chips[finalI]);
-                        tagDialog.removeTag(finalI);
-                        if (tagDialog.getTags().size() == 0)
+                        tagDialog.removeList(finalI);
+                        if (tagDialog.getLists().size() == 0)
                             setTagBtn();
                     }
                 });
