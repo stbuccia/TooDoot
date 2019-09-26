@@ -30,7 +30,6 @@ public class ButtonsDialog extends Dialog {
         this.view = view;
         this.context = context;
 
-
         chipgroup = view.findViewById(R.id.chip_group);
 
     }

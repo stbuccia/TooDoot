@@ -1,5 +1,6 @@
 package com.example.todot;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.Gravity;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 
 import model.Task;
@@ -21,6 +24,8 @@ import model.Task;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> implements Filterable {
     private ArrayList<Task> tasklist;
     private ArrayList<Task> tasklistFiltered;
+    private Task mRecentlyDeletedItem;
+    private int mRecentlyDeletedItemPosition;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleView;
@@ -74,6 +79,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
                 Context context = view.getContext();
                 Intent intent = new Intent(context, EditTaskActivity.class);
                 intent.putExtra("TASK_CLICKED", task);
+                intent.putExtra("TASK_POS", position);
                 context.startActivity(intent);
             }
         });
@@ -115,5 +121,38 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
                 notifyDataSetChanged();
             }
         };
+    }
+
+    public void deleteItem(Activity activity, int position) {
+        mRecentlyDeletedItem = tasklistFiltered.get(position);
+        mRecentlyDeletedItemPosition = position;
+        tasklistFiltered.remove(position);
+        mRecentlyDeletedItem.removeTaskInFile(activity);
+        notifyItemRemoved(position);
+        showUndoSnackbar(activity);
+    }
+
+    public void insertItem(Context context, Task task){
+        tasklist.add(0, task);
+        task.addTaskInFile(context);
+        notifyItemInserted(0);
+    }
+
+    private void showUndoSnackbar(Activity activity) {
+        View view = activity.findViewById(R.id.container);
+        Snackbar snackbar = (Snackbar) Snackbar.make(view, "Deleted Item", Snackbar.LENGTH_LONG)
+                .setAction(R.string.snack_bar_undo, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        undoDelete();
+                    }
+                });
+        snackbar.show();
+    }
+
+    private void undoDelete() {
+        tasklistFiltered.add(mRecentlyDeletedItemPosition, mRecentlyDeletedItem);
+        tasklist.add(mRecentlyDeletedItemPosition, mRecentlyDeletedItem);
+        notifyItemInserted(mRecentlyDeletedItemPosition);
     }
 }

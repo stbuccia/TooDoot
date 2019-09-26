@@ -33,6 +33,7 @@ import static model.Task.getAllTags;
 public class EditTaskActivity extends AppCompatActivity {
 
     Task task;
+    int position;
     EditTaskActivity activity = this;
     CalendarDialog calendarDialog;
     PriorityDialog priorityDialog;
@@ -50,6 +51,7 @@ public class EditTaskActivity extends AppCompatActivity {
 
 
         task = (Task) getIntent().getSerializableExtra("TASK_CLICKED");
+        position = (int) getIntent().getSerializableExtra("TASK_POS");
 
         name = findViewById(R.id.task_name);
         description = findViewById(R.id.task_description);
@@ -303,6 +305,7 @@ public class EditTaskActivity extends AppCompatActivity {
         if (menuItem.getItemId() == R.id.delete_button) {
             task.removeTaskInFile(activity);
             super.onBackPressed();
+
         }
         return super.onOptionsItemSelected(menuItem);
     }

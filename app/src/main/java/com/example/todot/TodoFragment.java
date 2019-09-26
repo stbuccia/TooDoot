@@ -70,4 +70,13 @@ public class TodoFragment extends Fragment {
     public void filter(String sequence){
        mAdapter.getFilter().filter(sequence);
     }
+
+    public void insertTask(Task task){
+        filter("");
+        mAdapter.insertItem(getActivity(), task);
+    }
+
+    public void deleteTask(Task task){
+
+    }
 }

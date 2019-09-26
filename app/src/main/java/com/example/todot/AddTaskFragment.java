@@ -14,8 +14,6 @@ import android.widget.DatePicker;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -133,7 +131,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
         };
 
 
-        final ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button, getAllLists(), "SetLists", 500){
+        final ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button, getAllLists(), "Set Lists", 500){
             @Override
             public void onListSet() {
                 if (list_chips != null)
@@ -162,21 +160,27 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             @Override
             public void onClick(View v) {
                 if (editText.getText().toString() != "") {
-                    Task task = new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists());
+                    TodoFragment todoFragment = (TodoFragment) getActivity().getSupportFragmentManager().findFragmentById(id.fragment_container);
+                    todoFragment.insertTask(new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists()));
+                    AddTaskFragment.super.dismiss();
+
+                    /*Task task = new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists());
                     task.addTaskInFile(getActivity());
                     AddTaskFragment.super.dismiss();
 
+                    /*
                     //refresh todo fragment
                     Fragment todoFragment = getActivity().getSupportFragmentManager().findFragmentById(id.fragment_container);
                     FragmentTransaction transaction = getFragmentManager().beginTransaction();
                     transaction.detach(todoFragment);
                     transaction.attach(todoFragment);
-                    transaction.commit();
+                    transaction.commit();*/
                 }
             }
         });
         return view;
 
     }
+
 
 }

@@ -259,12 +259,10 @@ public class Task implements Serializable {
         try {
             BufferedReader fileIn = new BufferedReader(new FileReader(file));
             BufferedWriter fileTmp = new BufferedWriter(new FileWriter(tmp));
-            StringBuffer inputBuffer = new StringBuffer();
             String line;
 
             while ((line = fileIn.readLine()) != null) {
-                String trimmedLine = line.trim();
-                if (trimmedLine.equals(textdef)) {
+                if (line.equals(textdef)) {
                     continue;
                 }
                 fileTmp.write(line + System.getProperty("line.separator"));
@@ -274,10 +272,8 @@ public class Task implements Serializable {
             tmp.renameTo(file);
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
         }
-        allTags = new ArrayList<>();
-        allLists = new ArrayList<>();
 
     }
 
