@@ -52,8 +52,9 @@ public class CalendarDialog extends ButtonsDialog implements DatePickerDialog.On
             dateFormat = new SimpleDateFormat("E, dd MMM yyyy");
         calendar.set(year, month, day);
         date = calendar.getTime();
+        chip_id = R.id.date_chip;
 
-        setChip(R.id.date_chip, -1, new View.OnClickListener() {
+        setChip(chip_id, -1, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 datePickerDialog.show();

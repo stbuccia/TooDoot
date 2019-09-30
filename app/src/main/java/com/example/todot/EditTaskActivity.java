@@ -309,4 +309,6 @@ public class EditTaskActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(menuItem);
     }
+
+
 }

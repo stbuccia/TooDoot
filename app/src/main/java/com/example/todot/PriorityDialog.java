@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.NumberPicker;
 
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 
 public class PriorityDialog extends ButtonsDialog{
 
@@ -16,17 +15,6 @@ public class PriorityDialog extends ButtonsDialog{
 
     public PriorityDialog(final Context context, View view, int idButton){
         super(context, view, idButton);
-        setListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPriorityDialog();
-            }
-        });
-
-    }
-
-    public PriorityDialog(final Context context, View view, final int idButton, ChipGroup chipGroup){
-        super(context, view, idButton, chipGroup);
         setListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +73,8 @@ public class PriorityDialog extends ButtonsDialog{
             priority = (char)('A' + (val - 2));
             String txt;
             txt = priority + "";
-            setChip(R.id.priority_chip, -1, new View.OnClickListener() {
+            chip_id = R.id.priority_chip;
+            setChip(chip_id, -1, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     showPriorityDialog();

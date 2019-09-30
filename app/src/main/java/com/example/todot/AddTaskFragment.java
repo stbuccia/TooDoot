@@ -33,7 +33,6 @@ import static model.Task.getAllTags;
 public class AddTaskFragment extends BottomSheetDialogFragment{
 
 
-    private ChipGroup chipgroup;
     private  View.OnClickListener dateButtonListener;
 
     @NonNull
@@ -89,7 +88,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             public void onDateSet(final DatePicker datePicker, int year, int month, int day){
                 super.onDateSet(datePicker, year, month, day);
                 chip.setChipIconResource(R.drawable.ic_event);
-                addChip();
+                if (chipgroup.findViewById(chip_id) == null) addChip();
             }
         };
 
@@ -101,7 +100,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
                 super.onPrioritySet(val);
                 if (val > 1 ) {
                     chip.setChipIconResource(R.drawable.ic_priority_24px);
-                    addChip();
+                    if (chipgroup.findViewById(chip_id) == null) addChip();
                 }
 
             }
@@ -152,7 +151,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
                 }
             }
         };
-        chipgroup = view.findViewById(id.chip_group);
+        ChipGroup chipgroup = view.findViewById(id.chip_group);
 
         //set up save button
         MaterialButton saveButton = view.findViewById(id.save_button);
@@ -164,23 +163,13 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
                     todoFragment.insertTask(new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists()));
                     AddTaskFragment.super.dismiss();
 
-                    /*Task task = new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists());
-                    task.addTaskInFile(getActivity());
-                    AddTaskFragment.super.dismiss();
-
-                    /*
-                    //refresh todo fragment
-                    Fragment todoFragment = getActivity().getSupportFragmentManager().findFragmentById(id.fragment_container);
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.detach(todoFragment);
-                    transaction.attach(todoFragment);
-                    transaction.commit();*/
                 }
             }
         });
         return view;
 
     }
+
 
 
 }

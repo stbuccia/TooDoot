@@ -26,6 +26,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
     private ArrayList<Task> tasklistFiltered;
     private Task mRecentlyDeletedItem;
     private int mRecentlyDeletedItemPosition;
+    private String charString = "";
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleView;
@@ -98,7 +99,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
             protected FilterResults performFiltering(CharSequence charSequence) {
 
 
-                String charString = charSequence.toString();
+                charString = charSequence.toString();
                 if (charString.isEmpty())
                     tasklistFiltered = tasklist;
                 else {
@@ -133,7 +134,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
     }
 
     public void insertItem(Context context, Task task){
-        tasklist.add(0, task);
+        tasklist.add(task);
         task.addTaskInFile(context);
         notifyItemInserted(0);
     }
@@ -154,5 +155,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         tasklistFiltered.add(mRecentlyDeletedItemPosition, mRecentlyDeletedItem);
         tasklist.add(mRecentlyDeletedItemPosition, mRecentlyDeletedItem);
         notifyItemInserted(mRecentlyDeletedItemPosition);
+    }
+
+    public String getCharString(){
+        return charString;
     }
 }

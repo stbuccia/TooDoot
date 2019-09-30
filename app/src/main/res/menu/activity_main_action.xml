@@ -6,8 +6,8 @@
         android:id="@+id/app_bar_search"
         android:icon="@drawable/ic_outline_search_24px"
         android:title="@string/search"
-        android:iconTint="@color/design_default_color_on_primary"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:iconTint="@color/design_default_color_on_primary"
         app:showAsAction="ifRoom" tools:targetApi="o"/>
 
     <item

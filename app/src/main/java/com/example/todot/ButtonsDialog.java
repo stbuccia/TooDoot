@@ -21,6 +21,7 @@ public class ButtonsDialog extends Dialog {
     protected ChipGroup chipgroup;
     protected View.OnClickListener onClickListener;
     protected Chip chip = null;
+    protected int chip_id = 0;
 
     public ButtonsDialog(Context context, View view, int idButton) {
         super(context);

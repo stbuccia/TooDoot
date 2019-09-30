@@ -6,8 +6,6 @@
         android:id="@+id/delete_button"
         android:icon="@drawable/ic_outline_delete_outline_24px"
         android:title="@string/delete"
-        android:iconTint="@color/design_default_color_on_primary"
-        style="MyRemoveIconButton"
         app:showAsAction="ifRoom" tools:targetApi="o"/>
 
 </menu>

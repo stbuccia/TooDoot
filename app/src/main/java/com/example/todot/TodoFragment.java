@@ -59,9 +59,6 @@ public class TodoFragment extends Fragment {
 
                 bottomSheetFragment.show(getFragmentManager(), bottomSheetFragment.getTag());
 
-                /*
-                Intent i = new Intent(getActivity(), EditTaskActivity.class);
-                startActivity(i);*/
             }
         });
         return view;
@@ -72,11 +69,12 @@ public class TodoFragment extends Fragment {
     }
 
     public void insertTask(Task task){
-        filter("");
         mAdapter.insertItem(getActivity(), task);
+        filter(mAdapter.getCharString());
     }
 
-    public void deleteTask(Task task){
+    public void deleteTask(Task task, int pos){
+        mAdapter.deleteItem(getActivity(), pos);
 
     }
 }
