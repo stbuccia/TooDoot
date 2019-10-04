@@ -29,6 +29,9 @@ public class TodoFragment extends Fragment {
     FloatingActionButton button;
     ArrayList<Task> myTasks = new ArrayList<Task>();
 
+    public TodoFragment(ArrayList<Task> initTasks){
+        myTasks = initTasks;
+    }
 
     @Nullable
     @Override
@@ -41,8 +44,10 @@ public class TodoFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        myTasks = getSavedTasks(getContext(), getActivity());
+
+        //myTasks = getSavedTasks(getContext(), getActivity());
         mAdapter = new TaskAdapter(myTasks);
+
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
@@ -64,6 +69,7 @@ public class TodoFragment extends Fragment {
         return view;
     }
 
+
     public void filter(String sequence){
        mAdapter.getFilter().filter(sequence);
     }
@@ -76,5 +82,9 @@ public class TodoFragment extends Fragment {
     public void deleteTask(Task task, int pos){
         mAdapter.deleteItem(getActivity(), pos);
 
+    }
+
+    public void setTasks(ArrayList<Task> tasks){
+        mAdapter.setTasklistFiltered(tasks);
     }
 }

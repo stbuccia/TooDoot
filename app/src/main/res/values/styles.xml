@@ -8,6 +8,7 @@
         <item name="colorOnBackground">@color/design_default_color_background</item>
         <item name="colorOnPrimary">@color/design_default_color_on_primary</item>
         <item name="android:actionButtonStyle">@style/Theme.MyApp.ActionBarStyle</item>
+        <item name="colorControlHighlight">@color/design_default_color_primary</item>
 
     </style>
 

@@ -160,4 +160,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
     public String getCharString(){
         return charString;
     }
+
+    public void setTasklistFiltered(ArrayList<Task> list){
+        tasklistFiltered = list;
+        notifyDataSetChanged();
+    }
 }

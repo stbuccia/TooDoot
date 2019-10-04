@@ -79,8 +79,7 @@ public class PriorityDialog extends ButtonsDialog{
                 public void onClick(View view) {
                     showPriorityDialog();
                 }
-            });/*
-            addChip();*/
+            });
             chip.setOnCloseIconClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

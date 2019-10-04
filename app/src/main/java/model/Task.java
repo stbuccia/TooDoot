@@ -1,5 +1,6 @@
 package model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -13,11 +14,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -312,6 +315,27 @@ public class Task implements Serializable {
             if (!allLists.contains(newLists.get(i)))
                 allLists.add(newLists.get(i));
         }
+    }
+
+    public static  ArrayList<Task>  getTasksWithDate(Context context, Activity activity, Date date){
+        ArrayList<Task> all_tasks = getSavedTasks(context, activity);
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+
+        String dateStr = ((SimpleDateFormat) formatter).format(date);
+        ArrayList<Task> tasks = new ArrayList<>();
+
+        for (int i = 0; i < all_tasks.size(); i++){
+            String taskDate;
+            if (all_tasks.get(i).creation_date != null)
+                taskDate = ((SimpleDateFormat) formatter).format(all_tasks.get(i).creation_date);
+            else
+                taskDate = ((SimpleDateFormat) formatter).format((new Date()).getTime());
+
+            if (dateStr.equals(taskDate))
+                tasks.add(all_tasks.get(i));
+        }
+        return tasks;
     }
 
     public static ArrayList<String> getAllTags(){

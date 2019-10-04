@@ -159,7 +159,14 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             @Override
             public void onClick(View v) {
                 if (editText.getText().toString() != "") {
-                    TodoFragment todoFragment = (TodoFragment) getActivity().getSupportFragmentManager().findFragmentById(id.fragment_container);
+                    TodoFragment todoFragment;
+                    try {
+                        todoFragment = (TodoFragment) getActivity().getSupportFragmentManager().findFragmentById(id.fragment_container);
+                    }
+                    catch (Exception e ){
+                        todoFragment = (TodoFragment)(getActivity().getSupportFragmentManager().findFragmentById(id.fragment_container)).getFragmentManager().findFragmentById(id.container);
+                    }
+
                     todoFragment.insertTask(new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists()));
                     AddTaskFragment.super.dismiss();
 

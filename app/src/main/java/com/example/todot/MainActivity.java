@@ -1,6 +1,8 @@
 package com.example.todot;
 
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.graphics.Color;
@@ -18,6 +20,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import model.Task;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,9 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
             switch (item.getItemId()) {
                 case R.id.navigation_todo: {
-                    fragment = new TodoFragment();
+                    fragment = new TodoFragment(Task.getSavedTasks(getApplicationContext(), MainActivity.this));
                     todoFragment = (TodoFragment)fragment;
                     break;
                 }
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //loading the default fragment
-        loadFragment(new TodoFragment());
+        loadFragment(new TodoFragment(Task.getSavedTasks(getApplicationContext(), this)));
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -106,11 +111,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onResume(){
-        super.onResume();
-        
         //loading the default fragment
-        todoFragment = new TodoFragment();
-        loadFragment(todoFragment);
+        if (fragment == todoFragment){
+            todoFragment = new TodoFragment(Task.getSavedTasks(getApplicationContext(), this));
+            fragment = todoFragment;
+        }
+        loadFragment(fragment);
+        super.onResume();
 
     }
 
