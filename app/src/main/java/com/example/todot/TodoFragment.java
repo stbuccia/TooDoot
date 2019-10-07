@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import model.Task;
 
@@ -25,9 +26,18 @@ public class TodoFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private Date calDate = null;
 
     FloatingActionButton button;
     ArrayList<Task> myTasks = new ArrayList<Task>();
+
+    public void setCalDate(Date date){
+        calDate = date;
+    }
+
+    public Date getCalDate(){
+        return calDate;
+    }
 
     public TodoFragment(ArrayList<Task> initTasks){
         myTasks = initTasks;

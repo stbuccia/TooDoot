@@ -327,6 +327,7 @@ public class Task implements Serializable {
 
         for (int i = 0; i < all_tasks.size(); i++){
             String taskDate;
+
             if (all_tasks.get(i).creation_date != null)
                 taskDate = ((SimpleDateFormat) formatter).format(all_tasks.get(i).creation_date);
             else

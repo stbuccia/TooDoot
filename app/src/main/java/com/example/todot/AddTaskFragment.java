@@ -22,6 +22,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Calendar;
+
 import model.Task;
 
 import static com.example.todot.R.id;
@@ -67,6 +69,14 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(layout.fragment_add_task, null);
 
+        TodoFragment todoFragment;
+        try {
+            todoFragment = (TodoFragment) getActivity().getSupportFragmentManager().findFragmentById(id.fragment_container);
+        }
+        catch (Exception e ){
+            todoFragment = (TodoFragment)(getActivity().getSupportFragmentManager().findFragmentById(id.fragment_container)).getFragmentManager().findFragmentById(id.container);
+        }
+
         //focus on editext
         final TextInputEditText editText = view.findViewById(id.textInputEditText);
         editText.requestFocus();
@@ -92,6 +102,13 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             }
         };
 
+        if (todoFragment.getCalDate() != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(todoFragment.getCalDate());
+
+            calendarDialog.onDateSet(null, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        }
         //set up priority button
 
         final PriorityDialog priorityDialog = new PriorityDialog(getContext(), view, id.choose_priority_button){
@@ -155,19 +172,13 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
 
         //set up save button
         MaterialButton saveButton = view.findViewById(id.save_button);
+        final TodoFragment finalTodoFragment = todoFragment;
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (editText.getText().toString() != "") {
-                    TodoFragment todoFragment;
-                    try {
-                        todoFragment = (TodoFragment) getActivity().getSupportFragmentManager().findFragmentById(id.fragment_container);
-                    }
-                    catch (Exception e ){
-                        todoFragment = (TodoFragment)(getActivity().getSupportFragmentManager().findFragmentById(id.fragment_container)).getFragmentManager().findFragmentById(id.container);
-                    }
 
-                    todoFragment.insertTask(new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists()));
+                    finalTodoFragment.insertTask(new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists()));
                     AddTaskFragment.super.dismiss();
 
                 }

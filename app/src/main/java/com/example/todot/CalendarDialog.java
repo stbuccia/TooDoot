@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import model.Utils;
+
 public class CalendarDialog extends ButtonsDialog implements DatePickerDialog.OnDateSetListener{
 
     protected DatePickerDialog datePickerDialog;
@@ -44,12 +46,7 @@ public class CalendarDialog extends ButtonsDialog implements DatePickerDialog.On
 
     @Override
     public void onDateSet(final DatePicker datePicker, int year, int month, int day) {
-        SimpleDateFormat dateFormat;
         Calendar calendar = Calendar.getInstance();
-        if (year ==  calendar.get(Calendar.YEAR))
-            dateFormat = new SimpleDateFormat("E, dd MMM");
-        else
-            dateFormat = new SimpleDateFormat("E, dd MMM yyyy");
         calendar.set(year, month, day);
         date = calendar.getTime();
         chip_id = R.id.date_chip;
@@ -67,13 +64,10 @@ public class CalendarDialog extends ButtonsDialog implements DatePickerDialog.On
             }
         });
 
-        chip.setText(dateFormat.format(date));
+        chip.setText(Utils.getStringDate(date));
 
 
     }
-
-
-
 
     public Chip getChip(){
         return chip;

@@ -50,14 +50,14 @@ public class CalendarFragment extends Fragment {
             }
         }
         //collapse
-        collapsibleCalendar.expand(0);
+        collapsibleCalendar.expand(300);
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                collapsibleCalendar.collapse(500);
+                collapsibleCalendar.collapse(300);
             }
-        }, 1);
+        }, 301);
     }
 
     private Day getToday(){
@@ -74,6 +74,7 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view  = inflater.inflate(R.layout.fragment_calendar, null);
+
         collapsibleCalendar = view.findViewById(R.id.calendarView);
         todoFragment = new TodoFragment(Task.getTasksWithDate(getContext(), getActivity(), new Date()));
         getFragmentManager()
@@ -81,7 +82,7 @@ public class CalendarFragment extends Fragment {
                 .replace(R.id.container, todoFragment)
                 .commit();
         collapsibleCalendar.select(getToday());
-
+        todoFragment.setCalDate(new Date());
 
         collapsibleCalendar.setFirstDayOfWeek(1);
         collapsibleCalendar.setCalendarListener(new CollapsibleCalendar.CalendarListener() {
@@ -96,6 +97,7 @@ public class CalendarFragment extends Fragment {
                 myCal.set(Calendar.DAY_OF_MONTH, day.getDay());
 
                 Date date = myCal.getTime();
+                todoFragment.setCalDate(date);
                 ArrayList<Task> tasks = Task.getTasksWithDate(getContext(), getActivity(), date);
                 todoFragment.setTasks(tasks);
 
@@ -139,10 +141,6 @@ public class CalendarFragment extends Fragment {
                 setCalToDate(collapsibleCalendar.getSelectedDay());
             }
         });
-
-
-
-
 
         return view;
     }

@@ -15,7 +15,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/MyOutlinedTextInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -27,9 +27,6 @@
             android:layout_marginBottom="60dp"
             android:background="@null"
             android:hint="@string/task_name"
-            android:textColorHint="#BA000000"
-            app:boxStrokeColor="#33000000"
-            app:hintTextColor="#B3000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

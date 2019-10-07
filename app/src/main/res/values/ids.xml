@@ -4,4 +4,5 @@
     <item name="priority_chip" type="id" />
     <item name="taglistInputLayout" type="id" />
     <item name="task_date" type="id" />
+    <item name="piechart" type="id" />
 </resources>
