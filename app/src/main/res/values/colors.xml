@@ -2,4 +2,5 @@
 <resources>
     <color name="hintColor">#808080</color>
     <color name="boxStrokeColor">#33000000</color>
+    <color name="fillColor">#4741fc</color>
 </resources>
