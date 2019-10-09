@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -14,6 +13,7 @@ import com.google.android.material.button.MaterialButton;
 import com.shrikanthravi.collapsiblecalendarview.data.Day;
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -76,6 +76,8 @@ public class CalendarFragment extends Fragment {
         View view  = inflater.inflate(R.layout.fragment_calendar, null);
 
         collapsibleCalendar = view.findViewById(R.id.calendarView);
+        //collapsibleCalendar.setFirstDayOfWeek(1);
+
         todoFragment = new TodoFragment(Task.getTasksWithDate(getContext(), getActivity(), new Date()));
         getFragmentManager()
                 .beginTransaction()
@@ -84,11 +86,9 @@ public class CalendarFragment extends Fragment {
         collapsibleCalendar.select(getToday());
         todoFragment.setCalDate(new Date());
 
-        collapsibleCalendar.setFirstDayOfWeek(1);
         collapsibleCalendar.setCalendarListener(new CollapsibleCalendar.CalendarListener() {
             @Override
             public void onDaySelect() {
-
                 Day day = collapsibleCalendar.getSelectedDay();
 
                 Calendar myCal = Calendar.getInstance();
@@ -106,20 +106,25 @@ public class CalendarFragment extends Fragment {
             }
 
             @Override
-            public void onItemClick(View v) {
+            public void onItemClick(@NotNull View view) {
+
             }
 
             @Override
             public void onDataUpdate() {
+
             }
 
             @Override
             public void onMonthChange() {
+
             }
 
             @Override
-            public void onWeekChange(int position) {
+            public void onWeekChange(int i) {
+
             }
+
         });
 
         MaterialButton todayButton = view.findViewById(R.id.today_button);

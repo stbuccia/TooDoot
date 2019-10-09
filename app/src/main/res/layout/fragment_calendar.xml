@@ -27,7 +27,8 @@
             app:selectedItem_textColor="@color/design_default_color_primary"
             app:textColor="@color/hintColor"
             app:todayItem_background="@drawable/circle_stroke"
-            app:todayItem_textColor="@color/hintColor" />
+            app:todayItem_textColor="@color/hintColor"
+            />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/today_button"

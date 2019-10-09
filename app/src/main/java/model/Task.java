@@ -328,10 +328,7 @@ public class Task implements Serializable {
         for (int i = 0; i < all_tasks.size(); i++){
             String taskDate;
 
-            if (all_tasks.get(i).creation_date != null)
-                taskDate = ((SimpleDateFormat) formatter).format(all_tasks.get(i).creation_date);
-            else
-                taskDate = ((SimpleDateFormat) formatter).format((new Date()).getTime());
+            taskDate = ((SimpleDateFormat) formatter).format(all_tasks.get(i).getDate());
 
             if (dateStr.equals(taskDate))
                 tasks.add(all_tasks.get(i));
@@ -397,5 +394,14 @@ public class Task implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getDate(){
+        if (completation_date != null)
+            return completation_date;
+        else if (creation_date != null)
+            return creation_date;
+        else
+            return new Date();
     }
 }

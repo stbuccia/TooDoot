@@ -18,7 +18,9 @@ import android.widget.Toast;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -26,6 +28,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -33,22 +37,32 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import model.Task;
+import model.Utils;
 
 public class GraphicFragment extends Fragment {
     private PieChart pieChart;
     private LineChart lineChart;
-    private RadioGroup radioGroup;
+    private RadioGroup radioGroupPie;
     private TextView rate;
     private String listSel;
     private String tagSel;
     private ArrayList<Task> tasks;
     private String all = "All";
+    private RadioGroup radioGroupLine;
+    private ArrayList<Date> xValues = new ArrayList<>();
+    private ArrayList<Entry> yValues = new ArrayList<>();
 
+
+    private boolean isTaskinDate(Task task, Date start, Date end){
+        return ((task.getDate().equals(end) ||task.getDate().before(end)) && (task.getDate().equals(start) || task.getDate().after(start)));
+    }
     @SuppressLint("DefaultLocale")
     public void setPieChart(){
 
@@ -69,25 +83,23 @@ public class GraphicFragment extends Fragment {
         ArrayList<PieEntry> values = new ArrayList<>();
 
 
-        Calendar startDate = Calendar.getInstance();
-        Calendar endDate = Calendar.getInstance();
+        Calendar startDate = Utils.initCalendar();
+
+        Calendar endDate = Utils.initCalendar();
         boolean noDate = false;
 
-        int index = radioGroup.indexOfChild(radioGroup.findViewById(radioGroup.getCheckedRadioButtonId()));
+        int index = radioGroupPie.indexOfChild(radioGroupPie.findViewById(radioGroupPie.getCheckedRadioButtonId()));
         if (index >= 1) {
-            startDate.set(Calendar.HOUR_OF_DAY, 0);
-            endDate.set(Calendar.HOUR_OF_DAY, 23);
-            endDate.set(Calendar.MINUTE, 59);
-            endDate.set(Calendar.SECOND, 59);
-            endDate.set(Calendar.MILLISECOND, 999);
+            startDate = Utils.setStartDay(startDate);
+            endDate = Utils.setEndDay(endDate);
         }
         if (index >= 2){
-            startDate.set(Calendar.DAY_OF_WEEK, startDate.getFirstDayOfWeek());
-            endDate.set(Calendar.DAY_OF_WEEK, startDate.getFirstDayOfWeek() + 6);
+            startDate = Utils.setStartWeek(startDate);
+            endDate = Utils.setEndWeek(endDate);
         }
         if (index >= 3){
-            startDate.set(Calendar.DAY_OF_MONTH, 1);
-            endDate.set(Calendar.DAY_OF_MONTH, Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
+            startDate = Utils.setStartMonth(startDate);
+            endDate = Utils.setEndMonth(endDate);
         }
         if (index == 0){
             noDate = true;
@@ -97,11 +109,7 @@ public class GraphicFragment extends Fragment {
         int countUncompleted = 0;
 
         for (int i = 0; i < tasks.size(); i++){
-            if (noDate || tasks.get(i).getCreation_date() == null
-                            || (tasks.get(i).getCreation_date().before(endDate.getTime())
-                            && tasks.get(i).getCreation_date().after(startDate.getTime())
-                    ))
-            {
+            if (noDate  || isTaskinDate (tasks.get(i), startDate.getTime(), endDate.getTime())) {
                 if (tasks.get(i).isComplete())
                     countCompleted++;
                 else if (!tasks.get(i).isComplete()) {
@@ -132,8 +140,116 @@ public class GraphicFragment extends Fragment {
 
     }
 
-    private void setLineChart(){
+    private int countComplete(Calendar start, Calendar end){
+        int countTask = 0;
+        for (int j = 0; j < tasks.size(); j++) {
+            if (isTaskinDate(tasks.get(j), start.getTime(), end.getTime()) && tasks.get(j).isComplete())
+                countTask++;
+        }
+        return countTask;
+    }
 
+    private void setLineXYValues(int index) {
+
+        int numberOfX = 7;
+
+        int countTask;
+        Calendar start = Utils.initCalendar();
+        Calendar end = Utils.initCalendar();
+        if (index == 0) {
+            start.add(Calendar.DAY_OF_MONTH, (-1) * (numberOfX - 1));
+            end.add(Calendar.DAY_OF_MONTH, (-1) * (numberOfX - 1));
+        }
+        else if (index == 1) {
+            start.add(Calendar.WEEK_OF_YEAR, (-1) * (numberOfX - 1));
+            end.add(Calendar.WEEK_OF_YEAR, (-1) * (numberOfX - 1));
+        }
+        else {
+            start.add(Calendar.MONTH, (-1) * (numberOfX - 1));
+            end.add(Calendar.MONTH, (-1) * (numberOfX - 1));
+
+        }
+
+        for (int i = 0; i < numberOfX; i++) {
+            if (index == 0) {
+                start = Utils.setStartDay(start);
+                end = Utils.setEndDay(end);
+                countTask = countComplete(start, end);
+                xValues.add(start.getTime());
+                start.add(Calendar.DAY_OF_MONTH, 1);
+                end.add(Calendar.DAY_OF_MONTH, 1);
+
+            } else if (index == 1) {
+                start = Utils.setStartWeek(start);
+                end = Utils.setEndWeek(end);
+                countTask = countComplete(start, end);
+                xValues.add(start.getTime());
+                start.add(Calendar.WEEK_OF_YEAR, 1);
+                end.add(Calendar.WEEK_OF_YEAR, 1);
+
+            } else {
+                start = Utils.setStartMonth(start);
+                end = Utils.setEndMonth(end);
+                countTask = countComplete(start, end);
+                xValues.add(start.getTime());
+                start.add(Calendar.MONTH, 1);
+                end.add(Calendar.MONTH, 1);
+            }
+            yValues.add(new Entry(i, countTask));
+
+        }
+
+    }
+
+    public class XAxisValueFormatter extends  ValueFormatter{
+        private ArrayList<Date> values;
+        private int index;
+
+        public XAxisValueFormatter(ArrayList<Date>  values, int i){
+            index = i;
+            this.values = values;
+        }
+
+        @Override
+        public String getFormattedValue(float value) {
+            DateFormat dateFormat;
+            String s;
+            if (index == 0) {
+                dateFormat = new SimpleDateFormat("dd");
+                s = dateFormat.format(values.get((int)value));
+            }
+            else if (index == 1) {
+                dateFormat = new SimpleDateFormat("dd-");
+                s = dateFormat.format(values.get((int)value));
+
+                dateFormat = new SimpleDateFormat("dd");
+                Calendar calendar = Utils.initCalendar();
+                calendar.setTime(values.get((int)value));
+                calendar.add(Calendar.DAY_OF_MONTH, 6);
+                s += dateFormat.format(calendar.getTime());
+
+            }
+            else {
+                dateFormat = new SimpleDateFormat("MMM");
+                s = dateFormat.format(values.get((int)value));
+            }
+            return s;
+        }
+    }
+
+    public class YAxisValueFormatter extends  ValueFormatter {
+
+        @Override
+        public String getFormattedValue(float value) {
+            return (int)value + "";
+        }
+    }
+
+    private void setLineChart(){
+        xValues = new ArrayList<>();
+        yValues = new ArrayList<>();
+
+        //set up graphic chart
         lineChart.getXAxis().setDrawGridLines(false);
         lineChart.getXAxis().setDrawAxisLine(false);
         lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -157,38 +273,46 @@ public class GraphicFragment extends Fragment {
         lineChart.setDrawMarkers(false);
         lineChart.setHighlightPerTapEnabled(false);
         lineChart.setHighlightPerDragEnabled(false);
-        lineChart.animateY(1000);
+        lineChart.animateY(500);
 
-        ArrayList<Entry> yValues = new ArrayList<>();
+        int index = radioGroupLine.indexOfChild(radioGroupLine.findViewById(radioGroupLine.getCheckedRadioButtonId()));
 
-        yValues.add(new Entry(0, 60));
-        yValues.add(new Entry(1, 70));
-        yValues.add(new Entry(2, 50));
-        yValues.add(new Entry(3, 50));
-        yValues.add(new Entry(4, 40));
-        yValues.add(new Entry(5, 0));
-        yValues.add(new Entry(6, 50));
-
-        LineDataSet set1 = new LineDataSet(yValues, "Data set 1");
-        set1.setFillColor(getResources().getColor(R.color.fillColor));
-        set1.setDrawFilled(true);
-        set1.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        setLineXYValues(index);
 
 
-        set1.setLineWidth(3f);
-        set1.setValueTextSize(12f);
-        set1.setColor(getResources().getColor(R.color.design_default_color_primary));
-        set1.setCircleColor(getResources().getColor(R.color.design_default_color_primary));
 
+        LineDataSet set = new LineDataSet(yValues, "Task Completed");
+        set.setFillColor(getResources().getColor(R.color.fillColor));
+        set.setDrawFilled(true);
+        set.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+
+
+        set.setLineWidth(3f);
+        set.setValueTextSize(12f);
+        set.setColor(getResources().getColor(R.color.design_default_color_primary));
+        set.setCircleColor(getResources().getColor(R.color.design_default_color_primary));
+
+        set.setValueFormatter(new YAxisValueFormatter());
 
         LineData data = new LineData();
-        data.addDataSet(set1);
+        data.addDataSet(set);
         lineChart.setData(data);
 
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setValueFormatter(new XAxisValueFormatter(xValues, index));
+        xAxis.setGranularity(1);
+
+
+        YAxis yAxisL = lineChart.getAxisLeft();
+        yAxisL.setValueFormatter(new YAxisValueFormatter());
+        YAxis yAxisR = lineChart.getAxisRight();
+        yAxisR.setValueFormatter(new YAxisValueFormatter());
     }
 
     private void setMenu(View view, ArrayList<String> lists, int dropdown_menu, int dropdown_list, final boolean isList){
-        ArrayList<String> suggestion = lists;
+        ArrayList<String> suggestion = new ArrayList<>();
+        for (int i = 0; i < lists.size(); i++)
+            suggestion.add(lists.get(i));
         if (!suggestion.contains(all))
             suggestion.add(0, all);
         ArrayAdapter<String> adapter =
@@ -213,8 +337,7 @@ public class GraphicFragment extends Fragment {
                 filter();
                 setPieChart();
             }
-        });
-    }
+        });    }
 
     private void filter(){
         tasks = Task.getSavedTasks(getContext(), getActivity());
@@ -232,17 +355,17 @@ public class GraphicFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_graphic, null);
         tasks = Task.getSavedTasks(getContext(), getActivity());
 
-
+        //Chart Pie
         pieChart = (PieChart) view.findViewById(R.id.piechart);
-        TextView textView = (TextView) view.findViewById(R.id.piename);
+        TextView textViewPie = (TextView) view.findViewById(R.id.piename);
         rate = (TextView) view.findViewById(R.id.rate);
 
-        textView.setText("Completation Rate");
+        textViewPie.setText("Completation Rate");
 
-        radioGroup = view.findViewById(R.id.radioGroup);
-        radioGroup.check(R.id.all_radio);
+        radioGroupPie = view.findViewById(R.id.radioGroup);
+        radioGroupPie.check(R.id.all_radio);
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radioGroupPie.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 setPieChart();
@@ -251,13 +374,29 @@ public class GraphicFragment extends Fragment {
 
         setPieChart();
 
+
+        //Chart Line
         lineChart = (LineChart) view.findViewById(R.id.line_chart);
+        TextView textViewLine = (TextView) view.findViewById(R.id.linename);
+
+        textViewLine.setText("Completation Dates");
+
+        radioGroupLine = view.findViewById(R.id.radioGroup_line);
+        radioGroupLine.check(R.id.day_radio_line);
+
+        radioGroupLine.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                setLineChart();
+            }
+        });
+
         setLineChart();
 
+
+        //List and tags dropdown
         setMenu(view, Task.getAllLists(), R.layout.dropdown_popup_menuitem, R.id.list_dropdown, true);
         setMenu(view, Task.getAllTags(), R.layout.dropdown_popup_menuitem, R.id.tag_dropdown, false);
-
-
 
         return view;
     }

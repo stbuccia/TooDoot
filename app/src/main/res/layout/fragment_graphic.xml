@@ -173,19 +173,64 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/linename"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:textColor="@color/design_default_color_on_secondary"
+                    android:textSize="18sp"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    card_view:layout_constraintStart_toStartOf="@+id/linename"
+                    card_view:layout_constraintTop_toBottomOf="@+id/linename">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/day_radio_line"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:paddingLeft="0dp"
+                        android:text="Day"
+                        android:textColor="@color/radio_text_color" />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/week_radio_line"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:paddingLeft="0dp"
+                        android:text="Week"
+                        android:textColor="@color/radio_text_color" />
+
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/month_radio_line"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:paddingLeft="0dp"
+                        android:text="Month"
+                        android:textColor="@color/radio_text_color" />
+                </RadioGroup>
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/line_chart"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     card_view:layout_constraintBottom_toBottomOf="parent"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toTopOf="parent" />
+                    card_view:layout_constraintStart_toStartOf="@+id/linename"
+                    card_view:layout_constraintTop_toBottomOf="@+id/radioGroup_line" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
