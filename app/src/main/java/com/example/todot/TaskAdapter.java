@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 
 import model.Task;
+import model.Utils;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> implements Filterable {
     private ArrayList<Task> tasklist;
@@ -105,7 +106,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
                 else {
                     ArrayList<Task> filteredList = new ArrayList<>();
                     for (Task row : tasklist){
-                        if (row.getTextdef().toLowerCase().contains(charString.toLowerCase())){
+                        if (Utils.match(charString, row.getTextdef())){
                             filteredList.add(row);
                         }
                     }

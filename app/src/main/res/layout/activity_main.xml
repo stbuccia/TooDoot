@@ -8,14 +8,17 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/app_toolbar"
+        style="@style/Theme.MyApp.ActionBarStyle"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        app:titleTextColor="@color/design_default_color_on_primary"
+        android:paddingStart="@dimen/default_gap"
+        android:paddingEnd="@dimen/default_gap"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/design_default_color_on_primary" />
 
     <FrameLayout
         android:id="@+id/fragment_container"

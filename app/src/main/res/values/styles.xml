@@ -9,11 +9,11 @@
         <item name="colorOnPrimary">@color/design_default_color_on_primary</item>
         <item name="android:actionButtonStyle">@style/Theme.MyApp.ActionBarStyle</item>
         <item name="colorControlHighlight">@color/design_default_color_primary</item>
-
     </style>
 
     <style name="Theme.MyApp.ActionBarStyle" parent="Widget.MaterialComponents.Light.ActionBar.Solid">
-        <item name="android:titleTextStyle">@style/Theme.MyApp.ActionBar.TitleTextStyle</item>
+        <item name="android:textColor">@color/design_default_color_on_primary</item>
+        <item name="iconTint">@color/design_default_color_on_primary</item>
     </style>
 
     <style name="Theme.MyApp.ActionBar.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">

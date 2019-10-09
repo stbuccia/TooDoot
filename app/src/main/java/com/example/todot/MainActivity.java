@@ -1,17 +1,16 @@
 package com.example.todot;
 
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +26,7 @@ import model.Task;
 public class MainActivity extends AppCompatActivity {
     TodoFragment todoFragment;
     Fragment fragment = null;
+    MenuItem searchItem;
     private boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
@@ -47,14 +47,17 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_todo: {
+                    searchItem.setVisible(true);
                     fragment = new TodoFragment(Task.getSavedTasks(getApplicationContext(), MainActivity.this));
                     todoFragment = (TodoFragment)fragment;
                     break;
                 }
                 case R.id.navigation_calendar:
+                    searchItem.setVisible(true);
                     fragment = new CalendarFragment();
                     break;
                 case R.id.navigation_graphic:
+                    searchItem.setVisible(false);
                     fragment = new GraphicFragment();
                     break;
             }
@@ -66,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.app_toolbar);
-        setSupportActionBar(myToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
+        setSupportActionBar(toolbar);
 
 
         //loading the default fragment
@@ -84,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.activity_main_action, menu);
 
-
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        searchItem = menu.findItem(R.id.app_bar_search);
+        searchItem.getIcon().setTint(Color.WHITE);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
 
@@ -100,11 +103,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 todoFragment.filter(newText);
                 return false;
             }
         });
+
+        //set search colors
+        TextView textView = (TextView) searchView.findViewById(R.id.search_src_text);
+        ImageView searchIcon = searchView.findViewById(R.id.search_button);
+        ImageView closeIcon = searchView.findViewById(R.id.search_close_btn);
+        View v = searchView.findViewById(R.id.search_plate);
+        v.setBackgroundColor(getResources().getColor(R.color.design_default_color_primary));
+        searchIcon.setColorFilter(getResources().getColor(R.color.design_default_color_on_primary));
+        closeIcon.setColorFilter(getResources().getColor(R.color.design_default_color_secondary));
+        textView.setTextColor(getResources().getColor(R.color.design_default_color_on_primary));
+        textView.setHintTextColor(getResources().getColor(R.color.design_default_color_secondary));
+        textView.setHint("Search Name +List @Tag (P)");
 
         return true;
     }

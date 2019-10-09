@@ -1,6 +1,9 @@
 package model;
 
+import android.widget.Toast;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -72,5 +75,25 @@ public class Utils {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         return cal;
+    }
+
+    public static boolean match(String s, String tocompare){
+        s = s.toLowerCase();
+        tocompare = tocompare.toLowerCase();
+        String [] words = s.split(" ");
+        String [] list = tocompare.split(" ");
+
+        boolean exist = true;
+
+        for (int i = 0; (i < words.length && exist); i++){
+            exist = false;
+            for (int j = 0; (j < list.length && !exist); j++){
+                if (list[j].contains(words[i])){
+                    exist = true;
+                    list[j] = "";
+                }
+            }
+        }
+        return exist;
     }
 }

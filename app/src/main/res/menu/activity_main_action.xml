@@ -10,7 +10,4 @@
         android:iconTint="@color/design_default_color_on_primary"
         app:showAsAction="ifRoom" tools:targetApi="o"/>
 
-    <item
-        android:title="@string/setting"
-        android:iconTint="@color/design_default_color_on_primary" tools:targetApi="o"/>
 </menu>

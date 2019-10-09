@@ -337,7 +337,8 @@ public class GraphicFragment extends Fragment {
                 filter();
                 setPieChart();
             }
-        });    }
+        });
+    }
 
     private void filter(){
         tasks = Task.getSavedTasks(getContext(), getActivity());
