@@ -98,6 +98,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             public void onDateSet(final DatePicker datePicker, int year, int month, int day){
                 super.onDateSet(datePicker, year, month, day);
                 chip.setChipIconResource(R.drawable.ic_event);
+                chip.setChipBackgroundColorResource(R.color.calColor);
                 if (chipgroup.findViewById(chip_id) == null) addChip();
             }
         };
@@ -117,6 +118,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
                 super.onPrioritySet(val);
                 if (val > 1 ) {
                     chip.setChipIconResource(R.drawable.ic_priority_24px);
+                    chip.setChipBackgroundColorResource(R.color.priorityColor);
                     if (chipgroup.findViewById(chip_id) == null) addChip();
                 }
 
@@ -124,7 +126,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
         };
         //set up tag button
 
-        final ListDialog tagDialog = new ListDialog(getContext(), view, id.choose_tag_button, getAllTags(), "Set Tags", 0){
+        final ListDialog tagDialog = new ListDialog(getContext(), view, id.choose_tag_button, getAllTags(), "Set Tags", 0, R.color.tagColor){
             @Override
             public void onListSet(){
                         
@@ -141,13 +143,14 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
                 for(int i = 0; i < getLists().size(); i++ ) {
                     chip = super.list_chips[i];
                     chip.setChipIconResource(R.drawable.ic_tag_24px);
+                    chip.setChipBackgroundColorResource(R.color.tagColor);
                     addChip();
                 }
             }
         };
 
 
-        final ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button, getAllLists(), "Set Lists", 500){
+        final ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button, getAllLists(), "Set Lists", 500, R.color.listColor){
             @Override
             public void onListSet() {
                 if (list_chips != null)
@@ -164,6 +167,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
                 for(int i = 0; i < getLists().size(); i++ ) {
                     chip = super.list_chips[i];
                     chip.setChipIconResource(R.drawable.ic_list_18px);
+                    chip.setChipBackgroundColorResource(R.color.listColor);
                     addChip();
                 }
             }

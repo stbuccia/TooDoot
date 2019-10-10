@@ -3,6 +3,8 @@ package com.example.todot;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +13,19 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import model.Priority;
 import model.Task;
 import model.Utils;
 
@@ -32,13 +39,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleView;
         public CheckBox checkButton;
+        public TextView taskDate;
+        public LinearLayout linearLayout;
+        public ConstraintLayout constraintLayout;
 
         public ViewHolder(View v) {
             super(v);
             titleView = (TextView) v.findViewById(R.id.taskname);
             titleView.setGravity(Gravity.CENTER_VERTICAL);
-
+            taskDate = (TextView) v.findViewById(R.id.date_textview);
+            linearLayout = (LinearLayout) v.findViewById(R.id.task_info);
             checkButton = v.findViewById(R.id.checkBox);
+            constraintLayout = v.findViewById(R.id.constraint);
         }
     }
 
@@ -60,6 +72,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         holder.titleView.setText(tasklistFiltered.get(position).getName());
         holder.checkButton.setChecked(task.isComplete());
 
+        DateFormat dateFormat = new SimpleDateFormat("dd MMM");
+        holder.taskDate.setText(dateFormat.format(task.getDate()));
+        holder.taskDate.setTextColor(holder.taskDate.getResources().getColor(R.color.calColor));
+
+        holder.linearLayout.removeAllViews();
+        int i;
+        if (!task.getPriority().isNull())
+            holder.linearLayout.addView(createTextView(holder.linearLayout, task.getPriority().getCharValue() + "", holder.linearLayout.getResources().getColor(R.color.priorityColor)));
+        for (i = 0; i < task.getLists().size(); i++){
+            holder.linearLayout.addView(createTextView(holder.linearLayout, task.getLists().get(i), holder.linearLayout.getResources().getColor(R.color.listColor)));
+        }
+        for (i = 0; i < task.getTags().size(); i++){
+            holder.linearLayout.addView(createTextView(holder.linearLayout, task.getTags().get(i), holder.linearLayout.getResources().getColor(R.color.tagColor)));
+        }
         holder.checkButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
 
             @Override
@@ -75,7 +101,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
             }
         });
 
-        holder.titleView.setOnClickListener(new View.OnClickListener() {
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
@@ -85,6 +111,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
                 context.startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -166,4 +193,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         tasklistFiltered = list;
         notifyDataSetChanged();
     }
+
+    private TextView createTextView(View view, String txt, int color){
+        TextView textView = new TextView(view.getContext());
+        textView.setText(txt);
+        textView.setTextSize(12);
+        textView.setTextColor(view.getResources().getColor(R.color.design_default_color_on_primary));
+        //textView.setPadding(8, 4, 8, 4);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0,0,4,0);
+        textView.setLayoutParams(params);
+        textView.setBackgroundResource(R.drawable.tags_rounded_corners);
+        GradientDrawable drawable = (GradientDrawable) textView.getBackground();
+        drawable.setColor(color);
+        textView.setSingleLine(true);
+
+
+        return textView;
+    }
+
 }

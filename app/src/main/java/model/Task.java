@@ -145,10 +145,10 @@ public class Task implements Serializable {
         text = text.replaceAll(regex, "");
         text = text.replaceAll("\\s+"," ");
         //task name and description
-        name = text.split(" ::")[0];
+        name = text.split(" desc:")[0];
         //name = text;
-        if (text.split("::").length > 1)
-            description = text.substring(text.split(" ::")[0].length() + 3);
+        if (text.split("desc:").length > 1)
+            description = text.substring(text.split(" desc:")[0].length() + 6);
         else
             description = "";
     }
@@ -171,7 +171,7 @@ public class Task implements Serializable {
         text += name;
 
         if (description.length() != 0) {
-            text += " ::" + description;
+            text += " desc:" + description;
         }
 
         Iterator i = tags.iterator();
@@ -397,10 +397,10 @@ public class Task implements Serializable {
     }
 
     public Date getDate(){
-        if (completation_date != null)
-            return completation_date;
-        else if (creation_date != null)
+        if (creation_date != null)
             return creation_date;
+        else if (completation_date != null)
+            return completation_date;
         else
             return new Date();
     }

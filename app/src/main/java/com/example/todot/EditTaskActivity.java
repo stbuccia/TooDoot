@@ -191,6 +191,7 @@ public class EditTaskActivity extends AppCompatActivity {
                 setDateBtn();
             }
         });
+        chip.setChipBackgroundColorResource(R.color.calColor);
         return chip;
     }
 
@@ -220,6 +221,8 @@ public class EditTaskActivity extends AppCompatActivity {
                     setPriorityBtn();
                 }
             });
+        chip.setChipBackgroundColorResource(R.color.priorityColor);
+
         return chip;
 
     }
@@ -227,7 +230,7 @@ public class EditTaskActivity extends AppCompatActivity {
     public void setListBtn(){
         changeView(findViewById(R.id.list), getLayoutInflater().inflate(R.layout.add_list_button, (ViewGroup)findViewById(R.id.list).getParent(), false) );
 
-        listDialog = new ListDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_lists, getAllLists(), "Set Lists", 500){
+        listDialog = new ListDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_lists, getAllLists(), "Set Lists", 500, R.color.listColor){
             @Override
             public void onListSet(){
                 super.onListSet();
@@ -255,6 +258,8 @@ public class EditTaskActivity extends AppCompatActivity {
                             setListBtn();
                     }
                 });
+                chips[i].setChipBackgroundColorResource(R.color.listColor);
+
             }
         }
         return chips;
@@ -264,7 +269,7 @@ public class EditTaskActivity extends AppCompatActivity {
     public void setTagBtn(){
         changeView(findViewById(R.id.tag), getLayoutInflater().inflate(R.layout.add_tag_button, (ViewGroup)findViewById(R.id.tag).getParent(), false) );
 
-        tagDialog = new ListDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_tags, getAllTags(), "Set Tags", 0) {
+        tagDialog = new ListDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_tags, getAllTags(), "Set Tags", 0, R.color.tagColor) {
             @Override
             public void onListSet(){
                 super.onListSet();
@@ -292,6 +297,7 @@ public class EditTaskActivity extends AppCompatActivity {
                             setTagBtn();
                     }
                 });
+                chips[i].setChipBackgroundColorResource(R.color.tagColor);
             }
 
         }

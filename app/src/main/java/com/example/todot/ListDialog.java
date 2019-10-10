@@ -24,8 +24,9 @@ public class ListDialog extends ButtonsDialog {
     private ArrayList<String> allLists = new ArrayList<String>();
     private String title;
     private int startId;
+    private int colorRes;
 
-    public ListDialog(final Context context, View view, int idButton, ArrayList<String> all, String name, int id){
+    public ListDialog(final Context context, View view, int idButton, ArrayList<String> all, String name, int id, int res){
         super(context, view, idButton);
         setListener(new View.OnClickListener() {
             @Override
@@ -36,6 +37,7 @@ public class ListDialog extends ButtonsDialog {
         allLists = all;
         title = name;
         startId = id;
+        colorRes = res;
 
 
     }
@@ -72,6 +74,7 @@ public class ListDialog extends ButtonsDialog {
         text.setText(lists);
         text.setInputType(InputType.TYPE_CLASS_TEXT);
         text.addChipTerminator(' ', ChipTerminatorHandler.BEHAVIOR_CHIPIFY_TO_TERMINATOR);
+        text.setChipBackgroundResource(colorRes);
         text.enableEditChipOnTouch(false, true);
 
         text.addTextChangedListener(new TextWatcher() {

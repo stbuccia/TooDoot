@@ -3,4 +3,8 @@
     <color name="hintColor">#808080</color>
     <color name="boxStrokeColor">#33000000</color>
     <color name="fillColor">#4741fc</color>
+    <color name="calColor">#4797D0</color>
+    <color name="priorityColor">#D28044</color>
+    <color name="listColor">#B3B636</color>
+    <color name="tagColor">#F0C332</color>
 </resources>

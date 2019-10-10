@@ -38,6 +38,10 @@ public class Priority implements Serializable {
             return (int)(c - 'A') + 1;
     }
 
+    public boolean isNull(){
+        return value == defaultVal;
+    }
+
     public char getCharValue(){
         return fromIntToChar(value);
     }

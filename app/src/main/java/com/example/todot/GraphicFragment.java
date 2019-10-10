@@ -117,6 +117,9 @@ public class GraphicFragment extends Fragment {
                 }
             }
         }
+        if (countCompleted + countUncompleted == 0)
+            countUncompleted = 1;
+
         values.add(new PieEntry(countCompleted, "Completed"));
         values.add(new PieEntry(countUncompleted, "Uncompleted"));
 
@@ -131,10 +134,7 @@ public class GraphicFragment extends Fragment {
         pieChart.setData(data);
 
         String s = "";
-        if (countCompleted + countUncompleted != 0)
             s = String.format("%d", (int)(countCompleted * 100 / (countCompleted + countUncompleted)));
-        else
-            s = String.format("0");
         s += "%";
         rate.setText(s);
 
@@ -336,6 +336,7 @@ public class GraphicFragment extends Fragment {
                     tagSel = editTextFilledExposedDropdown.getText().toString();
                 filter();
                 setPieChart();
+                setLineChart();
             }
         });
     }
