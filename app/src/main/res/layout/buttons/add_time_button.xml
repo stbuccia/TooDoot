@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/time"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/MyHorizontalScrollBar"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="@+id/select_time_button"
+    app:layout_constraintStart_toStartOf="@+id/date"
+    app:layout_constraintTop_toTopOf="@+id/select_time_button" >
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/task_time"
+        android:background="@null"
+        android:text="Add Time"
+        style="@style/MyAddButton"/>
+
+</HorizontalScrollView>

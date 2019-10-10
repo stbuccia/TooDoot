@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/MyHorizontalScrollBar"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="@+id/choose_list_button"
+    app:layout_constraintStart_toStartOf="@+id/time"
+    app:layout_constraintTop_toTopOf="@+id/choose_list_button" >
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/task_lists"
+        android:text="Add List"
+        android:background="@null"
+        style="@style/MyAddButton"/>
+
+</HorizontalScrollView>

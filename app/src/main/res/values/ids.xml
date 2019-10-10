@@ -5,4 +5,5 @@
     <item name="taglistInputLayout" type="id" />
     <item name="task_date" type="id" />
     <item name="piechart" type="id" />
+    <item name="time_chip" type="id" />
 </resources>

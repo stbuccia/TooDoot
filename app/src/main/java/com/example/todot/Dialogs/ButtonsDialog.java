@@ -16,7 +16,7 @@ import com.google.android.material.chip.ChipGroup;
 
 public class ButtonsDialog extends Dialog {
     protected Context context;
-    private MaterialButton button;
+    protected MaterialButton button;
     protected View view;
     protected ChipGroup chipgroup;
     protected View.OnClickListener onClickListener;

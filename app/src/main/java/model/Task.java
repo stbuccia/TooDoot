@@ -39,6 +39,7 @@ public class Task implements Serializable {
     List<String> lists = new ArrayList<String>();
     private Date creation_date = null;
     private Date completation_date;
+    private Date time;
     private static ArrayList<String> allTags = new ArrayList<>();
     private static ArrayList<String> allLists = new ArrayList<>();
 
@@ -66,11 +67,11 @@ public class Task implements Serializable {
     }
 
 
-    public Task(String n, String d, Date date, char p, ArrayList<String> t, ArrayList<String> l) {
+    public Task(String n, String d, Date date, Date tim, char p, ArrayList<String> t, ArrayList<String> l) {
         name = n;
         description = d;
-        if (date != null)
-            creation_date = date;
+        creation_date = date;
+        time = tim;
         if (p != ' ')
             priority = new Priority(Priority.fromCharToInt(p));
         if (t.size() != 0) {
@@ -144,9 +145,25 @@ public class Task implements Serializable {
         }
         text = text.replaceAll(regex, "");
         text = text.replaceAll("\\s+"," ");
-        //task name and description
+        //time
+        regex = "time:[0-2][0-9]:[0-5][0-9]";
+
+        pattern = Pattern.compile(regex);
+        matcher = pattern.matcher(text);
+        try {
+            if (matcher.find()) {
+                time = (Utils.timeFormat()).parse(text.substring(matcher.start() + 5, matcher.end()));
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        text = text.replaceAll(regex, "");
+
+        //task name and description and time
         name = text.split(" desc:")[0];
         //name = text;
+
         if (text.split("desc:").length > 1)
             description = text.substring(text.split(" desc:")[0].length() + 6);
         else
@@ -171,7 +188,11 @@ public class Task implements Serializable {
         text += name;
 
         if (description.length() != 0) {
-            text += " desc:" + description;
+            text += " desc:" + description + " ";
+        }
+
+        if (time != null){
+            text += " time:" + Utils.timeFormat().format(time) + " ";
         }
 
         Iterator i = tags.iterator();
@@ -394,6 +415,14 @@ public class Task implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setTime(Date t){
+        time = t;
+    }
+
+    public Date getTime(){
+        return time;
     }
 
     public Date getDate(){

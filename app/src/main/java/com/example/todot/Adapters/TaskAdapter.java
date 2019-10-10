@@ -79,7 +79,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         holder.linearLayout.removeAllViews();
         int i;
         if (!task.getPriority().isNull())
-            holder.linearLayout.addView(createTextView(holder.linearLayout, task.getPriority().getCharValue() + "", holder.linearLayout.getResources().getColor(R.color.priorityColor)));
+            holder.linearLayout.addView(createTextView(holder.linearLayout, task.getPriority().getCharValue() + "", holder.linearLayout.getResources().getColor(Utils.getPriorityResColor(task.getPriority().getValue()))));
         for (i = 0; i < task.getLists().size(); i++){
             holder.linearLayout.addView(createTextView(holder.linearLayout, task.getLists().get(i), holder.linearLayout.getResources().getColor(R.color.listColor)));
         }

@@ -2,6 +2,9 @@ package model;
 
 import android.widget.Toast;
 
+import com.example.todot.R;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -95,5 +98,19 @@ public class Utils {
             }
         }
         return exist;
+
+    }
+
+    public static DateFormat timeFormat(){
+        return new SimpleDateFormat("HH:mm");
+    }
+
+    public static int getPriorityResColor(int val){
+        if (val > 6)
+            return R.color.lowPriorityColor;
+        else if (val > 3)
+            return R.color.mediumPriorityColor;
+        else
+            return R.color.highPriorityColor;
     }
 }

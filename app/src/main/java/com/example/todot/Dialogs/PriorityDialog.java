@@ -8,6 +8,9 @@ import android.widget.NumberPicker;
 
 import com.google.android.material.chip.Chip;
 
+import model.Priority;
+import model.Utils;
+
 public class PriorityDialog extends ButtonsDialog{
 
 
@@ -89,6 +92,7 @@ public class PriorityDialog extends ButtonsDialog{
             });
             chip.setText(txt);
         }
+        button.setIconTintResource(Utils.getPriorityResColor(Priority.fromCharToInt(priority)));
     }
 
     public Chip getChip(){

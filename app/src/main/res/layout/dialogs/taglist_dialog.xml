@@ -66,6 +66,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         app:layout_constraintBottom_toBottomOf="parent"

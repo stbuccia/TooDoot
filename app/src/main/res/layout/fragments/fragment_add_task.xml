@@ -100,7 +100,16 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/select_date_button"
                 style="@style/MyCalIconButton"
-                app:layout_gravity="left|top" />
+                app:layout_gravity="left|top"
+                app:layout_column="4"
+                app:layout_row="0" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/select_time_button"
+                style="@style/MyTimeIconButton"
+                card_view:layout_gravity="left|top"
+                app:layout_column="5"
+                app:layout_row="0" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/save_button"

@@ -93,14 +93,11 @@
 
             <HorizontalScrollView
                 android:id="@+id/priority"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                style="@style/MyHorizontalScrollBar"
                 app:layout_constraintBottom_toBottomOf="@+id/choose_priority_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/task_description"
-                app:layout_constraintTop_toTopOf="@+id/choose_priority_button"></HorizontalScrollView>
+                app:layout_constraintTop_toTopOf="@+id/choose_priority_button"/>
 
 
 
@@ -115,16 +112,38 @@
                 android:enabled="false"/>
 
 
+
             <HorizontalScrollView
                 android:id="@+id/date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                style="@style/MyHorizontalScrollBar"
+
                 app:layout_constraintBottom_toBottomOf="@+id/select_date_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/priority"
                 app:layout_constraintTop_toTopOf="@+id/select_date_button">
+
+            </HorizontalScrollView>
+
+
+            <!--time-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/select_time_button"
+                style="@style/MyTimeIconButton"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:enabled="false"
+                app:layout_constraintStart_toStartOf="@+id/select_date_button"
+                app:layout_constraintTop_toBottomOf="@+id/select_date_button" />
+
+            <HorizontalScrollView
+                android:id="@+id/time"
+                style="@style/MyHorizontalScrollBar"
+
+                app:layout_constraintBottom_toBottomOf="@+id/select_time_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/select_time_button"
+                app:layout_constraintTop_toTopOf="@+id/select_time_button">
 
             </HorizontalScrollView>
 
@@ -134,17 +153,15 @@
                 android:id="@+id/choose_list_button"
                 style="@style/MyListIconButton"
                 android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="@+id/select_date_button"
-                app:layout_constraintTop_toBottomOf="@+id/select_date_button"
-                android:enabled="false"/>
+                android:enabled="false"
+                app:layout_constraintStart_toStartOf="@+id/select_time_button"
+                app:layout_constraintTop_toBottomOf="@+id/select_time_button" />
 
 
             <HorizontalScrollView
                 android:id="@+id/list"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                style="@style/MyHorizontalScrollBar"
+
                 app:layout_constraintBottom_toBottomOf="@+id/choose_list_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/choose_list_button"
@@ -164,9 +181,7 @@
 
             <HorizontalScrollView
                 android:id="@+id/tag"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                style="@style/MyHorizontalScrollBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@+id/choose_tag_button"
                 app:layout_constraintStart_toStartOf="@+id/list"

@@ -38,6 +38,12 @@
         <item name="colorAccent">@color/calColor</item>
     </style>
 
+    <style name="TimePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/timeColor</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="Theme.MyApp.MyIconButton" parent="Widget.MaterialComponents.Button.TextButton.Icon" >
         <item name="android:layout_width">@android:dimen/app_icon_size</item>
         <item name="android:layout_height">wrap_content</item>
@@ -56,13 +62,18 @@
     </style>
 
     <style name="MyPriorityIconButton" parent="Theme.MyApp.MyIconButton" >
-        <item name="iconTint">@color/priorityColor</item>
+        <item name="iconTint">@color/highPriorityColor</item>
         <item name="icon">@drawable/ic_priority_24px</item>
     </style>
 
     <style name="MyCalIconButton" parent="Theme.MyApp.MyIconButton" >
         <item name="iconTint">@color/calColor</item>
         <item name="icon">@drawable/ic_24px</item>
+    </style>
+
+    <style name="MyTimeIconButton" parent="Theme.MyApp.MyIconButton" >
+        <item name="iconTint">@color/timeColor</item>
+        <item name="icon">@drawable/ic_access_time_24px</item>
     </style>
 
     <style name="MyDescrIconButton" parent="Theme.MyApp.MyIconButton" >
@@ -100,7 +111,7 @@
     </style>
 
     <style name="MyPriorityChip" parent="ChipTextApperance" >
-        <item name="iconTint">@color/priorityColor</item>
+        <item name="iconTint">@color/highPriorityColor</item>
     </style>
 
     <style name="MyCalChip" parent="ChipTextApperance" >
@@ -126,6 +137,24 @@
         <item name="android:textColorHint">@color/hintColor</item>
         <item name="hintTextColor">@color/hintColor</item>
         <item name="android:textCursorDrawable">@null</item>
+    </style>
+
+    <style name="MyHorizontalScrollBar">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+
+    <style name="MyAddButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/hintColor</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
 

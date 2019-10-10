@@ -1,5 +1,6 @@
 package com.example.todot;
 
+import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -13,10 +14,12 @@ import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -24,7 +27,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 
+import model.Priority;
 import model.Task;
+import model.Utils;
 
 import static com.example.todot.R.drawable.ic_arrow_back_24px;
 import static model.Task.getAllLists;
@@ -39,9 +44,11 @@ public class EditTaskActivity extends AppCompatActivity {
     PriorityDialog priorityDialog;
     ListDialog listDialog;
     ListDialog tagDialog;
+    TimeDialog timeDialog;
     EditText name;
     EditText description;
     CheckBox checkBox;
+    MaterialButton priorityIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +63,12 @@ public class EditTaskActivity extends AppCompatActivity {
         name = findViewById(R.id.task_name);
         description = findViewById(R.id.task_description);
         checkBox = findViewById(R.id.checkBox);
+        priorityIcon = findViewById(R.id.choose_priority_button);
 
         name.setText(task.getName());
         description.setText(task.getDescription());
+        /*if (task.getTime() != null)
+            description.setText(Utils.timeFormat().format(task.getTime()));*/
         checkBox.setChecked(task.isComplete());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
@@ -84,6 +94,7 @@ public class EditTaskActivity extends AppCompatActivity {
         setPriorityBtn();
 
         setDateBtn();
+        setTimeBtn();
 
         setListBtn();
         setTagBtn();
@@ -93,6 +104,13 @@ public class EditTaskActivity extends AppCompatActivity {
             Calendar calendar = new GregorianCalendar();
             calendar.setTime(task.getCreation_date());
             calendarDialog.onDateSet(null, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+        }
+
+        if (task.getTime() != null) {
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(task.getTime());
+            timeDialog.onTimeSet(null, calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
+
         }
         listDialog.setLists(task.getLists());
         listDialog.onListSet();
@@ -116,6 +134,12 @@ public class EditTaskActivity extends AppCompatActivity {
             task.setCreation_date(calendarDialog.getDate());
         } else
             task.setCreation_date(null);
+
+        if (activity.findViewById(R.id.task_date_chipgroup) != null)
+            task.setTime(timeDialog.getTime());
+        else
+            task.setTime(null);
+
 
         if (activity.findViewById(R.id.task_priority_chipgroup) != null) {
             task.setPriority(priorityDialog.getPriority());
@@ -195,14 +219,46 @@ public class EditTaskActivity extends AppCompatActivity {
         return chip;
     }
 
+    public void setTimeBtn(){
+        changeView(findViewById(R.id.time), getLayoutInflater().inflate(R.layout.add_time_button, (ViewGroup)findViewById(R.id.time).getParent(), false) );
+        timeDialog = new TimeDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_time){
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hour, int min){
+                super.onTimeSet(timePicker, hour, min);
+                chip = setTimeChipGroup(chip);
+            }
+        };
+
+    }
+
+    public Chip setTimeChipGroup(final Chip chip) {
+        if (activity.findViewById(R.id.task_time_chipgroup) == null) {
+            changeView(activity.findViewById(R.id.time), getLayoutInflater().inflate(R.layout.time_chipgroup, (ViewGroup) activity.findViewById(R.id.time).getParent(), false));
+            ((ChipGroup) activity.findViewById(R.id.task_time_chipgroup)).addView(chip);
+        }
+        chip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((ChipGroup) activity.findViewById(R.id.task_time_chipgroup)).removeView(chip);
+                setTimeBtn();
+            }
+        });
+        chip.setChipBackgroundColorResource(R.color.timeColor);
+        return chip;
+
+    }
+
     public void setPriorityBtn(){
+        priorityIcon.setIconTintResource(Utils.getPriorityResColor(0));
         changeView(findViewById(R.id.priority), getLayoutInflater().inflate(R.layout.add_priority_button, (ViewGroup)findViewById(R.id.priority).getParent(), false) );
         priorityDialog = new PriorityDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_priority) {
             @Override
             public void onPrioritySet(int val) {
                 super.onPrioritySet(val);
                 if (priority != '0') {
+                    chip.setChipBackgroundColorResource(Utils.getPriorityResColor(Priority.fromCharToInt(priority)));
                     chip = setPriorityChipGroup(chip);
+                    priorityIcon.setIconTintResource(Utils.getPriorityResColor(Priority.fromCharToInt(priority)));
                 }
                 else setPriorityBtn();
             }
@@ -210,18 +266,17 @@ public class EditTaskActivity extends AppCompatActivity {
     }
 
     public Chip setPriorityChipGroup(final Chip chip){
-            if (activity.findViewById(R.id.task_priority_chipgroup) == null) {
-                changeView(activity.findViewById(R.id.priority), getLayoutInflater().inflate(R.layout.priority_chipgroup, (ViewGroup) activity.findViewById(R.id.priority).getParent(), false));
-                ((ChipGroup) activity.findViewById(R.id.task_priority_chipgroup)).addView(chip);
+        if (activity.findViewById(R.id.task_priority_chipgroup) == null) {
+            changeView(activity.findViewById(R.id.priority), getLayoutInflater().inflate(R.layout.priority_chipgroup, (ViewGroup) activity.findViewById(R.id.priority).getParent(), false));
+            ((ChipGroup) activity.findViewById(R.id.task_priority_chipgroup)).addView(chip);
+        }
+        chip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((ChipGroup) activity.findViewById(R.id.task_priority_chipgroup)).removeView(chip);
+                setPriorityBtn();
             }
-            chip.setOnCloseIconClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((ChipGroup) activity.findViewById(R.id.task_priority_chipgroup)).removeView(chip);
-                    setPriorityBtn();
-                }
-            });
-        chip.setChipBackgroundColorResource(R.color.priorityColor);
+        });
 
         return chip;
 

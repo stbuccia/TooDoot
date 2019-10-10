@@ -4,6 +4,7 @@ package com.example.todot;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 
@@ -24,7 +26,9 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 
+import model.Priority;
 import model.Task;
+import model.Utils;
 
 import static com.example.todot.R.id;
 import static com.example.todot.R.layout;
@@ -97,7 +101,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             @Override
             public void onDateSet(final DatePicker datePicker, int year, int month, int day){
                 super.onDateSet(datePicker, year, month, day);
-                chip.setChipIconResource(R.drawable.ic_event);
+                //chip.setChipIconResource(R.drawable.ic_event);
                 chip.setChipBackgroundColorResource(R.color.calColor);
                 if (chipgroup.findViewById(chip_id) == null) addChip();
             }
@@ -106,19 +110,31 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
         if (todoFragment.getCalDate() != null) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(todoFragment.getCalDate());
-
             calendarDialog.onDateSet(null, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
         }
-        //set up priority button
 
+        //set up time button
+        final TimeDialog timeDialog = new TimeDialog(getContext(), view, id.select_time_button){
+            @Override
+            public void onTimeSet(final TimePicker timePicker, int hour, int min){
+                super.onTimeSet(timePicker, hour, min);
+                //chip.setChipIconResource(R.drawable.ic_event);
+                chip.setChipBackgroundColorResource(R.color.timeColor);
+                if (chipgroup.findViewById(chip_id) == null) addChip();
+            }
+        };
+        //set up priority button
+        //MaterialButton iconPriority = view.findViewById(R.id.choose_priority_button);
         final PriorityDialog priorityDialog = new PriorityDialog(getContext(), view, id.choose_priority_button){
             @Override
             public void onPrioritySet(int val){
                 super.onPrioritySet(val);
                 if (val > 1 ) {
-                    chip.setChipIconResource(R.drawable.ic_priority_24px);
-                    chip.setChipBackgroundColorResource(R.color.priorityColor);
+                    char priority = (char)('A' + (val - 2));
+                    //chip.setChipIconResource(R.drawable.ic_priority_24px);
+
+                    chip.setChipBackgroundColorResource(Utils.getPriorityResColor(Priority.fromCharToInt(priority)));
                     if (chipgroup.findViewById(chip_id) == null) addChip();
                 }
 
@@ -142,7 +158,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
 
                 for(int i = 0; i < getLists().size(); i++ ) {
                     chip = super.list_chips[i];
-                    chip.setChipIconResource(R.drawable.ic_tag_24px);
+                    //chip.setChipIconResource(R.drawable.ic_tag_24px);
                     chip.setChipBackgroundColorResource(R.color.tagColor);
                     addChip();
                 }
@@ -166,7 +182,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
 
                 for(int i = 0; i < getLists().size(); i++ ) {
                     chip = super.list_chips[i];
-                    chip.setChipIconResource(R.drawable.ic_list_18px);
+                    //chip.setChipIconResource(R.drawable.ic_list_18px);
                     chip.setChipBackgroundColorResource(R.color.listColor);
                     addChip();
                 }
@@ -182,7 +198,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             public void onClick(View v) {
                 if (editText.getText().toString() != "") {
 
-                    finalTodoFragment.insertTask(new Task(editText.getText().toString(), "", calendarDialog.getDate(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists()));
+                    finalTodoFragment.insertTask(new Task(editText.getText().toString(), "", calendarDialog.getDate(), null, priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists()));
                     AddTaskFragment.super.dismiss();
 
                 }

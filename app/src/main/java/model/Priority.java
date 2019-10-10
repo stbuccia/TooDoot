@@ -8,11 +8,15 @@ public class Priority implements Serializable {
     public int minVal = 0; //0 is unknown
     public int defaultVal = 0;
 
-    Priority(int v){
+    public Priority(int v){
         if (v <= maxVal && v >= minVal)
             this.value = v;
         else
             this.value = defaultVal;
+    }
+
+    public Priority(char c){
+        new Priority(fromCharToInt(c));
     }
 
     public void setValue(int v) {
