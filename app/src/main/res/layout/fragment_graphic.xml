@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/menu_card"
@@ -16,8 +16,13 @@
             card_view:cardCornerRadius="4dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp">
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+            <HorizontalScrollView
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
 
@@ -37,7 +42,9 @@
                     <AutoCompleteTextView
                         android:id="@+id/list_dropdown"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:minWidth="100dp"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -58,10 +65,13 @@
                     <AutoCompleteTextView
                         android:id="@+id/tag_dropdown"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:minWidth="100dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+            </HorizontalScrollView>
+
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -123,39 +133,27 @@
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/all_radio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/TimeRadioButton"
                         android:button="@null"
-                        android:paddingLeft="0dp"
-                        android:text="All"
-                        android:textColor="@color/radio_text_color" />
+                        android:text="All" />
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/day_radio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/TimeRadioButton"
                         android:button="@null"
-                        android:paddingLeft="0dp"
-                        android:text="Day"
-                        android:textColor="@color/radio_text_color" />
+                        android:text="Day"/>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/week_radio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/TimeRadioButton"
                         android:button="@null"
-                        android:paddingLeft="0dp"
-                        android:text="Week"
-                        android:textColor="@color/radio_text_color" />
+                        android:text="Week"/>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/month_radio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/TimeRadioButton"
                         android:button="@null"
-                        android:paddingLeft="0dp"
-                        android:text="Month"
-                        android:textColor="@color/radio_text_color" />
+                        android:text="Month" />
                 </RadioGroup>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -195,31 +193,22 @@
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/day_radio_line"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:button="@null"
-                        android:paddingLeft="0dp"
-                        android:text="Day"
-                        android:textColor="@color/radio_text_color" />
+                        style="@style/TimeRadioButton"
+                        android:text="Day" />
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/week_radio_line"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:button="@null"
-                        android:paddingLeft="0dp"
-                        android:text="Week"
-                        android:textColor="@color/radio_text_color" />
+                        style="@style/TimeRadioButton"
+                        android:text="Week" />
 
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/month_radio_line"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:button="@null"
-                        android:paddingLeft="0dp"
-                        android:text="Month"
-                        android:textColor="@color/radio_text_color" />
+                        style="@style/TimeRadioButton"
+                        android:text="Month" />
                 </RadioGroup>
 
                 <com.github.mikephil.charting.charts.LineChart

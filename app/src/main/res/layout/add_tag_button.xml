@@ -11,7 +11,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/task_tags"
         android:background="@null"
-        android:text="Add Time"
+        android:text="Add Tag"
         style="@style/MyAddButton"/>
 
 </HorizontalScrollView>

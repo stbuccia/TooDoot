@@ -426,11 +426,25 @@ public class Task implements Serializable {
     }
 
     public Date getDate(){
+        Date date;
         if (creation_date != null)
-            return creation_date;
+            date = creation_date;
         else if (completation_date != null)
-            return completation_date;
+            date = completation_date;
         else
-            return new Date();
+            date = new Date();
+        //set time
+        Calendar calDate = Calendar.getInstance();
+        calDate.setTime(date);
+        calDate = Utils.setStartDay(calDate);
+        if (time != null){
+            Calendar calTime = Calendar.getInstance();
+            calTime.setTime(time);
+            calDate = Utils.setTime(calDate, time);
+
+        }
+        date = calDate.getTime();
+
+        return date;
     }
 }

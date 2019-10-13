@@ -1,8 +1,10 @@
 package com.example.todot;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TimePicker;
 
@@ -22,7 +24,6 @@ public class TimeDialog extends ButtonsDialog implements TimePickerDialog.OnTime
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
 
         timePickerDialog = new TimePickerDialog(context, R.style.TimePickerTheme, TimeDialog.this, hour, 0, true);
-
 
     }
 
@@ -61,8 +62,6 @@ public class TimeDialog extends ButtonsDialog implements TimePickerDialog.OnTime
         });
 
         chip.setText(Utils.timeFormat().format(time));
-
-
 
     }
 

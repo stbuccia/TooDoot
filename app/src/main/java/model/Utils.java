@@ -113,4 +113,17 @@ public class Utils {
         else
             return R.color.highPriorityColor;
     }
+
+    public static Calendar setTime(Calendar calDate, Date time){
+
+        Calendar calTime = Calendar.getInstance();
+        calTime.setTime(time);
+        int hour = calTime.get(Calendar.HOUR_OF_DAY);
+        int min = calTime.get(Calendar.MINUTE);
+
+        calDate = setStartDay(calDate);
+        calDate.set(Calendar.HOUR_OF_DAY, hour);
+        calDate.set(Calendar.MINUTE, min);
+        return calDate;
+    }
 }

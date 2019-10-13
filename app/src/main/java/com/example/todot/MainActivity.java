@@ -47,17 +47,17 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.navigation_todo: {
-                    searchItem.setVisible(true);
+                    makeSearchVisible(true);
                     fragment = new TodoFragment(Task.getSavedTasks(getApplicationContext(), MainActivity.this));
                     todoFragment = (TodoFragment)fragment;
                     break;
                 }
                 case R.id.navigation_calendar:
-                    searchItem.setVisible(true);
+                    makeSearchVisible(true);
                     fragment = new CalendarFragment();
                     break;
                 case R.id.navigation_graphic:
-                    searchItem.setVisible(false);
+                    makeSearchVisible(false);
                     fragment = new GraphicFragment();
                     break;
             }
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchItem = menu.findItem(R.id.app_bar_search);
-        searchItem.getIcon().setTint(Color.WHITE);
+        searchItem.getIcon().setTint(getResources().getColor(R.color.design_default_color_on_primary));
         SearchView searchView = (SearchView) searchItem.getActionView();
 
 
@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         //loading the default fragment
+        cleanSearchBar();
         if (fragment == todoFragment){
             todoFragment = new TodoFragment(Task.getSavedTasks(getApplicationContext(), this));
             fragment = todoFragment;
@@ -133,6 +134,28 @@ public class MainActivity extends AppCompatActivity {
         loadFragment(fragment);
         super.onResume();
 
+    }
+
+    public void makeSearchVisible(boolean isVisible){
+        searchItem.setVisible(isVisible);
+        cleanSearchBar();
+    }
+
+    @Override
+    public void onBackPressed() {
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void cleanSearchBar(){
+        if (searchItem != null) {
+            SearchView searchView = (SearchView) searchItem.getActionView();
+            searchView.setIconified(true);
+        }
     }
 
 

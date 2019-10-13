@@ -1,6 +1,5 @@
 package com.example.todot;
 
-import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -135,7 +134,7 @@ public class EditTaskActivity extends AppCompatActivity {
         } else
             task.setCreation_date(null);
 
-        if (activity.findViewById(R.id.task_date_chipgroup) != null)
+        if (activity.findViewById(R.id.task_time_chipgroup) != null)
             task.setTime(timeDialog.getTime());
         else
             task.setTime(null);

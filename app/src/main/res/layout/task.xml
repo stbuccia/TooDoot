@@ -28,7 +28,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginStart="@dimen/chip_default_padding_between_image"
+                    android:layout_marginStart="8dp"
                     android:tint="@color/design_default_color_secondary"
                     card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintStart_toStartOf="parent"
@@ -36,26 +36,26 @@
 
                 <TextView
                     android:id="@+id/taskname"
+                    android:gravity="center_vertical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="8dp"
                     android:layout_toEndOf="@+id/checkBox"
-                    android:textSize="18sp"
                     android:singleLine="true"
+                    android:textSize="18sp"
                     card_view:layout_constraintBottom_toTopOf="@+id/task_info"
                     card_view:layout_constraintEnd_toStartOf="@+id/date_textview"
-                    card_view:layout_constraintStart_toEndOf="@+id/checkBox"
-                    card_view:layout_constraintTop_toTopOf="parent" />
+                    card_view:layout_constraintStart_toEndOf="@+id/priority_textview"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintVertical_bias="0.615" />
 
                 <TextView
                     android:id="@+id/date_textview"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="6dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintEnd_toEndOf="parent"
                     card_view:layout_constraintTop_toTopOf="parent" />
 
@@ -63,12 +63,31 @@
                     android:id="@+id/task_info"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/default_gap"
                     android:layout_marginEnd="8dp"
                     android:orientation="horizontal"
-                    android:layout_marginHorizontal="@dimen/default_gap"
                     card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintEnd_toStartOf="@+id/date_textview"
-                    card_view:layout_constraintStart_toEndOf="@+id/checkBox"/>
+                    card_view:layout_constraintStart_toStartOf="@+id/priority_textview" />
+
+                <TextView
+                    android:id="@+id/priority_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:textSize="12sp"
+                    android:gravity="center_vertical"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/taskname"
+                    card_view:layout_constraintStart_toEndOf="@+id/checkBox"
+                    card_view:layout_constraintTop_toTopOf="@+id/taskname"/>
+
+                <TextView
+                    android:id="@+id/time_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="6dp"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

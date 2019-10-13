@@ -3,8 +3,12 @@ package com.example.todot;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +28,10 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
-import model.Priority;
 import model.Task;
 import model.Utils;
 
@@ -37,26 +43,51 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
     private String charString = "";
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public View view;
         public TextView titleView;
+        public TextView priorityView;
         public CheckBox checkButton;
         public TextView taskDate;
+        public TextView timeView;
         public LinearLayout linearLayout;
         public ConstraintLayout constraintLayout;
 
+
+
         public ViewHolder(View v) {
             super(v);
+            view = v;
             titleView = (TextView) v.findViewById(R.id.taskname);
             titleView.setGravity(Gravity.CENTER_VERTICAL);
+            priorityView = v.findViewById(R.id.priority_textview);
             taskDate = (TextView) v.findViewById(R.id.date_textview);
+            timeView = (TextView) v.findViewById(R.id.time_textview);
             linearLayout = (LinearLayout) v.findViewById(R.id.task_info);
             checkButton = v.findViewById(R.id.checkBox);
+
+            RippleDrawable rippleDrawable = (RippleDrawable)checkButton.getBackground();
+            int[][] states = new int[][] { new int[] { android.R.attr.state_enabled} };
+            int[] colors = new int[] { v.getResources().getColor(R.color.design_default_color_secondary) };
+
+            ColorStateList colorStateList = new ColorStateList(states, colors);
+            rippleDrawable.setColor(colorStateList);
+
             constraintLayout = v.findViewById(R.id.constraint);
         }
     }
 
     public TaskAdapter(ArrayList<Task> data) {
-        tasklist = data;
-        tasklistFiltered = tasklist;
+        tasklist = sortTask(data);
+        tasklistFiltered = sortTask(data);
+        //swap(tasklistFiltered);
+    }
+
+
+    public void swap(ArrayList<Task> datas)
+    {
+        tasklistFiltered.clear();
+        tasklistFiltered.addAll(datas);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -66,26 +97,49 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         return vh;
     }
 
+    private void clearViews(ViewHolder holder){
+        costumTextView(holder.priorityView, "", holder.view.getResources().getColor(R.color.design_default_color_on_primary), Color.TRANSPARENT);
+        holder.taskDate.setText("");
+        holder.titleView.setText("");
+        holder.timeView.setText("");
+        holder.linearLayout.removeAllViews();
+
+    }
+
+
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Task task = tasklistFiltered.get(position);
+
+        clearViews(holder);
         holder.titleView.setText(tasklistFiltered.get(position).getName());
-        holder.checkButton.setChecked(task.isComplete());
 
         DateFormat dateFormat = new SimpleDateFormat("dd MMM");
         holder.taskDate.setText(dateFormat.format(task.getDate()));
         holder.taskDate.setTextColor(holder.taskDate.getResources().getColor(R.color.calColor));
 
-        holder.linearLayout.removeAllViews();
+
+
+        if (!task.getPriority().isNull()) {
+            costumTextView(holder.priorityView, task.getPriority().getCharValue() + "", holder.view.getResources().getColor(R.color.design_default_color_on_primary), holder.view.getResources().getColor(Utils.getPriorityResColor(task.getPriority().getValue())));
+            holder.priorityView.setPadding(8, -1 ,8, -1);
+            holder.titleView.setPadding(8, 0, 0, 0);
+        }
+
+        if(task.getTime() != null){
+            holder.timeView.setText(Utils.timeFormat().format(task.getTime()));
+            holder.timeView.setTextColor(holder.view.getResources().getColor(R.color.timeColor));
+        }
+
         int i;
-        if (!task.getPriority().isNull())
-            holder.linearLayout.addView(createTextView(holder.linearLayout, task.getPriority().getCharValue() + "", holder.linearLayout.getResources().getColor(Utils.getPriorityResColor(task.getPriority().getValue()))));
         for (i = 0; i < task.getLists().size(); i++){
-            holder.linearLayout.addView(createTextView(holder.linearLayout, task.getLists().get(i), holder.linearLayout.getResources().getColor(R.color.listColor)));
+            holder.linearLayout.addView(createTextView(holder.linearLayout, task.getLists().get(i), holder.view.getResources().getColor(R.color.listColor)));
         }
         for (i = 0; i < task.getTags().size(); i++){
-            holder.linearLayout.addView(createTextView(holder.linearLayout, task.getTags().get(i), holder.linearLayout.getResources().getColor(R.color.tagColor)));
+            holder.linearLayout.addView(createTextView(holder.linearLayout, task.getTags().get(i), holder.view.getResources().getColor(R.color.tagColor)));
         }
+
+        holder.checkButton.setChecked(task.isComplete());
         holder.checkButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
 
             @Override
@@ -152,6 +206,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         };
     }
 
+
+
     public void deleteItem(Activity activity, int position) {
         mRecentlyDeletedItem = tasklistFiltered.get(position);
         mRecentlyDeletedItemPosition = position;
@@ -166,6 +222,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         task.addTaskInFile(context);
         notifyItemInserted(0);
     }
+
 
     private void showUndoSnackbar(Activity activity) {
         View view = activity.findViewById(R.id.container);
@@ -190,26 +247,82 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
     }
 
     public void setTasklistFiltered(ArrayList<Task> list){
-        tasklistFiltered = list;
+        ArrayList<Task> newList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++){
+            newList.add(list.get(i));
+        }
+        tasklistFiltered = newList;
         notifyDataSetChanged();
+    }
+
+
+    private void costumTextView(TextView textView, String txt, int textColor, int colorBackground){
+        textView.setText(txt);
+        textView.setTextSize(12);
+        textView.setTextColor(textColor);
+        textView.setBackgroundResource(R.drawable.tags_rounded_corners);
+        GradientDrawable drawable = (GradientDrawable) textView.getBackground();
+        drawable.setColor(colorBackground);
+        textView.setSingleLine(true);
+
+
     }
 
     private TextView createTextView(View view, String txt, int color){
         TextView textView = new TextView(view.getContext());
-        textView.setText(txt);
-        textView.setTextSize(12);
-        textView.setTextColor(view.getResources().getColor(R.color.design_default_color_on_primary));
-        //textView.setPadding(8, 4, 8, 4);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(0,0,4,0);
         textView.setLayoutParams(params);
-        textView.setBackgroundResource(R.drawable.tags_rounded_corners);
-        GradientDrawable drawable = (GradientDrawable) textView.getBackground();
-        drawable.setColor(color);
-        textView.setSingleLine(true);
-
+        costumTextView(textView, txt, view.getResources().getColor(R.color.design_default_color_on_primary), color );
 
         return textView;
     }
+
+
+    class SortCheck implements Comparator<Task> {
+        public int compare(Task t1, Task t2) {
+            return (t1.isComplete()  ? 1 : 0) - (t2.isComplete()  ? 1 : 0);
+        }
+    }
+    class SortPriority implements Comparator<Task>{
+        public int compare(Task t1, Task t2) {
+            char char1 = 'Z' + 1;
+            char char2  = 'Z' + 1;
+            if (!t1.getPriority().isNull())
+                char1 = t1.getPriority().getCharValue();
+            if (!t2.getPriority().isNull())
+                char2 = t2.getPriority().getCharValue();
+
+            return (char1 + " ").compareTo(char2 + " ");
+        }
+    }
+    class SortTime implements Comparator<Task> {
+        public int compare(Task t1, Task t2) {
+            Calendar date1 = Calendar.getInstance();
+            Calendar date2 = Calendar.getInstance();
+
+            date1.setTime(t1.getDate());
+            date2.setTime(t2.getDate());
+
+            date1 = Utils.setEndDay(date1);
+            date2 = Utils.setEndDay(date2);
+
+            if (t1.getTime() != null)
+                date1 = Utils.setTime(date1, t1.getTime());
+
+            if (t2.getTime() != null)
+                date2 = Utils.setTime(date2, t2.getTime());
+
+            return date1.compareTo(date2);
+
+        }
+    }
+    private ArrayList<Task> sortTask(ArrayList<Task> tasks){
+        Collections.sort(tasks, new SortPriority());
+        Collections.sort(tasks, new SortTime());
+        Collections.sort(tasks, new SortCheck());
+        return tasks;
+    }
+
 
 }

@@ -89,10 +89,11 @@ public class TodoFragment extends Fragment {
         filter(mAdapter.getCharString());
     }
 
+    /*
     public void deleteTask(Task task, int pos){
         mAdapter.deleteItem(getActivity(), pos);
 
-    }
+    }*/
 
     public void setTasks(ArrayList<Task> tasks){
         mAdapter.setTasklistFiltered(tasks);

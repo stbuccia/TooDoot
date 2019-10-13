@@ -11,7 +11,7 @@ import com.google.android.material.chip.Chip;
 import model.Priority;
 import model.Utils;
 
-public class PriorityDialog extends ButtonsDialog{
+public class PriorityDialog extends ButtonsDialog {
 
 
     protected char priority = '0';

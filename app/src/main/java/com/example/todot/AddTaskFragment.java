@@ -4,7 +4,6 @@ package com.example.todot;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,6 +113,8 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
 
         }
 
+
+
         //set up time button
         final TimeDialog timeDialog = new TimeDialog(getContext(), view, id.select_time_button){
             @Override
@@ -124,6 +125,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
                 if (chipgroup.findViewById(chip_id) == null) addChip();
             }
         };
+
         //set up priority button
         //MaterialButton iconPriority = view.findViewById(R.id.choose_priority_button);
         final PriorityDialog priorityDialog = new PriorityDialog(getContext(), view, id.choose_priority_button){
@@ -198,7 +200,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             public void onClick(View v) {
                 if (editText.getText().toString() != "") {
 
-                    finalTodoFragment.insertTask(new Task(editText.getText().toString(), "", calendarDialog.getDate(), null, priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists()));
+                    finalTodoFragment.insertTask(new Task(editText.getText().toString(), "", calendarDialog.getDate(), timeDialog.getTime(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists()));
                     AddTaskFragment.super.dismiss();
 
                 }
