@@ -20,11 +20,14 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Calendar;
+
 import model.Task;
 
 
 public class MainActivity extends AppCompatActivity {
     TodoFragment todoFragment;
+    CalendarFragment calendarFragment;
     Fragment fragment = null;
     MenuItem searchItem;
     private boolean loadFragment(Fragment fragment) {
@@ -52,14 +55,17 @@ public class MainActivity extends AppCompatActivity {
                     todoFragment = (TodoFragment)fragment;
                     break;
                 }
-                case R.id.navigation_calendar:
+                case R.id.navigation_calendar: {
                     makeSearchVisible(true);
                     fragment = new CalendarFragment();
+                    calendarFragment = (CalendarFragment)fragment;
                     break;
-                case R.id.navigation_graphic:
+                }
+                case R.id.navigation_graphic: {
                     makeSearchVisible(false);
                     fragment = new GraphicFragment();
                     break;
+                }
             }
             return loadFragment(fragment);
         }
@@ -131,6 +137,10 @@ public class MainActivity extends AppCompatActivity {
             todoFragment = new TodoFragment(Task.getSavedTasks(getApplicationContext(), this));
             fragment = todoFragment;
         }
+        else if (fragment == calendarFragment){
+            calendarFragment.onResume();
+            fragment = calendarFragment;
+        }
         loadFragment(fragment);
         super.onResume();
 
@@ -158,5 +168,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public TodoFragment getTodoFragment(){
+        return todoFragment;
+    }
+
+    public void setTodoFragment(TodoFragment fgm){
+        todoFragment = fgm;
+    }
 
 }

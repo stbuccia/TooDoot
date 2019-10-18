@@ -81,7 +81,7 @@ public class TodoFragment extends Fragment {
 
 
     public void filter(String sequence){
-       mAdapter.getFilter().filter(sequence);
+        mAdapter.getFilter().filter(sequence);
     }
 
     public void insertTask(Task task){
@@ -92,7 +92,6 @@ public class TodoFragment extends Fragment {
     /*
     public void deleteTask(Task task, int pos){
         mAdapter.deleteItem(getActivity(), pos);
-
     }*/
 
     public void setTasks(ArrayList<Task> tasks){

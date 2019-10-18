@@ -98,7 +98,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
     }
 
     private void clearViews(ViewHolder holder){
-        costumTextView(holder.priorityView, "", holder.view.getResources().getColor(R.color.design_default_color_on_primary), Color.TRANSPARENT);
+        costumTextView(holder.priorityView, null, holder.view.getResources().getColor(R.color.design_default_color_on_primary), Color.TRANSPARENT);
+        holder.priorityView.setPadding(0, 0,0, 0);
+        holder.titleView.setPadding(0, 0, 0, 0);
         holder.taskDate.setText("");
         holder.titleView.setText("");
         holder.timeView.setText("");

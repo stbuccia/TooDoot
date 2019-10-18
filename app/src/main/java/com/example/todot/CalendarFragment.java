@@ -26,8 +26,8 @@ import model.Utils;
 
 public class CalendarFragment extends Fragment {
     private CollapsibleCalendar collapsibleCalendar;
-    private TodoFragment todoFragment;
     private  TextView textView;
+    private Date daySel = new Date();
 
     private void setCalToDate(Day day){
         collapsibleCalendar.select(day);
@@ -78,13 +78,9 @@ public class CalendarFragment extends Fragment {
         collapsibleCalendar = view.findViewById(R.id.calendarView);
         //collapsibleCalendar.setFirstDayOfWeek(1);
 
-        todoFragment = new TodoFragment(Task.getTasksWithDate(getContext(), getActivity(), new Date()));
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.container, todoFragment)
-                .commit();
+
+        updateTodoFragment();
         collapsibleCalendar.select(getToday());
-        todoFragment.setCalDate(new Date());
 
         collapsibleCalendar.setCalendarListener(new CollapsibleCalendar.CalendarListener() {
             @Override
@@ -96,12 +92,10 @@ public class CalendarFragment extends Fragment {
                 myCal.set(Calendar.MONTH, day.getMonth());
                 myCal.set(Calendar.DAY_OF_MONTH, day.getDay());
 
-                Date date = myCal.getTime();
-                todoFragment.setCalDate(date);
-                ArrayList<Task> tasks = Task.getTasksWithDate(getContext(), getActivity(), date);
-                todoFragment.setTasks(tasks);
+                daySel = myCal.getTime();
+                updateTodoFragment();
 
-                textView.setText(Utils.getStringDate(date));
+                textView.setText(Utils.getStringDate(daySel));
 
             }
 
@@ -150,4 +144,19 @@ public class CalendarFragment extends Fragment {
         return view;
     }
 
+
+    @Override
+    public void onResume() {
+        ((MainActivity)getActivity()).setTodoFragment(new TodoFragment(Task.getTasksWithDate(getContext(), getActivity(), daySel)));
+        super.onResume();
+    }
+
+    private void updateTodoFragment(){
+        ((MainActivity)getActivity()).setTodoFragment(new TodoFragment(Task.getTasksWithDate(getContext(), getActivity(), daySel)));
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, ((MainActivity)getActivity()).getTodoFragment())
+                .commit();
+        ((MainActivity)getActivity()).getTodoFragment().setCalDate(daySel);
+    }
 }
