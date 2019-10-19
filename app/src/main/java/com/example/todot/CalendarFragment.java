@@ -147,7 +147,7 @@ public class CalendarFragment extends Fragment {
 
     @Override
     public void onResume() {
-        ((MainActivity)getActivity()).setTodoFragment(new TodoFragment(Task.getTasksWithDate(getContext(), getActivity(), daySel)));
+        updateTodoFragment();
         super.onResume();
     }
 

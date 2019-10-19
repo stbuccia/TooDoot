@@ -176,4 +176,7 @@ public class MainActivity extends AppCompatActivity {
         todoFragment = fgm;
     }
 
+    public MenuItem getSearchItem() {
+        return searchItem;
+    }
 }

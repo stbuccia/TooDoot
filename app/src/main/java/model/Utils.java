@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.example.todot.R;
 
 import java.text.DateFormat;
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -125,5 +126,16 @@ public class Utils {
         calDate.set(Calendar.HOUR_OF_DAY, hour);
         calDate.set(Calendar.MINUTE, min);
         return calDate;
+    }
+
+    public static boolean isSameDay(Date date1, Date date2){
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+
+        String date1Str = ((SimpleDateFormat) formatter).format(date1);
+        String date2Str = ((SimpleDateFormat) formatter).format(date2);
+
+        return  date1Str.equals(date2Str);
+
     }
 }

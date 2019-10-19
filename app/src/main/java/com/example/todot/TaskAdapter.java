@@ -38,8 +38,6 @@ import model.Utils;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> implements Filterable {
     private ArrayList<Task> tasklist;
     private ArrayList<Task> tasklistFiltered;
-    private Task mRecentlyDeletedItem;
-    private int mRecentlyDeletedItemPosition;
     private String charString = "";
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -82,13 +80,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         //swap(tasklistFiltered);
     }
 
-
-    public void swap(ArrayList<Task> datas)
-    {
-        tasklistFiltered.clear();
-        tasklistFiltered.addAll(datas);
-        notifyDataSetChanged();
-    }
 
     @Override
     public TaskAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -210,43 +201,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
 
 
 
-    public void deleteItem(Activity activity, int position) {
-        mRecentlyDeletedItem = tasklistFiltered.get(position);
-        mRecentlyDeletedItemPosition = position;
-        tasklistFiltered.remove(position);
-        mRecentlyDeletedItem.removeTaskInFile(activity);
-        notifyItemRemoved(position);
-        showUndoSnackbar(activity);
-    }
 
-    public void insertItem(Context context, Task task){
+    public void insertItem(Task task, String txt){
         tasklist.add(task);
-        task.addTaskInFile(context);
-        notifyItemInserted(0);
+        getFilter().filter(txt);
+        sortTask(tasklist);
+        sortTask(tasklistFiltered);
+        if (tasklistFiltered.indexOf(task) >= 0)
+            notifyItemInserted(tasklistFiltered.indexOf(task));
     }
 
 
-    private void showUndoSnackbar(Activity activity) {
-        View view = activity.findViewById(R.id.container);
-        Snackbar snackbar = (Snackbar) Snackbar.make(view, "Deleted Item", Snackbar.LENGTH_LONG)
-                .setAction(R.string.snack_bar_undo, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        undoDelete();
-                    }
-                });
-        snackbar.show();
-    }
-
-    private void undoDelete() {
-        tasklistFiltered.add(mRecentlyDeletedItemPosition, mRecentlyDeletedItem);
-        tasklist.add(mRecentlyDeletedItemPosition, mRecentlyDeletedItem);
-        notifyItemInserted(mRecentlyDeletedItemPosition);
-    }
-
-    public String getCharString(){
-        return charString;
-    }
 
     public void setTasklistFiltered(ArrayList<Task> list){
         ArrayList<Task> newList = new ArrayList<>();

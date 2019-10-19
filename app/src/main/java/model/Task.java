@@ -340,18 +340,20 @@ public class Task implements Serializable {
 
     public static  ArrayList<Task>  getTasksWithDate(Context context, Activity activity, Date date){
         ArrayList<Task> all_tasks = getSavedTasks(context, activity);
+        /*
         Format formatter = new SimpleDateFormat("yyyy-MM-dd");
 
 
-        String dateStr = ((SimpleDateFormat) formatter).format(date);
+        String dateStr = ((SimpleDateFormat) formatter).format(date);*/
         ArrayList<Task> tasks = new ArrayList<>();
 
         for (int i = 0; i < all_tasks.size(); i++){
-            String taskDate;
+            /*
+            String taskDate = ((SimpleDateFormat) formatter).format(all_tasks.get(i).getDate());
 
-            taskDate = ((SimpleDateFormat) formatter).format(all_tasks.get(i).getDate());
+*/
 
-            if (dateStr.equals(taskDate))
+            if (Utils.isSameDay(date, all_tasks.get(i).getDate()))
                 tasks.add(all_tasks.get(i));
         }
         return tasks;

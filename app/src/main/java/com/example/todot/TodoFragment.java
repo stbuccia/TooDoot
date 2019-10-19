@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import model.Task;
+import model.Utils;
 
 import static model.Task.getSavedTasks;
 
@@ -85,8 +88,10 @@ public class TodoFragment extends Fragment {
     }
 
     public void insertTask(Task task){
-        mAdapter.insertItem(getActivity(), task);
-        filter(mAdapter.getCharString());
+        task.addTaskInFile(getActivity());
+        if (calDate == null || Utils.isSameDay(calDate, task.getDate())) {
+            mAdapter.insertItem(task,  ((TextView)((MainActivity)getActivity()).getSearchItem().getActionView().findViewById(R.id.search_src_text)).getText().toString());
+        }
     }
 
     /*
