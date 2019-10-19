@@ -144,6 +144,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
                         task.uncompleteTask();
                     }
                     task.updateTaskInFile(buttonView.getContext());
+                    int pos = tasklistFiltered.indexOf(task);
+                    sortTask(tasklistFiltered);
+                    notifyItemMoved(pos, tasklistFiltered.indexOf(task));
                 }
             }
         });
