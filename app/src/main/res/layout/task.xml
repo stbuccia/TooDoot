@@ -14,8 +14,11 @@
         card_view:contentPadding="5dp">
 
         <RelativeLayout
+            android:id="@+id/view_foreground"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/design_default_color_background"
+            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraint"

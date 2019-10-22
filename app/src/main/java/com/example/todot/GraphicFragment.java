@@ -73,7 +73,7 @@ public class GraphicFragment extends Fragment {
 
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleRadius(90f);
-        pieChart.setHoleColor(Color.WHITE);
+        pieChart.setHoleColor(getResources().getColor(R.color.design_default_color_background));
         pieChart.setTransparentCircleRadius(0f);
         pieChart.setDrawEntryLabels(false);
         pieChart.setTouchEnabled(false);
@@ -291,6 +291,8 @@ public class GraphicFragment extends Fragment {
         set.setValueTextSize(12f);
         set.setColor(getResources().getColor(R.color.design_default_color_primary));
         set.setCircleColor(getResources().getColor(R.color.design_default_color_primary));
+        set.setCircleHoleColor(getResources().getColor(R.color.design_default_color_primary));
+        set.setCircleRadius(3f);
 
         set.setValueFormatter(new YAxisValueFormatter());
 

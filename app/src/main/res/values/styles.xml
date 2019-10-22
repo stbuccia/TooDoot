@@ -51,6 +51,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@null</item>
         <item name="iconTint">@color/design_default_color_primary</item>
+        <item name="android:enabled">false</item>
     </style>
 
     <style name="MyTagIconButton" parent="Theme.MyApp.MyIconButton" >
@@ -71,6 +72,22 @@
     <style name="MyCalIconButton" parent="Theme.MyApp.MyIconButton" >
         <item name="iconTint">@color/calColor</item>
         <item name="icon">@drawable/ic_24px</item>
+    </style>
+
+    <style name="MyDayIconButton" parent="Theme.MyApp.MyIconButton">
+        <item name="icon">@drawable/ic_wb_sunny_24px</item>
+    </style>
+
+    <style name="MyWeekIconButton" parent="Theme.MyApp.MyIconButton">
+        <item name="icon">@drawable/ic_next_week_24px</item>
+    </style>
+
+    <style name="MySelDateIconButton" parent="Theme.MyApp.MyIconButton">
+        <item name="icon">@drawable/ic_24px</item>
+    </style>
+
+    <style name="MySelTimeIconButton" parent="Theme.MyApp.MyIconButton">
+        <item name="icon">@drawable/ic_access_time_24px</item>
     </style>
 
     <style name="MyTimeIconButton" parent="Theme.MyApp.MyIconButton" >
@@ -157,6 +174,13 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/hintColor</item>
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="MySelectButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@android:color/tab_indicator_text</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="TimeRadioButton">

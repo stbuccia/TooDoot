@@ -35,16 +35,6 @@ public class ButtonsDialog extends Dialog {
 
     }
 
-    public ButtonsDialog(Context context, View view, int idButton, ChipGroup chipgroup) {
-        super(context);
-
-        button = view.findViewById(idButton);
-        this.view = view;
-        this.context = context;
-
-        this.chipgroup = chipgroup;
-    }
-
     public void setListener(View.OnClickListener listener) {
         button.setOnClickListener(listener);
 

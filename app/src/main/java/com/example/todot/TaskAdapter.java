@@ -18,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 import model.Task;
 import model.Utils;
@@ -49,8 +51,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         public TextView timeView;
         public LinearLayout linearLayout;
         public ConstraintLayout constraintLayout;
-
-
 
         public ViewHolder(View v) {
             super(v);
@@ -138,6 +138,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (buttonView.isPressed()) {
+                    checkTask(buttonView.getContext(), tasklistFiltered.indexOf(task), isChecked);
+
+                    /*
                     if (isChecked) {
                         task.completeTask();
                     } else {
@@ -146,8 +149,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
                     task.updateTaskInFile(buttonView.getContext());
                     int pos = tasklistFiltered.indexOf(task);
                     sortTask(tasklistFiltered);
-                    notifyItemMoved(pos, tasklistFiltered.indexOf(task));
+                    notifyItemMoved(pos, tasklistFiltered.indexOf(task));*/
                 }
+                //checkTask(buttonView, isChecked, task);
+
             }
         });
 
@@ -203,6 +208,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
     }
 
 
+    public void checkTask(Context context, int position, boolean isChecked){
+        Task task = tasklistFiltered.get(position);
+        if (isChecked) {
+            task.completeTask();
+        } else {
+            task.uncompleteTask();
+        }
+        task.updateTaskInFile(context);
+        sortTask(tasklistFiltered);
+        notifyItemMoved(position, tasklistFiltered.indexOf(task));
+
+    }
 
 
     public void insertItem(Task task, String txt){
@@ -214,19 +231,32 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
             notifyItemInserted(tasklistFiltered.indexOf(task));
     }
 
-
-
-    public void setTasklistFiltered(ArrayList<Task> list){
-        ArrayList<Task> newList = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++){
-            newList.add(list.get(i));
+    public void changeDate(Context context, int position, Date date, boolean toRemove){
+        Task task = tasklistFiltered.get(position);
+        task.setCreation_date(date);
+        task.updateTaskInFile(context);
+        if (!toRemove) {
+            sortTask(tasklistFiltered);
+            notifyItemMoved(position, tasklistFiltered.indexOf(task));
+            notifyItemChanged(tasklistFiltered.indexOf(task));
         }
-        tasklistFiltered = newList;
-        notifyDataSetChanged();
+        else{
+            tasklist.remove(task);
+            notifyItemRemoved(tasklistFiltered.indexOf(task));
+            tasklistFiltered.remove(task);
+        }
+    }
+    public void changeTime(Context context, int position, Date time) {
+        Task task = tasklistFiltered.get(position);
+        task.setTime(time);
+        task.updateTaskInFile(context);
+        sortTask(tasklistFiltered);
+        notifyItemMoved(position, tasklistFiltered.indexOf(task));
+        notifyItemChanged(tasklistFiltered.indexOf(task));
     }
 
 
-    private void costumTextView(TextView textView, String txt, int textColor, int colorBackground){
+        private void costumTextView(TextView textView, String txt, int textColor, int colorBackground){
         textView.setText(txt);
         textView.setTextSize(12);
         textView.setTextColor(textColor);

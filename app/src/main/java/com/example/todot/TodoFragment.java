@@ -6,10 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,10 +22,8 @@ import java.util.Date;
 import model.Task;
 import model.Utils;
 
-import static model.Task.getSavedTasks;
 
-
-public class TodoFragment extends Fragment {
+public class TodoFragment extends Fragment  {
 
     private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
@@ -49,7 +48,7 @@ public class TodoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_todo, null);
+        final View view = inflater.inflate(R.layout.fragment_todo, null);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.cardRV);
         mRecyclerView.setHasFixedSize(true);
@@ -62,6 +61,32 @@ public class TodoFragment extends Fragment {
         mAdapter = new TaskAdapter(myTasks);
 
         mRecyclerView.setAdapter(mAdapter);
+
+        CheckTaskTouchHelper checkTaskTouchHelper = new CheckTaskTouchHelper(getContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+                int position = viewHolder.getAdapterPosition();
+                mAdapter.notifyItemChanged(position);
+                mAdapter.checkTask(getContext(), position, true);
+            }
+        };
+        new ItemTouchHelper(checkTaskTouchHelper).attachToRecyclerView(mRecyclerView);
+
+
+
+        PostponeTaskTouchHelper postponeTaskTouchHelper = new PostponeTaskTouchHelper(getContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                PostponeDialog dialog = new PostponeDialog(getContext(), mAdapter, position, TodoFragment.this);
+                dialog.showDialog();
+                mAdapter.notifyItemChanged(position);
+            }
+        };
+        new ItemTouchHelper(postponeTaskTouchHelper).attachToRecyclerView(mRecyclerView);
+
+
 
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
@@ -79,6 +104,7 @@ public class TodoFragment extends Fragment {
 
             }
         });
+
         return view;
     }
 
@@ -99,7 +125,4 @@ public class TodoFragment extends Fragment {
         mAdapter.deleteItem(getActivity(), pos);
     }*/
 
-    public void setTasks(ArrayList<Task> tasks){
-        mAdapter.setTasklistFiltered(tasks);
-    }
 }
