@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <Preference
+        android:title="Load todo.txt file"
+        android:key="todotxtPicker"
+
+        app:iconSpaceReserved="false"
+        app:allowDividerAbove="true"
+        app:allowDividerBelow="true"/>
+        />
+
+    <Preference
+        android:title="Change todo.txt directory"
+        android:key="dirPicker"
+
+        app:iconSpaceReserved="false"
+        app:allowDividerAbove="true"
+        app:allowDividerBelow="true"
+        />
+
+    <Preference
+        android:title="Set a minimum notification priority"
+        android:key="priorityPicker"
+
+        app:iconSpaceReserved="false"
+        app:allowDividerAbove="true"
+        app:allowDividerBelow="true"
+        />
+
+</PreferenceScreen>

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.preference.PreferenceManager;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,13 +16,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -213,7 +213,7 @@ public class Task implements Serializable {
         textdef = getTextTask();
         String text = textdef + "\n";
         //write the task in the beginning of file
-        File file = new File(context.getFilesDir(), "todo.txt");
+        File file = new File(Utils.getFilePath(PreferenceManager.getDefaultSharedPreferences(context)));
         try {
             RandomAccessFile f = new RandomAccessFile(file, "rw");
             f.seek(f.length());
@@ -228,7 +228,7 @@ public class Task implements Serializable {
 
     public static ArrayList<Task> getSavedTasks(Context context, Context activity){
         ArrayList<Task> tasks = new ArrayList<Task>();
-        File file = new File(context.getFilesDir(), "todo.txt");
+        File file = new File(Utils.getFilePath(PreferenceManager.getDefaultSharedPreferences(context)));
         try {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
@@ -250,7 +250,7 @@ public class Task implements Serializable {
     }
 
     public void updateTaskInFile(Context context){
-        File file = new File(context.getFilesDir(), "todo.txt");
+        File file = new File(Utils.getFilePath(PreferenceManager.getDefaultSharedPreferences(context)));
         try {
             BufferedReader fileIn = new BufferedReader(new FileReader(file));
             StringBuffer inputBuffer = new StringBuffer();
@@ -278,18 +278,17 @@ public class Task implements Serializable {
 
     public void removeTaskInFile(Context context){
         //Copy all file except interested line
-        File file = new File(context.getFilesDir(), "todo.txt");
-        File tmp = new File(context.getFilesDir(), "tmp.txt");
+        File file = new File(Utils.getFilePath(PreferenceManager.getDefaultSharedPreferences(context)));
+        File tmp = new File(Utils.getDirPath(PreferenceManager.getDefaultSharedPreferences(context))+ "/tmp.txt");
         try {
             BufferedReader fileIn = new BufferedReader(new FileReader(file));
             BufferedWriter fileTmp = new BufferedWriter(new FileWriter(tmp));
             String line;
 
             while ((line = fileIn.readLine()) != null) {
-                if (line.equals(textdef)) {
-                    continue;
+                if (!line.equals(textdef)) {
+                    fileTmp.write(line + System.getProperty("line.separator"));
                 }
-                fileTmp.write(line + System.getProperty("line.separator"));
             }
             fileTmp.close();
             fileIn.close();

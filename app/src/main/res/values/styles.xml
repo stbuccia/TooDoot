@@ -9,6 +9,7 @@
         <item name="colorOnPrimary">@color/design_default_color_on_primary</item>
         <item name="android:actionButtonStyle">@style/Theme.MyApp.ActionBarStyle</item>
         <item name="colorControlHighlight">@color/design_default_color_primary</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
     <style name="Theme.MyApp.ActionBarStyle" parent="Widget.MaterialComponents.Light.ActionBar.Solid">
@@ -51,7 +52,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@null</item>
         <item name="iconTint">@color/design_default_color_primary</item>
-        <item name="android:enabled">false</item>
     </style>
 
     <style name="MyTagIconButton" parent="Theme.MyApp.MyIconButton" >

@@ -19,7 +19,6 @@ public class ButtonsDialog extends Dialog {
     protected MaterialButton button;
     protected View view;
     protected ChipGroup chipgroup;
-    protected View.OnClickListener onClickListener;
     protected Chip chip = null;
     protected int chip_id = 0;
 
@@ -34,8 +33,11 @@ public class ButtonsDialog extends Dialog {
         chipgroup = view.findViewById(R.id.chip_group);
 
     }
+    public ButtonsDialog(Context context) {
+        super(context);
+    }
 
-    public void setListener(View.OnClickListener listener) {
+        public void setListener(View.OnClickListener listener) {
         button.setOnClickListener(listener);
 
 

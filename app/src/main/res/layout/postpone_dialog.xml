@@ -16,6 +16,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/tomorrowbutton"
             style="@style/MyDayIconButton"
+            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -44,6 +45,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/weekbutton"
             style="@style/MyWeekIconButton"
+            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -72,6 +74,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/datebutton"
             style="@style/MySelDateIconButton"
+            android:enabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -98,6 +101,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/timebutton"
+            android:enabled="false"
             style="@style/MySelTimeIconButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

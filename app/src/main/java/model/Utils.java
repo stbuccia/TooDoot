@@ -1,13 +1,13 @@
 package model;
 
-import android.widget.Toast;
+import android.content.SharedPreferences;
+import android.os.Environment;
 
 import com.example.todot.R;
 
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -137,5 +137,17 @@ public class Utils {
 
         return  date1Str.equals(date2Str);
 
+    }
+
+    public static String getDirPath(SharedPreferences preferences){
+        return preferences.getString("dir", Environment.getExternalStorageDirectory().getAbsolutePath());
+    }
+
+    public static String getFilename(SharedPreferences preferences){
+        return preferences.getString("filename", "todo.txt");
+    }
+
+    public static String getFilePath(SharedPreferences preferences){
+        return getDirPath(preferences) + "/" + getFilename(preferences);
     }
 }

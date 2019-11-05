@@ -18,13 +18,12 @@ public class PriorityDialog extends ButtonsDialog {
 
     public PriorityDialog(final Context context, View view, int idButton){
         super(context, view, idButton);
-        setListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPriorityDialog();
-            }
-        });
+        //setListener(view1 -> showPriorityDialog());
 
+    }
+
+    public PriorityDialog(final Context context) {
+        super(context);
     }
 
     public void showPriorityDialog() {
@@ -33,10 +32,10 @@ public class PriorityDialog extends ButtonsDialog {
         setTitle("Select Priority");
         setContentView(R.layout.priority_dialog);
 
-        final NumberPicker np = (NumberPicker) findViewById(R.id.numberPicker);
+        final NumberPicker np = findViewById(R.id.numberPicker);
         String[] alphabet = new String[27];
 
-        alphabet[0] = "Nessuna";
+        alphabet[0] = "Unknown";
 
         for(char i=1; i <= 26 ; i++){
             alphabet[i] = "" + (char)((i-1) + 'A');
@@ -49,20 +48,15 @@ public class PriorityDialog extends ButtonsDialog {
         np.setMaxValue(alphabet.length);
         np.setWrapSelectorWheel(true);
 
-        setupButtons(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                onPrioritySet(np.getValue());
-                dismiss();
-            }
+
+        setupButtons(v -> {
+            onPrioritySet(np.getValue());
+            dismiss();
         });
 
         show();
 
     }
-
-
 
     public void onPrioritySet(int val){
         if (val == 1){

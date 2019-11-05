@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_round_trending_up_24px"
         android:title="@string/title_graphic" />
 
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings_applications_24px"
+        android:title="@string/title_settings" />
+
 </menu>

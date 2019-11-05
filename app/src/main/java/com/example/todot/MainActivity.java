@@ -3,7 +3,6 @@ package com.example.todot;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,8 +18,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.Calendar;
 
 import model.Task;
 
@@ -64,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_graphic: {
                     makeSearchVisible(false);
                     fragment = new GraphicFragment();
+                    break;
+                }
+                case R.id.navigation_settings: {
+                    makeSearchVisible(false);
+                    fragment = new PreferencesFragment(MainActivity.this);
                     break;
                 }
             }
