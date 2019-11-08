@@ -37,14 +37,32 @@
         <item name="colorPrimary">@color/calColor</item>
         <item name="colorPrimaryDark">@color/calColor</item>
         <item name="colorAccent">@color/calColor</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DatePickerButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DatePickerButtonStyle</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="TimePickerTheme" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorPrimary">@color/design_default_color_background</item>
+
+    <style name="DatePickerButtonStyle" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/calColor</item>
+        <item name="android:backgroundTint">@color/design_default_color_background</item>
+    </style>
+
+    <style name="TimePickerTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorPrimary">@color/timeColor</item>
         <item name="colorPrimaryDark">@color/timeColor</item>
         <item name="colorAccent">@color/timeColor</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:buttonBarPositiveButtonStyle">@style/DatePickerButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DatePickerButtonStyle</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="TimePickerButtonStyle" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/timeColor</item>
+        <item name="android:backgroundTint">@color/design_default_color_background</item>
     </style>
 
     <style name="Theme.MyApp.MyIconButton" parent="Widget.MaterialComponents.Button.TextButton.Icon" >

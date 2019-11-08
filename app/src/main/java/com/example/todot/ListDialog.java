@@ -4,6 +4,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,6 +47,7 @@ public class ListDialog extends ButtonsDialog {
         setTitle(title);
         setContentView(R.layout.taglist_dialog);
 
+        getWindow().setLayout((int)(context.getResources().getDisplayMetrics().widthPixels*0.90), WindowManager.LayoutParams.WRAP_CONTENT);
 
         final NachoTextView text = findViewById(R.id.taglistInputEditText);
 

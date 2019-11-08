@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
@@ -49,12 +48,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         public ViewHolder(View v) {
             super(v);
             view = v;
-            titleView = (TextView) v.findViewById(R.id.taskname);
+            titleView = v.findViewById(R.id.taskname);
             titleView.setGravity(Gravity.CENTER_VERTICAL);
             priorityView = v.findViewById(R.id.priority_textview);
-            taskDate = (TextView) v.findViewById(R.id.date_textview);
-            timeView = (TextView) v.findViewById(R.id.time_textview);
-            linearLayout = (LinearLayout) v.findViewById(R.id.task_info);
+            taskDate = v.findViewById(R.id.date_textview);
+            timeView = v.findViewById(R.id.time_textview);
+            linearLayout = v.findViewById(R.id.task_info);
             checkButton = v.findViewById(R.id.checkBox);
 
             RippleDrawable rippleDrawable = (RippleDrawable)checkButton.getBackground();
@@ -127,38 +126,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         }
 
         holder.checkButton.setChecked(task.isComplete());
-        holder.checkButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.isPressed()) {
-                    checkTask(buttonView.getContext(), tasklistFiltered.indexOf(task), isChecked);
-
-                    /*
-                    if (isChecked) {
-                        task.completeTask();
-                    } else {
-                        task.uncompleteTask();
-                    }
-                    task.updateTaskInFile(buttonView.getContext());
-                    int pos = tasklistFiltered.indexOf(task);
-                    sortTask(tasklistFiltered);
-                    notifyItemMoved(pos, tasklistFiltered.indexOf(task));*/
-                }
-                //checkTask(buttonView, isChecked, task);
+        holder.checkButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isPressed()) {
+                checkTask(buttonView.getContext(), tasklistFiltered.indexOf(task), isChecked);
 
             }
+
         });
 
-        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, EditTaskActivity.class);
-                intent.putExtra("TASK_CLICKED", task);
-                intent.putExtra("TASK_POS", position);
-                context.startActivity(intent);
-            }
+        holder.constraintLayout.setOnClickListener(view -> {
+            Context context = view.getContext();
+            Intent intent = new Intent(context, EditTaskActivity.class);
+            intent.putExtra("TASK_CLICKED", task);
+            intent.putExtra("TASK_POS", position);
+            context.startActivity(intent);
         });
 
     }
@@ -168,14 +149,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         return tasklistFiltered.size();
     }
 
-
     @Override
     public Filter getFilter(){
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-
-
                 charString = charSequence.toString();
                 if (charString.isEmpty())
                     tasklistFiltered = tasklist;
@@ -227,7 +205,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
 
     public void changeDate(Context context, int position, Date date, boolean toRemove){
         Task task = tasklistFiltered.get(position);
-        task.setCreation_date(date);
+        task.setDueDate(date);
         task.updateTaskInFile(context);
         if (!toRemove) {
             sortTask(tasklistFiltered);
@@ -317,6 +295,4 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         Collections.sort(tasks, new SortCheck());
         return tasks;
     }
-
-
 }

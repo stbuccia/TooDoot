@@ -16,7 +16,6 @@ import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -152,7 +151,7 @@ public class CalendarFragment extends Fragment {
     }
 
     private void updateTodoFragment(){
-        ((MainActivity)getActivity()).setTodoFragment(new TodoFragment(Task.getTasksWithDate(getContext(), getActivity(), daySel)));
+        ((MainActivity)getActivity()).setTodoFragment(new TodoFragment(Task.getTasksWithDate(getContext(), daySel)));
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, ((MainActivity)getActivity()).getTodoFragment())

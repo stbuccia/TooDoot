@@ -1,14 +1,11 @@
 package com.example.todot;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -16,6 +13,7 @@ import androidx.preference.PreferenceManager;
 import com.obsez.android.lib.filechooser.ChooserDialog;
 
 import java.io.File;
+import java.util.Calendar;
 
 import model.Priority;
 import model.Utils;
@@ -53,7 +51,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         if ((prefs.getString("notificationPriority", "")).equals(""))
             return ("Notifications for every task");
         else
-            return ("Notifications for tasks with priority greater then " + prefs.getString("notificationPriority", ""));
+            return ("Notifications for tasks with priority greater or equal to " + prefs.getString("notificationPriority", ""));
 
     }
 
@@ -132,6 +130,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                     }
                     else{
                         editor.putString("notificationPriority", "");
+                        editor.commit();
+
                     }
                     priorityPicker.setSummary(getPrioritySummary());
                 }
@@ -139,12 +139,41 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
             return true;
         });
 
+        Preference setTime = findPreference("notificationTime");
+        setTimeSummary(setTime);
+
+        setTime.setOnPreferenceClickListener(preference -> {
+
+            showTimePickerDialog(Utils.getNotificationHour(prefs),Utils.getNotificationMin(prefs), setTime);
+            return true;
+        });
+
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+    private void showTimePickerDialog(int h, int m, Preference p) {
+        TimePickerDialog builder = new TimePickerDialog(context, R.style.TimePickerTheme,
+                (timePicker, hour, min) -> {
+                    NotificationScheduler.setReminder(context, AlarmReceiver.class
+                    );
 
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putInt("notificationHour", hour);
+                    editor.putInt("notificationMin", min);
+                    editor.commit();
+                    setTimeSummary(p);
+
+                }, h, m, true);
+
+        builder.show();
+
+    }
+
+    private void setTimeSummary(Preference p){
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, Utils.getNotificationHour(prefs));
+        cal.set(Calendar.MINUTE, Utils.getNotificationMin(prefs));
+
+        p.setSummary(Utils.timeFormat().format(cal.getTime()));
     }
 }

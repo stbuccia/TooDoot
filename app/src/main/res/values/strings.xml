@@ -40,4 +40,5 @@
     <string name="summary_checkbox_preference">prova</string>
     <string name="dialogs">prova</string>
     <string name="title_choose_any_file">Select a file</string>
+    <string name="channel_name">notification_channel</string>
 </resources>

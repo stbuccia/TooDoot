@@ -79,11 +79,12 @@
                     android:id="@+id/priority_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="16dp"
-                    android:textSize="12sp"
+                    android:layout_marginTop="2dp"
                     android:gravity="center_vertical"
+                    android:textSize="12sp"
                     card_view:layout_constraintBottom_toBottomOf="@+id/taskname"
                     card_view:layout_constraintStart_toEndOf="@+id/checkBox"
-                    card_view:layout_constraintTop_toTopOf="@+id/taskname"/>
+                    card_view:layout_constraintTop_toTopOf="@+id/taskname" />
 
                 <TextView
                     android:id="@+id/time_textview"

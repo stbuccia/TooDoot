@@ -7,7 +7,6 @@ import android.widget.DatePicker;
 
 import com.google.android.material.chip.Chip;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -33,12 +32,7 @@ public class CalendarDialog extends ButtonsDialog implements DatePickerDialog.On
 
     public CalendarDialog(Context context, View view, int idButton){
         super(context, view, idButton);
-        dateButtonListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                datePickerDialog.show();
-            }
-        };
+        dateButtonListener = view1 -> datePickerDialog.show();
         setupDatePicker();
 
         setListener(dateButtonListener);

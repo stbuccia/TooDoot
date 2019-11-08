@@ -1,9 +1,6 @@
 package com.example.todot;
 
-import androidx.fragment.app.Fragment;
-
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,29 +10,23 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.jetbrains.annotations.Nullable;
-import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -344,7 +335,7 @@ public class GraphicFragment extends Fragment {
     }
 
     private void filter(){
-        tasks = Task.getSavedTasks(getContext(), getActivity());
+        tasks = Task.getSavedTasks(getContext());
         ArrayList<Task> newTasks = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i++){
             if ((listSel.equals(all) || tasks.get(i).getLists().contains(listSel)) && (tagSel.equals(all) || tasks.get(i).getTags().contains(tagSel)))
@@ -357,7 +348,7 @@ public class GraphicFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_graphic, null);
-        tasks = Task.getSavedTasks(getContext(), getActivity());
+        tasks = Task.getSavedTasks(getContext());
 
         //Chart Pie
         pieChart = (PieChart) view.findViewById(R.id.piechart);

@@ -1,4 +1,4 @@
-<androidx.appcompat.widget.LinearLayoutCompat
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:orientation="vertical"
@@ -85,4 +85,4 @@
 
     <include layout="@layout/buttons" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

@@ -4,6 +4,7 @@ package com.example.todot;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.NumberPicker;
 
 import com.google.android.material.chip.Chip;
@@ -18,7 +19,7 @@ public class PriorityDialog extends ButtonsDialog {
 
     public PriorityDialog(final Context context, View view, int idButton){
         super(context, view, idButton);
-        //setListener(view1 -> showPriorityDialog());
+        setListener(view1 -> showPriorityDialog());
 
     }
 
@@ -31,6 +32,8 @@ public class PriorityDialog extends ButtonsDialog {
 
         setTitle("Select Priority");
         setContentView(R.layout.priority_dialog);
+
+        getWindow().setLayout((int)(context.getResources().getDisplayMetrics().widthPixels*0.90), WindowManager.LayoutParams.WRAP_CONTENT);
 
         final NumberPicker np = findViewById(R.id.numberPicker);
         String[] alphabet = new String[27];
@@ -71,18 +74,10 @@ public class PriorityDialog extends ButtonsDialog {
             String txt;
             txt = priority + "";
             chip_id = R.id.priority_chip;
-            setChip(chip_id, -1, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    showPriorityDialog();
-                }
-            });
-            chip.setOnCloseIconClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    chipgroup.removeView(chip);
-                    priority = '0';
-                }
+            setChip(chip_id, -1, view -> showPriorityDialog());
+            chip.setOnCloseIconClickListener(view -> {
+                chipgroup.removeView(chip);
+                priority = '0';
             });
             chip.setText(txt);
         }

@@ -99,9 +99,9 @@ public class EditTaskActivity extends AppCompatActivity {
         setTagBtn();
 
         priorityDialog.onPrioritySet(task.getPriority().getValue() + 1);
-        if (task.getCreation_date() != null) {
+        if (task.getdue_date() != null) {
             Calendar calendar = new GregorianCalendar();
-            calendar.setTime(task.getCreation_date());
+            calendar.setTime(task.getdue_date());
             calendarDialog.onDateSet(null, calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
         }
 
@@ -130,9 +130,9 @@ public class EditTaskActivity extends AppCompatActivity {
         else
             task.uncompleteTask();
         if (activity.findViewById(R.id.task_date_chipgroup) != null) {
-            task.setCreation_date(calendarDialog.getDate());
+            task.setDueDate(calendarDialog.getDate());
         } else
-            task.setCreation_date(null);
+            task.setDueDate(null);
 
         if (activity.findViewById(R.id.task_time_chipgroup) != null)
             task.setTime(timeDialog.getTime());

@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     CalendarFragment calendarFragment;
     Fragment fragment = null;
     MenuItem searchItem;
+    public String CHANNEL_ID = "Channel Notification";
     private boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_todo: {
                     makeSearchVisible(true);
-                    fragment = new TodoFragment(Task.getSavedTasks(getApplicationContext(), MainActivity.this));
+                    fragment = new TodoFragment(Task.getSavedTasks(getApplicationContext()));
                     todoFragment = (TodoFragment)fragment;
                     break;
                 }
@@ -82,10 +83,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         //loading the default fragment
-        loadFragment(new TodoFragment(Task.getSavedTasks(getApplicationContext(), this)));
+        loadFragment(new TodoFragment(Task.getSavedTasks(getApplicationContext())));
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
     }
 
 
@@ -131,12 +133,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void onResume(){
+
+    public void onResume() {
         //loading the default fragment
         cleanSearchBar();
         if (fragment == todoFragment){
-            todoFragment = new TodoFragment(Task.getSavedTasks(getApplicationContext(), this));
+            todoFragment = new TodoFragment(Task.getSavedTasks(getApplicationContext()));
             fragment = todoFragment;
         }
         else if (fragment == calendarFragment){
@@ -145,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
         }
         loadFragment(fragment);
         super.onResume();
-
     }
 
     public void makeSearchVisible(boolean isVisible){
@@ -181,4 +182,6 @@ public class MainActivity extends AppCompatActivity {
     public MenuItem getSearchItem() {
         return searchItem;
     }
+
+
 }

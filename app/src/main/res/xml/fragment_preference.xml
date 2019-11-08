@@ -32,4 +32,13 @@
         app:allowDividerBelow="true"
         />
 
+    <Preference
+        android:title="Set Notification Time Reminder"
+        android:key="notificationTime"
+
+        app:iconSpaceReserved="false"
+        app:allowDividerAbove="true"
+        app:allowDividerBelow="true"
+        />
+
 </PreferenceScreen>

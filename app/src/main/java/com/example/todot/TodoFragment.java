@@ -115,9 +115,14 @@ public class TodoFragment extends Fragment  {
 
     public void insertTask(Task task){
         task.addTaskInFile(getActivity());
+        if (task.getName().toLowerCase().equals("lightbulb"))
+            lightbulb();
         if (calDate == null || Utils.isSameDay(calDate, task.getDate())) {
-            mAdapter.insertItem(task,  ((TextView)((MainActivity)getActivity()).getSearchItem().getActionView().findViewById(R.id.search_src_text)).getText().toString());
+            mAdapter.insertItem(task, ((TextView)((MainActivity)getActivity()).getSearchItem().getActionView().findViewById(R.id.search_src_text)).getText().toString());
         }
+    }
+    private void lightbulb(){
+        button.setImageResource(R.drawable.ic_lightbulb);
     }
 
     /*

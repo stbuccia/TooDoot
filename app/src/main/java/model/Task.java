@@ -1,6 +1,6 @@
 package model;
 
-import android.app.Activity;
+import android.app.Notification;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -37,9 +37,11 @@ public class Task implements Serializable {
     private String description;
     List<String> tags = new ArrayList<String>();
     List<String> lists = new ArrayList<String>();
+    private Date due_date = null;
     private Date creation_date = null;
     private Date completation_date;
     private Date time;
+    private Notification notification_builder = null;
     private static ArrayList<String> allTags = new ArrayList<>();
     private static ArrayList<String> allLists = new ArrayList<>();
 
@@ -60,17 +62,11 @@ public class Task implements Serializable {
     }
 
 
-    private String deleteInitialSpaces(String s){
-        if (s.charAt(0) == ' ')
-            s.substring(s.split("\\s+")[0].length());
-        return s;
-    }
-
 
     public Task(String n, String d, Date date, Date tim, char p, ArrayList<String> t, ArrayList<String> l) {
         name = n;
         description = d;
-        creation_date = date;
+        due_date = date;
         time = tim;
         if (p != ' ')
             priority = new Priority(Priority.fromCharToInt(p));
@@ -82,6 +78,7 @@ public class Task implements Serializable {
             lists = l;
             addAllLists(l);
         }
+        creation_date = new Date();
         uncompleteTask();
     }
 
@@ -108,7 +105,7 @@ public class Task implements Serializable {
             text = text.substring(text.split("\\s")[0].length() + 1);
         }
 
-        //optional: creation date
+        //optional: due date
         try{
             creation_date = ((SimpleDateFormat) formatter).parse(text.split("\\s")[0]);
             text = text.substring(text.split("\\s")[0].length() + 1);
@@ -145,6 +142,7 @@ public class Task implements Serializable {
         }
         text = text.replaceAll(regex, "");
         text = text.replaceAll("\\s+"," ");
+
         //time
         regex = "time:[0-2][0-9]:[0-5][0-9]";
 
@@ -153,6 +151,21 @@ public class Task implements Serializable {
         try {
             if (matcher.find()) {
                 time = (Utils.timeFormat()).parse(text.substring(matcher.start() + 5, matcher.end()));
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        text = text.replaceAll(regex, "");
+
+        //due date
+        regex = "due:[0-9][0-9][0-9][0-9]-[0-2][0-9]-[0-3][0-9]";
+        pattern = Pattern.compile(regex);
+        matcher = pattern.matcher(text);
+        try {
+            if (matcher.find()) {
+                int start = matcher.start() + 4;
+                due_date = ((SimpleDateFormat)formatter).parse(text.substring(start, matcher.end()));
             }
         }
         catch (Exception e){
@@ -185,6 +198,7 @@ public class Task implements Serializable {
         if (creation_date != null)
             text += ((SimpleDateFormat) formatter).format(creation_date) + " ";
 
+
         text += name;
 
         if (description.length() != 0) {
@@ -194,6 +208,9 @@ public class Task implements Serializable {
         if (time != null){
             text += " time:" + Utils.timeFormat().format(time) + " ";
         }
+
+        if (due_date != null)
+            text += " due:" + ((SimpleDateFormat) formatter).format(due_date) + " ";
 
         Iterator i = tags.iterator();
         while (i.hasNext())
@@ -226,7 +243,7 @@ public class Task implements Serializable {
 
     }
 
-    public static ArrayList<Task> getSavedTasks(Context context, Context activity){
+    public static ArrayList<Task> getSavedTasks(Context context){
         ArrayList<Task> tasks = new ArrayList<Task>();
         File file = new File(Utils.getFilePath(PreferenceManager.getDefaultSharedPreferences(context)));
         try {
@@ -239,11 +256,11 @@ public class Task implements Serializable {
                 }
 
                 catch (ParseException e){
-                    Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         } catch(FileNotFoundException e) {
-            Toast.makeText(activity, "todo.txt non trovato", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "todo.txt non trovato", Toast.LENGTH_LONG).show();
         }
         return tasks;
 
@@ -315,12 +332,16 @@ public class Task implements Serializable {
     }
 
     public void uncompleteTask(){
-        //TODO: consider the day?
-        Date now = getCurrentDate();
-        if (creation_date == null || creation_date.after(now))
-            state = ONGOING;
-        else
-            state = PENDING;
+        state = PENDING;
+    }
+
+
+    public boolean isOnGoing(){
+        return state == ONGOING;
+    }
+
+    public boolean isPending(){
+        return state == PENDING;
     }
 
     private void addAllTags(ArrayList<String> newTags){
@@ -337,13 +358,8 @@ public class Task implements Serializable {
         }
     }
 
-    public static  ArrayList<Task>  getTasksWithDate(Context context, Activity activity, Date date){
-        ArrayList<Task> all_tasks = getSavedTasks(context, activity);
-        /*
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-
-        String dateStr = ((SimpleDateFormat) formatter).format(date);*/
+    public static  ArrayList<Task>  getTasksWithDate(Context context, Date date){
+        ArrayList<Task> all_tasks = getSavedTasks(context);
         ArrayList<Task> tasks = new ArrayList<>();
 
         for (int i = 0; i < all_tasks.size(); i++){
@@ -370,8 +386,8 @@ public class Task implements Serializable {
         return priority;
     }
 
-    public Date getCreation_date() {
-        return creation_date;
+    public Date getdue_date() {
+        return due_date;
     }
 
     public List<String> getLists() {
@@ -390,8 +406,15 @@ public class Task implements Serializable {
         return textdef;
     }
 
-    public void setCreation_date(Date creation_date) {
-        this.creation_date = creation_date;
+    public void setOnGoing(){
+        this.state = ONGOING;
+    }
+
+    public void setPending(){
+        this.state = PENDING;
+    }
+    public void setDueDate(Date due_date) {
+        this.due_date = due_date;
     }
 
     public void setDescription(String description) {
@@ -428,8 +451,8 @@ public class Task implements Serializable {
 
     public Date getDate(){
         Date date;
-        if (creation_date != null)
-            date = creation_date;
+        if (due_date != null)
+            date = due_date;
         else if (completation_date != null)
             date = completation_date;
         else

@@ -1,10 +1,7 @@
 package com.example.todot;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.View;
 import android.widget.TimePicker;
 
@@ -29,12 +26,7 @@ public class TimeDialog extends ButtonsDialog implements TimePickerDialog.OnTime
 
     public TimeDialog(Context context, View view, int idButton) {
         super(context, view, idButton);
-        timeButtonListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                timePickerDialog.show();
-            }
-        };
+        timeButtonListener = view1 -> timePickerDialog.show();
 
         setupTimePicker();
         setListener(timeButtonListener);
@@ -48,18 +40,8 @@ public class TimeDialog extends ButtonsDialog implements TimePickerDialog.OnTime
         time = calendar.getTime();
         chip_id = R.id.time_chip;
 
-        setChip(chip_id, -1, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                timePickerDialog.show();
-            }
-        });
-        chip.setOnCloseIconClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chipgroup.removeView(chip);
-            }
-        });
+        setChip(chip_id, -1, view -> timePickerDialog.show());
+        chip.setOnCloseIconClickListener(view -> chipgroup.removeView(chip));
 
         chip.setText(Utils.timeFormat().format(time));
 

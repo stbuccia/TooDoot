@@ -150,4 +150,12 @@ public class Utils {
     public static String getFilePath(SharedPreferences preferences){
         return getDirPath(preferences) + "/" + getFilename(preferences);
     }
+
+    public static int getNotificationHour(SharedPreferences preferences){
+        return preferences.getInt("notificationHour", 7);
+    }
+
+    public static int getNotificationMin(SharedPreferences preferences){
+        return preferences.getInt("notificationMin", 0);
+    }
 }
