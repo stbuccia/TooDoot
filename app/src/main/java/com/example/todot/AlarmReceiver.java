@@ -5,15 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import androidx.preference.PreferenceManager;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import model.Priority;
-import model.Task;
-
 public class AlarmReceiver extends BroadcastReceiver {
 
 
@@ -31,31 +22,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
         }
 
-        ArrayList<Task> tasks = Task.getSavedTasks(context);
-        String minPriority = PreferenceManager.getDefaultSharedPreferences(context).getString("notificationPriority", "");
+        NotificationScheduler.showNotifications(context, MainActivity.class);
 
-        for (int i = 0; i < tasks.size() ; i++) {
-            Task task = tasks.get(i);
-
-
-            if (!task.isComplete() && task.getDate().before(new Date())) {
-
-                if (minPriority.equals("") || (!task.getPriority().isNull() && task.getPriority().getValue() <= Priority.fromCharToInt(minPriority.charAt(0)))) {
-                    List<String> lists = task.getLists();
-                    List<String> tags = task.getTags();
-
-                    StringBuilder listString = new StringBuilder();
-
-                    for (int j = 0; j < lists.size(); j ++)
-                        listString.append(lists.get(j) + " ");
-
-                    for (int j = 0; j < tags.size(); j ++)
-                        listString.append(tags.get(j) + " ");
-
-                    NotificationScheduler.showNotifications(context, MainActivity.class, task.getName(), task.getDescription() + " " + listString.toString(), i, task);
-                }
-            }
-        }
 
 
     }

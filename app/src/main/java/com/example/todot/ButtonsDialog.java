@@ -36,6 +36,7 @@ public class ButtonsDialog extends Dialog {
     }
     public ButtonsDialog(Context context) {
         super(context);
+        this.context = context;
     }
 
         public void setListener(View.OnClickListener listener) {

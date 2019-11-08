@@ -119,23 +119,24 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         Preference priorityPicker = findPreference("priorityPicker");
         priorityPicker.setSummary(getPrioritySummary());
         priorityPicker.setOnPreferenceClickListener(preference -> {
-            new PriorityDialog(context){
-                @Override
-                public void onPrioritySet(int val) {
-                    SharedPreferences.Editor editor = prefs.edit();
-                    if (val > 1) {
-                        Priority p = new Priority(val - 1);
-                        editor.putString("notificationPriority", p.getCharValue() + "");
-                        editor.commit();
-                    }
-                    else{
-                        editor.putString("notificationPriority", "");
-                        editor.commit();
+            PriorityDialog dialog =
+                    new PriorityDialog(context) {
+                        @Override
+                        public void onPrioritySet(int val) {
+                            SharedPreferences.Editor editor = prefs.edit();
+                            if (val > 1) {
+                                Priority p = new Priority(val - 1);
+                                editor.putString("notificationPriority", p.getCharValue() + "");
+                                editor.commit();
+                            } else {
+                                editor.putString("notificationPriority", "");
+                                editor.commit();
 
-                    }
-                    priorityPicker.setSummary(getPrioritySummary());
-                }
-            }.showPriorityDialog();
+                            }
+                            priorityPicker.setSummary(getPrioritySummary());
+                        }
+                    };
+            dialog.showPriorityDialog();
             return true;
         });
 
@@ -154,13 +155,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
     private void showTimePickerDialog(int h, int m, Preference p) {
         TimePickerDialog builder = new TimePickerDialog(context, R.style.TimePickerTheme,
                 (timePicker, hour, min) -> {
-                    NotificationScheduler.setReminder(context, AlarmReceiver.class
-                    );
+
 
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putInt("notificationHour", hour);
                     editor.putInt("notificationMin", min);
                     editor.commit();
+                    NotificationScheduler.setReminder(context, AlarmReceiver.class);
                     setTimeSummary(p);
 
                 }, h, m, true);

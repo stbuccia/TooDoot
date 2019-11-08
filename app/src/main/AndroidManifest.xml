@@ -28,10 +28,11 @@
 
         </activity>
 
-        <receiver android:name=".AlarmReceiver"
-            android:enabled="false">
+        <receiver android:name=".AlarmReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="TASK_ALARM" />
+                <action android:name="android.intent.action.NOTIFY" />
             </intent-filter>
         </receiver>
     </application>

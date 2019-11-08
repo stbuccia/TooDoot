@@ -24,16 +24,17 @@ public class PriorityDialog extends ButtonsDialog {
     }
 
     public PriorityDialog(final Context context) {
+
         super(context);
     }
 
     public void showPriorityDialog() {
 
-
         setTitle("Select Priority");
         setContentView(R.layout.priority_dialog);
 
         getWindow().setLayout((int)(context.getResources().getDisplayMetrics().widthPixels*0.90), WindowManager.LayoutParams.WRAP_CONTENT);
+        //getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
         final NumberPicker np = findViewById(R.id.numberPicker);
         String[] alphabet = new String[27];
