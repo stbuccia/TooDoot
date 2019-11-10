@@ -3,7 +3,7 @@ package model;
 import android.content.SharedPreferences;
 import android.os.Environment;
 
-import com.example.todot.R;
+import com.example.toodoot.R;
 
 import java.text.DateFormat;
 import java.text.Format;

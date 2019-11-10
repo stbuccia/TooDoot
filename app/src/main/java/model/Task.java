@@ -29,7 +29,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static model.Task.State.COMPLETED;
-import static model.Task.State.ONGOING;
 import static model.Task.State.PENDING;
 
 public class Task implements Serializable {
@@ -65,7 +64,7 @@ public class Task implements Serializable {
 
     public Task(String n, String d, Date date, Date tim, char p, ArrayList<String> t, ArrayList<String> l) {
         name = n;
-        description = d;
+        setDescription(d);
         due_date = date;
         time = tim;
         if (p != ' ')
@@ -115,11 +114,12 @@ public class Task implements Serializable {
         }
 
         //tags
-        String regex = "@\\s*(\\w+)";
+
+        String regex = " \\+\\s*(\\w+)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()){
-            String tagText = (text.substring(matcher.start() + 1, matcher.end()));
+            String tagText = (text.substring(matcher.start() + 2, matcher.end()));
             tags.add(tagText);
             ArrayList<String> addTags = new ArrayList<String>();
             addTags.add(tagText);
@@ -130,11 +130,11 @@ public class Task implements Serializable {
 
 
         //lists
-        regex = "\\+\\s*(\\w+)";
+        regex = " @\\s*(\\w+)";
         pattern = Pattern.compile(regex);
         matcher = pattern.matcher(text);
         while (matcher.find()){
-            String listText  = text.substring(matcher.start() + 1, matcher.end());
+            String listText  = text.substring(matcher.start() + 2, matcher.end());
             lists.add(listText);
             ArrayList<String> addLists = new ArrayList<String>();
             addLists.add(listText);
@@ -177,8 +177,10 @@ public class Task implements Serializable {
         name = text.split(" desc:")[0];
         //name = text;
 
-        if (text.split("desc:").length > 1)
+        if (text.split("desc:").length > 1) {
             description = text.substring(text.split(" desc:")[0].length() + 6);
+            setDescription(description);
+        }
         else
             description = "";
     }
@@ -214,12 +216,12 @@ public class Task implements Serializable {
 
         Iterator i = tags.iterator();
         while (i.hasNext())
-            text += (" @" + i.next());
+            text += (" +" + i.next());
 
 
         i = lists.iterator();
         while (i.hasNext())
-            text += (" +" + i.next());
+            text += (" @" + i.next());
         text = text.replaceAll("\\s+"," ");
 
         return text;
@@ -250,17 +252,15 @@ public class Task implements Serializable {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-
                 try{
                     tasks.add(new Task(line));
                 }
-
                 catch (ParseException e){
                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         } catch(FileNotFoundException e) {
-            Toast.makeText(context, "todo.txt non trovato", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "todo.txt non found", Toast.LENGTH_LONG).show();
         }
         return tasks;
 
@@ -335,15 +335,6 @@ public class Task implements Serializable {
         state = PENDING;
     }
 
-
-    public boolean isOnGoing(){
-        return state == ONGOING;
-    }
-
-    public boolean isPending(){
-        return state == PENDING;
-    }
-
     private void addAllTags(ArrayList<String> newTags){
         for(int i = 0; i < newTags.size(); i++){
             if (!allTags.contains(newTags.get(i)))
@@ -363,10 +354,6 @@ public class Task implements Serializable {
         ArrayList<Task> tasks = new ArrayList<>();
 
         for (int i = 0; i < all_tasks.size(); i++){
-            /*
-            String taskDate = ((SimpleDateFormat) formatter).format(all_tasks.get(i).getDate());
-
-*/
 
             if (Utils.isSameDay(date, all_tasks.get(i).getDate()))
                 tasks.add(all_tasks.get(i));
@@ -399,6 +386,7 @@ public class Task implements Serializable {
     }
 
     public String getDescription() {
+        description = description.replaceAll("_", " ");
         return description;
     }
 
@@ -406,19 +394,12 @@ public class Task implements Serializable {
         return textdef;
     }
 
-    public void setOnGoing(){
-        this.state = ONGOING;
-    }
-
-    public void setPending(){
-        this.state = PENDING;
-    }
     public void setDueDate(Date due_date) {
         this.due_date = due_date;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = description.replaceAll("\\s+","_");
     }
 
     public void setTags(List<String> tags) {

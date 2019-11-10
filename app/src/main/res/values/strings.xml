@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ToDot</string>
+    <string name="app_name">TooDoot</string>
     <string name="title_todo">ToDo</string>
     <string name="title_calendar">Calendar</string>
     <string name="title_graphic">Graphic</string>
@@ -26,19 +26,6 @@
     <string name="delete">Delete</string>
     <string name="snack_bar_undo">UNDO</string>
     <string name="title_settings">Settings</string>
-    <string name="basic_preferences">Prova</string>
-    <string name="title_basic_preference">Prova</string>
-    <string name="summary_basic_preference"><![CDATA[android:summary=\"@string/summary_basic_preference\"/>]]></string>
-    <string name="title_stylish_preference">prova</string>
-    <string name="summary_stylish_preference">prova</string>
-    <string name="title_icon_preference">prova</string>
-    <string name="summary_icon_preference">prova</string>
-    <string name="title_single_line_title_preference">prova</string>
-    <string name="summary_single_line_title_preference">prova</string>
-    <string name="widgets">prova</string>
-    <string name="title_checkbox_preference">prova</string>
-    <string name="summary_checkbox_preference">prova</string>
-    <string name="dialogs">prova</string>
     <string name="title_choose_any_file">Select a file</string>
     <string name="channel_name">notification_channel</string>
 </resources>
