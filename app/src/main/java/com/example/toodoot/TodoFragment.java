@@ -65,6 +65,7 @@ public class TodoFragment extends Fragment  {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
+                mAdapter.notifyItemChanged(position);
                 mAdapter.checkTask(getContext(), position, true);
             }
         };
@@ -78,6 +79,7 @@ public class TodoFragment extends Fragment  {
                 int position = viewHolder.getAdapterPosition();
                 PostponeDialog dialog = new PostponeDialog(getContext(), mAdapter, position, TodoFragment.this);
                 dialog.showDialog();
+                mAdapter.notifyItemChanged(position);
                 mAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), position);
             }
         };
@@ -90,16 +92,13 @@ public class TodoFragment extends Fragment  {
 
         //set up button
         button = view.findViewById(R.id.floatingActionButton);
-        ((View) button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        button.setOnClickListener(v -> {
 
 
-                AddTaskFragment bottomSheetFragment = new AddTaskFragment();
+            AddTaskFragment bottomSheetFragment = new AddTaskFragment();
 
-                bottomSheetFragment.show(getFragmentManager(), bottomSheetFragment.getTag());
+            bottomSheetFragment.show(getFragmentManager(), bottomSheetFragment.getTag());
 
-            }
         });
 
         return view;

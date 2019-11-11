@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     CalendarFragment calendarFragment;
     Fragment fragment = null;
     MenuItem searchItem;
-    public String CHANNEL_ID = "Channel Notification";
+
     private boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
+        Toolbar toolbar = findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //set search colors
-        TextView textView = (TextView) searchView.findViewById(R.id.search_src_text);
+        TextView textView = searchView.findViewById(R.id.search_src_text);
         ImageView searchIcon = searchView.findViewById(R.id.search_button);
         ImageView closeIcon = searchView.findViewById(R.id.search_close_btn);
         View v = searchView.findViewById(R.id.search_plate);

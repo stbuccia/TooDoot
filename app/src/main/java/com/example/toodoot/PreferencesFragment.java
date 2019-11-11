@@ -22,14 +22,14 @@ import model.Utils;
 public class PreferencesFragment extends PreferenceFragmentCompat {
 
     private Context context;
-    SharedPreferences prefs;
+    private SharedPreferences prefs;
     public PreferencesFragment(Context c){
         context = c;
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
 
-    public void moveFile (String filePath, String newDir){
+    private void moveFile(String filePath, String newDir){
         try{
 
             File file =new File(filePath);
@@ -79,10 +79,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                     dialog.cancel();
                 });
 
-        Preference filePicker = (Preference) findPreference("todotxtPicker");
+        Preference filePicker = findPreference("todotxtPicker");
         filePicker.setSummary(Utils.getFilePath(prefs));
 
-        Preference dirPicker = (Preference) findPreference("dirPicker");
+        Preference dirPicker = findPreference("dirPicker");
         dirPicker.setSummary(Utils.getDirPath(prefs));
 
         filePicker.setOnPreferenceClickListener(preference -> {

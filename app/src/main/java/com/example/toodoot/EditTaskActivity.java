@@ -18,7 +18,6 @@ import android.widget.TimePicker;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.toodoot.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -55,8 +54,6 @@ public class EditTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
 
-
-
         task = (Task) getIntent().getSerializableExtra("TASK_CLICKED");
         position = (int) getIntent().getSerializableExtra("TASK_POS");
 
@@ -67,11 +64,9 @@ public class EditTaskActivity extends AppCompatActivity {
 
         name.setText(task.getName());
         description.setText(task.getDescription());
-        /*if (task.getTime() != null)
-            description.setText(Utils.timeFormat().format(task.getTime()));*/
         checkBox.setChecked(task.isComplete());
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
+        Toolbar toolbar = findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -80,13 +75,7 @@ public class EditTaskActivity extends AppCompatActivity {
         upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -179,6 +168,7 @@ public class EditTaskActivity extends AppCompatActivity {
         return true;
     }
 
+
     private void changeView(View from, View to){
 
         ViewGroup parent = (ViewGroup) from.getParent();
@@ -188,6 +178,7 @@ public class EditTaskActivity extends AppCompatActivity {
         parent.addView(to, index);
 
     }
+
 
 
     public void setDateBtn(){
@@ -208,12 +199,9 @@ public class EditTaskActivity extends AppCompatActivity {
             changeView(activity.findViewById(R.id.date), getLayoutInflater().inflate(R.layout.date_chipgroup, (ViewGroup) activity.findViewById(R.id.date).getParent(), false));
             ((ChipGroup) activity.findViewById(R.id.task_date_chipgroup)).addView(chip);
         }
-        chip.setOnCloseIconClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((ChipGroup) activity.findViewById(R.id.task_date_chipgroup)).removeView(chip);
-                setDateBtn();
-            }
+        chip.setOnCloseIconClickListener(view -> {
+            ((ChipGroup) activity.findViewById(R.id.task_date_chipgroup)).removeView(chip);
+            setDateBtn();
         });
         chip.setChipBackgroundColorResource(R.color.calColor);
         return chip;
@@ -236,12 +224,9 @@ public class EditTaskActivity extends AppCompatActivity {
             changeView(activity.findViewById(R.id.time), getLayoutInflater().inflate(R.layout.time_chipgroup, (ViewGroup) activity.findViewById(R.id.time).getParent(), false));
             ((ChipGroup) activity.findViewById(R.id.task_time_chipgroup)).addView(chip);
         }
-        chip.setOnCloseIconClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((ChipGroup) activity.findViewById(R.id.task_time_chipgroup)).removeView(chip);
-                setTimeBtn();
-            }
+        chip.setOnCloseIconClickListener(view -> {
+            ((ChipGroup) activity.findViewById(R.id.task_time_chipgroup)).removeView(chip);
+            setTimeBtn();
         });
         chip.setChipBackgroundColorResource(R.color.timeColor);
         return chip;
@@ -270,12 +255,9 @@ public class EditTaskActivity extends AppCompatActivity {
             changeView(activity.findViewById(R.id.priority), getLayoutInflater().inflate(R.layout.priority_chipgroup, (ViewGroup) activity.findViewById(R.id.priority).getParent(), false));
             ((ChipGroup) activity.findViewById(R.id.task_priority_chipgroup)).addView(chip);
         }
-        chip.setOnCloseIconClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((ChipGroup) activity.findViewById(R.id.task_priority_chipgroup)).removeView(chip);
-                setPriorityBtn();
-            }
+        chip.setOnCloseIconClickListener(view -> {
+            ((ChipGroup) activity.findViewById(R.id.task_priority_chipgroup)).removeView(chip);
+            setPriorityBtn();
         });
 
         return chip;
@@ -304,14 +286,11 @@ public class EditTaskActivity extends AppCompatActivity {
             for (int i = 0; i < size; i++) {
                 ((ChipGroup) activity.findViewById(R.id.task_lists_chipgroup)).addView(chips[i]);
                 final int finalI = i;
-                chips[i].setOnCloseIconClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ((ChipGroup) activity.findViewById(R.id.task_lists_chipgroup)).removeView(chips[finalI]);
-                        listDialog.removeList(finalI);
-                        if (listDialog.getLists().size() == 0)
-                            setListBtn();
-                    }
+                chips[i].setOnCloseIconClickListener(view -> {
+                    ((ChipGroup) activity.findViewById(R.id.task_lists_chipgroup)).removeView(chips[finalI]);
+                    listDialog.removeList(finalI);
+                    if (listDialog.getLists().size() == 0)
+                        setListBtn();
                 });
                 chips[i].setChipBackgroundColorResource(R.color.listColor);
 
@@ -343,14 +322,11 @@ public class EditTaskActivity extends AppCompatActivity {
             for (int i = 0; i < size; i++) {
                 ((ChipGroup) activity.findViewById(R.id.task_tags_chipgroup)).addView(chips[i]);
                 final int finalI = i;
-                chips[i].setOnCloseIconClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ((ChipGroup) activity.findViewById(R.id.task_tags_chipgroup)).removeView(chips[finalI]);
-                        tagDialog.removeList(finalI);
-                        if (tagDialog.getLists().size() == 0)
-                            setTagBtn();
-                    }
+                chips[i].setOnCloseIconClickListener(view -> {
+                    ((ChipGroup) activity.findViewById(R.id.task_tags_chipgroup)).removeView(chips[finalI]);
+                    tagDialog.removeList(finalI);
+                    if (tagDialog.getLists().size() == 0)
+                        setTagBtn();
                 });
                 chips[i].setChipBackgroundColorResource(R.color.tagColor);
             }

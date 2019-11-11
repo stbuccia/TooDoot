@@ -3,7 +3,6 @@ package com.example.toodoot;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 
-import com.example.toodoot.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -38,25 +36,19 @@ import static model.Task.getAllTags;
 public class AddTaskFragment extends BottomSheetDialogFragment{
 
 
-    private  View.OnClickListener dateButtonListener;
-
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
 
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                BottomSheetDialog d = (BottomSheetDialog) dialog;
+        dialog.setOnShowListener(dialog1 -> {
+            BottomSheetDialog d = (BottomSheetDialog) dialog1;
 
-                FrameLayout bottomSheet = (FrameLayout) d.findViewById(com.google.android.material.R.id.design_bottom_sheet);
-                BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_EXPANDED);
-            }
+            FrameLayout bottomSheet = d.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+            BottomSheetBehavior.from(bottomSheet).setState(BottomSheetBehavior.STATE_EXPANDED);
         });
 
-        // Do something with your dialog like setContentView() or whatever
         return dialog;
     }
 
@@ -75,15 +67,11 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
         TodoFragment todoFragment;
         todoFragment = ((MainActivity)getActivity()).getTodoFragment();
 
-        //focus on editext
         final TextInputEditText editText = view.findViewById(id.textInputEditText);
         editText.requestFocus();
-        editText.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-            }
+        editText.postDelayed(() -> {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
         }, 200);
 
 
@@ -95,7 +83,6 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             @Override
             public void onDateSet(final DatePicker datePicker, int year, int month, int day){
                 super.onDateSet(datePicker, year, month, day);
-                //chip.setChipIconResource(R.drawable.ic_event);
                 chip.setChipBackgroundColorResource(R.color.calColor);
                 if (chipgroup.findViewById(chip_id) == null) addChip();
             }
@@ -115,22 +102,18 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             @Override
             public void onTimeSet(final TimePicker timePicker, int hour, int min){
                 super.onTimeSet(timePicker, hour, min);
-                //chip.setChipIconResource(R.drawable.ic_event);
                 chip.setChipBackgroundColorResource(R.color.timeColor);
                 if (chipgroup.findViewById(chip_id) == null) addChip();
             }
         };
 
         //set up priority button
-        //MaterialButton iconPriority = view.findViewById(R.id.choose_priority_button);
         final PriorityDialog priorityDialog = new PriorityDialog(getContext(), view, id.choose_priority_button){
             @Override
             public void onPrioritySet(int val){
                 super.onPrioritySet(val);
                 if (val > 1 ) {
                     char priority = (char)('A' + (val - 2));
-                    //chip.setChipIconResource(R.drawable.ic_priority_24px);
-
                     chip.setChipBackgroundColorResource(Utils.getPriorityResColor(Priority.fromCharToInt(priority)));
                     if (chipgroup.findViewById(chip_id) == null) addChip();
                 }
@@ -155,7 +138,6 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
 
                 for(int i = 0; i < getLists().size(); i++ ) {
                     chip = super.list_chips[i];
-                    //chip.setChipIconResource(R.drawable.ic_tag_24px);
                     chip.setChipBackgroundColorResource(R.color.tagColor);
                     addChip();
                 }
@@ -179,7 +161,6 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
 
                 for(int i = 0; i < getLists().size(); i++ ) {
                     chip = super.list_chips[i];
-                    //chip.setChipIconResource(R.drawable.ic_list_18px);
                     chip.setChipBackgroundColorResource(R.color.listColor);
                     addChip();
                 }
@@ -188,14 +169,11 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
 
         //set up save button
         MaterialButton saveButton = view.findViewById(id.save_button);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (editText.getText().toString() != "") {
-                    ((MainActivity)getActivity()).getTodoFragment().insertTask(new Task(editText.getText().toString(), "", calendarDialog.getDate(), timeDialog.getTime(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists()));
-                    AddTaskFragment.super.dismiss();
+        saveButton.setOnClickListener(v -> {
+            if (!editText.getText().toString().equals("")) {
+                ((MainActivity)getActivity()).getTodoFragment().insertTask(new Task(editText.getText().toString(), "", calendarDialog.getDate(), timeDialog.getTime(), priorityDialog.getPriority(), tagDialog.getLists(), listDialog.getLists()));
+                AddTaskFragment.super.dismiss();
 
-                }
             }
         });
         return view;
