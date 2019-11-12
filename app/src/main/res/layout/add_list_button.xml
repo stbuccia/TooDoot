@@ -10,7 +10,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/task_lists"
-        android:text="Add List"
+        android:text="@string/add_list"
         android:background="@null"
         style="@style/MyAddButton"/>
 

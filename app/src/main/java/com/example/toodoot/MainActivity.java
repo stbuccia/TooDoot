@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         closeIcon.setColorFilter(getResources().getColor(R.color.design_default_color_secondary));
         textView.setTextColor(getResources().getColor(R.color.design_default_color_on_primary));
         textView.setHintTextColor(getResources().getColor(R.color.design_default_color_secondary));
-        textView.setHint("Search Name +Tag @List (P)");
+        textView.setHint(getString(R.string.search_text));
 
         return true;
     }

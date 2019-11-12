@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.NumberPicker;
 
-import com.example.toodoot.R;
 import com.google.android.material.chip.Chip;
 
 import model.Priority;
@@ -31,16 +30,15 @@ public class PriorityDialog extends ButtonsDialog {
 
     public void showPriorityDialog() {
 
-        setTitle("Select Priority");
+        setTitle(context.getString(R.string.select_priority));
         setContentView(R.layout.priority_dialog);
 
         getWindow().setLayout((int)(context.getResources().getDisplayMetrics().widthPixels*0.90), WindowManager.LayoutParams.WRAP_CONTENT);
-        //getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
         final NumberPicker np = findViewById(R.id.numberPicker);
         String[] alphabet = new String[27];
 
-        alphabet[0] = "Unknown";
+        alphabet[0] = context.getString(R.string.unknown_priority);
 
         for(char i=1; i <= 26 ; i++){
             alphabet[i] = "" + (char)((i-1) + 'A');

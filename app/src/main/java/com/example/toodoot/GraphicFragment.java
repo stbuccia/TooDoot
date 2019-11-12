@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.RadioGroup;
@@ -26,6 +25,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.DateFormat;
@@ -33,11 +33,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 import model.Task;
 import model.Utils;
 
 public class GraphicFragment extends Fragment {
+
     private PieChart pieChart;
     private LineChart lineChart;
     private RadioGroup radioGroupPie;
@@ -45,7 +47,7 @@ public class GraphicFragment extends Fragment {
     private String listSel;
     private String tagSel;
     private ArrayList<Task> tasks;
-    private String all = "All";
+    private String all;
     private RadioGroup radioGroupLine;
     private ArrayList<Date> xValues = new ArrayList<>();
     private ArrayList<Entry> yValues = new ArrayList<>();
@@ -112,8 +114,8 @@ public class GraphicFragment extends Fragment {
         if (countCompleted + countUncompleted == 0)
             countUncompleted = 1;
 
-        values.add(new PieEntry(countCompleted, "Completed"));
-        values.add(new PieEntry(countUncompleted, "Uncompleted"));
+        values.add(new PieEntry(countCompleted, getResources().getString(R.string.completed)));
+        values.add(new PieEntry(countUncompleted, getResources().getString(R.string.uncompleted)));
 
         PieDataSet dataSet = new PieDataSet(values, "");
         dataSet.setSliceSpace(3f);
@@ -125,8 +127,8 @@ public class GraphicFragment extends Fragment {
 
         pieChart.setData(data);
 
-        String s = "";
-            s = String.format("%d", (int)(countCompleted * 100 / (countCompleted + countUncompleted)));
+        String s;
+        s = String.format("%d", (int)(countCompleted * 100 / (countCompleted + countUncompleted)));
         s += "%";
         rate.setText(s);
 
@@ -193,7 +195,7 @@ public class GraphicFragment extends Fragment {
 
     }
 
-    public class XAxisValueFormatter extends  ValueFormatter{
+    public class XAxisValueFormatter extends ValueFormatter {
         private ArrayList<Date> values;
         private int index;
 
@@ -273,7 +275,7 @@ public class GraphicFragment extends Fragment {
 
 
 
-        LineDataSet set = new LineDataSet(yValues, "Task Completed");
+        LineDataSet set = new LineDataSet(yValues, getResources().getString(R.string.task_completed));
         set.setFillColor(getResources().getColor(R.color.fillColor));
         set.setDrawFilled(true);
         set.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
@@ -303,16 +305,14 @@ public class GraphicFragment extends Fragment {
         yAxisR.setValueFormatter(new YAxisValueFormatter());
     }
 
-    private void setMenu(View view, ArrayList<String> lists, int dropdown_menu, int dropdown_list, final boolean isList){
-        ArrayList<String> suggestion = new ArrayList<>();
-        for (int i = 0; i < lists.size(); i++)
-            suggestion.add(lists.get(i));
+    private void setMenu(View view, ArrayList<String> lists, int dropdown_list, final boolean isList){
+        ArrayList<String> suggestion = new ArrayList<>(lists);
         if (!suggestion.contains(all))
             suggestion.add(0, all);
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(
-                        getContext(),
-                        dropdown_menu, suggestion);
+                        Objects.requireNonNull(getContext()),
+                        R.layout.dropdown_popup_menuitem, suggestion);
 
 
         final AutoCompleteTextView editTextFilledExposedDropdown =
@@ -321,17 +321,14 @@ public class GraphicFragment extends Fragment {
         if (isList) listSel = all;
         else tagSel = all;
         editTextFilledExposedDropdown.setAdapter(adapter);
-        editTextFilledExposedDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (isList)
-                    listSel = editTextFilledExposedDropdown.getText().toString();
-                else
-                    tagSel = editTextFilledExposedDropdown.getText().toString();
-                filter();
-                setPieChart();
-                setLineChart();
-            }
+        editTextFilledExposedDropdown.setOnItemClickListener((adapterView, view1, i, l) -> {
+            if (isList)
+                listSel = editTextFilledExposedDropdown.getText().toString();
+            else
+                tagSel = editTextFilledExposedDropdown.getText().toString();
+            filter();
+            setPieChart();
+            setLineChart();
         });
     }
 
@@ -345,54 +342,49 @@ public class GraphicFragment extends Fragment {
         tasks = newTasks;
     }
 
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view =  inflater.inflate(R.layout.fragment_graphic, null);
+        all =  getResources().getString(R.string.all);
         tasks = Task.getSavedTasks(getContext());
 
         //Chart Pie
-        pieChart = (PieChart) view.findViewById(R.id.piechart);
-        TextView textViewPie = (TextView) view.findViewById(R.id.piename);
-        rate = (TextView) view.findViewById(R.id.rate);
+        pieChart = view.findViewById(R.id.piechart);
+        TextView textViewPie = view.findViewById(R.id.piename);
+        rate = view.findViewById(R.id.rate);
 
-        textViewPie.setText("Completation Rate");
+        textViewPie.setText(getResources().getString(R.string.completation_rate));
 
         radioGroupPie = view.findViewById(R.id.radioGroup);
         radioGroupPie.check(R.id.all_radio);
 
-        radioGroupPie.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                setPieChart();
-            }
-        });
+        radioGroupPie.setOnCheckedChangeListener((radioGroup, i) -> setPieChart());
 
         setPieChart();
 
 
         //Chart Line
-        lineChart = (LineChart) view.findViewById(R.id.line_chart);
-        TextView textViewLine = (TextView) view.findViewById(R.id.linename);
+        lineChart = view.findViewById(R.id.line_chart);
+        TextView textViewLine = view.findViewById(R.id.linename);
 
-        textViewLine.setText("Completation Dates");
+        textViewLine.setText(getResources().getString(R.string.completation_dates));
 
         radioGroupLine = view.findViewById(R.id.radioGroup_line);
         radioGroupLine.check(R.id.day_radio_line);
 
-        radioGroupLine.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                setLineChart();
-            }
-        });
+        radioGroupLine.setOnCheckedChangeListener((radioGroup, i) -> setLineChart());
+
 
         setLineChart();
 
 
         //List and tags dropdown
-        setMenu(view, Task.getAllLists(), R.layout.dropdown_popup_menuitem, R.id.list_dropdown, true);
-        setMenu(view, Task.getAllTags(), R.layout.dropdown_popup_menuitem, R.id.tag_dropdown, false);
+        setMenu(view, Task.getAllLists(), R.id.list_dropdown, true);
+        setMenu(view, Task.getAllTags(), R.id.tag_dropdown, false);
+
 
         return view;
     }

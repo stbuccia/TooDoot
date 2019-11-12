@@ -50,12 +50,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="Name Task"
+                android:hint="@string/name_task"
                 android:textColorHint="@color/hintColor"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/checkBox"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                 />
 
 
             <!-- description -->
@@ -74,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
-                android:hint="Add Description"
+                android:hint="@string/add_description"
                 android:textColorHint="@color/hintColor"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"

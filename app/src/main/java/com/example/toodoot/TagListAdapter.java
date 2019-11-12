@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.toodoot.R;
 import com.hootsuite.nachos.NachoTextView;
 
 import java.util.ArrayList;
@@ -36,8 +34,6 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ViewHold
             titleView.setGravity(Gravity.CENTER_VERTICAL);
 
             checkButton = v.findViewById(R.id.checkBox);
-
-
         }
     }
 
@@ -52,7 +48,7 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ViewHold
     @NonNull
     @Override
     public TagListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.taglist, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.taglist, parent, false);
         TagListAdapter.ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -64,21 +60,15 @@ public class TagListAdapter extends RecyclerView.Adapter<TagListAdapter.ViewHold
 
         holder.checkButton.setChecked(isInEditText(text, tl));
 
-        holder.checkButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (buttonView.isPressed()) {
-                    if (isChecked) {
-                        addToEditText(text, tl);
-                    } else {
-                        removeToEditText(text, tl);
-                    }
+        holder.checkButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isPressed()) {
+                if (isChecked) {
+                    addToEditText(text, tl);
+                } else {
+                    removeToEditText(text, tl);
                 }
             }
         });
-
-
     }
 
     @Override

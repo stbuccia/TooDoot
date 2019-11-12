@@ -1,11 +1,9 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="wrap_content"
@@ -38,26 +36,6 @@
                 android:id="@+id/taglistInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-            <!--com.hootsuite.nachos.NachoTextView
-                android:id="@+id/taglistInputEditText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:maxLines="3"
-                android:minHeight="46dp"
-                android:paddingStart="@dimen/default_gap"
-                android:paddingEnd="@dimen/default_gap"
-                android:scrollbars="vertical"
-                app:chipBackground="@color/design_default_color_primary"
-                app:chipHeight="30dp"
-                app:chipSpacing="2dp"
-                app:chipTextColor="#FFFFFE"
-                app:chipTextSize="16dp"
-                app:chipVerticalSpacing="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" /-->
-
 
 
 

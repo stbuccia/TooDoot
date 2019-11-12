@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.toodoot.R;
 import com.google.android.material.button.MaterialButton;
 import com.shrikanthravi.collapsiblecalendarview.data.Day;
 import com.shrikanthravi.collapsiblecalendarview.widget.CollapsibleCalendar;
@@ -52,12 +51,7 @@ public class CalendarFragment extends Fragment {
         //collapse
         collapsibleCalendar.expand(300);
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                collapsibleCalendar.collapse(300);
-            }
-        }, 301);
+        handler.postDelayed(() -> collapsibleCalendar.collapse(300), 301);
     }
 
     private Day getToday(){
@@ -76,8 +70,6 @@ public class CalendarFragment extends Fragment {
         View view  = inflater.inflate(R.layout.fragment_calendar, null);
 
         collapsibleCalendar = view.findViewById(R.id.calendarView);
-        //collapsibleCalendar.setFirstDayOfWeek(1);
-
 
         updateTodoFragment();
         collapsibleCalendar.select(getToday());
@@ -122,24 +114,13 @@ public class CalendarFragment extends Fragment {
         });
 
         MaterialButton todayButton = view.findViewById(R.id.today_button);
-        todayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setCalToDate(getToday());
-            }
-        });
+        todayButton.setOnClickListener(v -> setCalToDate(getToday()));
 
         collapsibleCalendar.setSelected(true);
 
         textView = view.findViewById(R.id.textView);
         textView.setText(Utils.getStringDate(new Date()));
-        textView.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                setCalToDate(collapsibleCalendar.getSelectedDay());
-            }
-        });
+        textView.setOnClickListener(view1 -> setCalToDate(collapsibleCalendar.getSelectedDay()));
 
         return view;
     }

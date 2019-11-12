@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.toodoot.R;
 import com.google.android.material.chip.Chip;
 import com.hootsuite.nachos.NachoTextView;
 import com.hootsuite.nachos.terminator.ChipTerminatorHandler;
@@ -23,19 +22,14 @@ public class ListDialog extends ButtonsDialog {
     protected Chip[] list_chips = null;
     private ArrayList<String> lists = new ArrayList<String>();
     private TagListAdapter mAdapter;
-    private ArrayList<String> allLists = new ArrayList<String>();
+    private ArrayList<String> allLists;
     private String title;
     private int startId;
     private int colorRes;
 
     public ListDialog(final Context context, View view, int idButton, ArrayList<String> all, String name, int id, int res){
         super(context, view, idButton);
-        setListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showListDialog();
-            }
-        });
+        setListener(view1 -> showListDialog());
         allLists = all;
         title = name;
         startId = id;
@@ -54,14 +48,12 @@ public class ListDialog extends ButtonsDialog {
 
 
 
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.cardList);
+        RecyclerView mRecyclerView = findViewById(R.id.cardList);
         mRecyclerView.setHasFixedSize(true);
 
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getOwnerActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-        //mAdapter = new ListListAdapter(model.Task.getAlllists());
 
 
         mAdapter = new TagListAdapter(allLists, text);
@@ -100,15 +92,11 @@ public class ListDialog extends ButtonsDialog {
         });
 
 
-        setupButtons(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
+        setupButtons(v -> {
 
-                lists = (ArrayList<String>) text.getChipValues();
-                onListSet();
-                dismiss();
-            }
+            lists = (ArrayList<String>) text.getChipValues();
+            onListSet();
+            dismiss();
         });
         show();
 
@@ -120,21 +108,13 @@ public class ListDialog extends ButtonsDialog {
             final int id = startId + i;
             final int finalI = i;
 
-            setChip(id, -1, new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    showListDialog();
-                }
-            });
+            setChip(id, -1, view -> showListDialog());
             //addChip();
             list_chips[i] = chip;
             list_chips[i].setText(lists.get(i));
-            list_chips[i].setOnCloseIconClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    removeList(finalI);
-                    chipgroup.removeView(view.findViewById(id));
-                }
+            list_chips[i].setOnCloseIconClickListener(view -> {
+                removeList(finalI);
+                chipgroup.removeView(view.findViewById(id));
             });
 
         }

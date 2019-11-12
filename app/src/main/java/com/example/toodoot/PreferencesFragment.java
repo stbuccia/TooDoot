@@ -49,9 +49,9 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
 
     private String getPrioritySummary(){
         if ((prefs.getString("notificationPriority", "")).equals(""))
-            return ("Notifications for every task");
+            return (getString(R.string.every_priority_not));
         else
-            return ("Notifications for tasks with priority greater or equal to " + prefs.getString("notificationPriority", ""));
+            return (getString(R.string.min_priority_not) + prefs.getString("notificationPriority", ""));
 
     }
 

@@ -71,10 +71,10 @@ public class NotificationScheduler {
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
 
         if(setcalendar.before(calendar)) {
-            setcalendar.add(Calendar.DAY_OF_MONTH,1);
+            setcalendar = calendar;
         }
 
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, setcalendar.getTimeInMillis() , AlarmManager.INTERVAL_DAY, pendingIntent);
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, setcalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
 
     }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -34,7 +33,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:hint="List"
+                    android:hint="@string/list"
                     card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintStart_toStartOf="parent"
                     card_view:layout_constraintTop_toTopOf="parent">
@@ -57,7 +56,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:hint="Tag"
+                    android:hint="@string/tag"
                     card_view:layout_constraintBottom_toBottomOf="parent"
                     card_view:layout_constraintStart_toEndOf="@+id/textListInputLayout"
                     card_view:layout_constraintTop_toTopOf="parent">
@@ -135,25 +134,25 @@
                         android:id="@+id/all_radio"
                         style="@style/TimeRadioButton"
                         android:button="@null"
-                        android:text="All" />
+                        android:text="@string/all" />
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/day_radio"
                         style="@style/TimeRadioButton"
                         android:button="@null"
-                        android:text="Day"/>
+                        android:text="@string/day"/>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/week_radio"
                         style="@style/TimeRadioButton"
                         android:button="@null"
-                        android:text="Week"/>
+                        android:text="@string/week"/>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/month_radio"
                         style="@style/TimeRadioButton"
                         android:button="@null"
-                        android:text="Month" />
+                        android:text="@string/month" />
                 </RadioGroup>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -195,20 +194,20 @@
                         android:id="@+id/day_radio_line"
                         android:button="@null"
                         style="@style/TimeRadioButton"
-                        android:text="Day" />
+                        android:text="@string/day" />
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/week_radio_line"
                         android:button="@null"
                         style="@style/TimeRadioButton"
-                        android:text="Week" />
+                        android:text="@string/week" />
 
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/month_radio_line"
                         android:button="@null"
                         style="@style/TimeRadioButton"
-                        android:text="Month" />
+                        android:text="@string/month" />
                 </RadioGroup>
 
                 <com.github.mikephil.charting.charts.LineChart

@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">TooDoot</string>
+    <string name="title_todo">ToDo</string>
+    <string name="title_calendar">Calendario</string>
+    <string name="title_graphic">Grafici</string>
+    <string name="search">Cerca</string>
+    <string name="setting">Impostazioni</string>
+    <string name="textview">TextView</string>
+    <string name="task_name">Nome Task</string>
+    <string name="add_task">Aggiungi Task</string>
+    <string name="new_task">Nuovo task</string>
+    <string name="button">Pulsante</string>
+    <string name="save">Salva</string>
+
+    <string-array name="nav_item_activity_titles">
+        <item>ToDo</item>
+        <item>Calendario</item>
+        <item>Grafici</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="set">Ok</string>
+    <string name="cancel">Annulla</string>
+    <string name="add">Aggiungi</string>
+    <string name="delete">Elimina</string>
+    <string name="snack_bar_undo">Annulla</string>
+    <string name="title_settings">Impostazioni</string>
+    <string name="title_choose_any_file">Seleziona un file</string>
+    <string name="channel_name">Canale di notifica</string>
+    <string name="name_task">Nome Task</string>
+    <string name="add_description">Aggiungi Descrizione</string>
+    <string name="add_date">Aggiungi Data</string>
+    <string name="add_list">Aggiungi Lista</string>
+    <string name="add_priority">Aggiungi Priorità</string>
+    <string name="add_tag">Aggiungi Tag</string>
+    <string name="add_time">Aggiungi Ora</string>
+    <string name="today">Oggi</string>
+    <string name="list">Lista</string>
+    <string name="tag">Tag</string>
+    <string name="day">Giorno   </string>
+    <string name="week">Settimana</string>
+    <string name="month">Mese     </string>
+    <string name="tomorrow">Domani</string>
+    <string name="next_week">Prossima Settimana</string>
+    <string name="select_date">Seleziona Data</string>
+    <string name="select_time">Seleziona Ora</string>
+    <string name="load_todotxt">Carica file todo.txt</string>
+    <string name="change_dir">Cambia cartella todo.txt</string>
+    <string name="notification_priority">Imposta la minima priorità per le notifiche</string>
+    <string name="notification_time">Imposta l\'orario di notifica</string>
+    <string name="completation_rate">Percentuale Task Completati</string>
+    <string name="completation_dates">Task Completati per Data</string>
+    <string name="completed">Completati</string>
+    <string name="uncompleted">Da completare</string>
+    <string name="task_completed">Task Completati</string>
+    <string name="every_priority_not">Notiche per tutti i task</string>
+    <string name="min_priority_not">Notifiche per task con priorità maggiore o uguale a</string>
+    <string name="select_priority">Seleziona Priorità</string>
+    <string name="unknown_priority">Nessuna</string>
+    <string name="set_tags">Imposta Tag</string>
+    <string name="set_lists">Imposta Liste</string>
+    <string name="all">Tutti</string>
+    <string name="search_text">Cerca Nome +Tag @Lista (P)</string>
+
+</resources>

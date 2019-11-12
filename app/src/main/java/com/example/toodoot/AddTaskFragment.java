@@ -122,7 +122,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
         };
         //set up tag button
 
-        final ListDialog tagDialog = new ListDialog(getContext(), view, id.choose_tag_button, getAllTags(), "Set Tags", 0, R.color.tagColor){
+        final ListDialog tagDialog = new ListDialog(getContext(), view, id.choose_tag_button, getAllTags(), getString(R.string.set_tags), 0, R.color.tagColor){
             @Override
             public void onListSet(){
                         
@@ -145,7 +145,7 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
         };
 
 
-        final ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button, getAllLists(), "Set Lists", 500, R.color.listColor){
+        final ListDialog listDialog = new ListDialog(getContext(), view, id.choose_list_button, getAllLists(), getString(R.string.set_lists), 500, R.color.listColor){
             @Override
             public void onListSet() {
                 if (list_chips != null)

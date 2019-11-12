@@ -267,7 +267,7 @@ public class EditTaskActivity extends AppCompatActivity {
     public void setListBtn(){
         changeView(findViewById(R.id.list), getLayoutInflater().inflate(R.layout.add_list_button, (ViewGroup)findViewById(R.id.list).getParent(), false) );
 
-        listDialog = new ListDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_lists, getAllLists(), "Set Lists", 500, R.color.listColor){
+        listDialog = new ListDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_lists, getAllLists(), getString(R.string.set_lists), 500, R.color.listColor){
             @Override
             public void onListSet(){
                 super.onListSet();
@@ -303,7 +303,7 @@ public class EditTaskActivity extends AppCompatActivity {
     public void setTagBtn(){
         changeView(findViewById(R.id.tag), getLayoutInflater().inflate(R.layout.add_tag_button, (ViewGroup)findViewById(R.id.tag).getParent(), false) );
 
-        tagDialog = new ListDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_tags, getAllTags(), "Set Tags", 0, R.color.tagColor) {
+        tagDialog = new ListDialog(activity, findViewById(R.id.edit_task_layout), R.id.task_tags, getAllTags(), getString(R.string.set_tags), 0, R.color.tagColor) {
             @Override
             public void onListSet(){
                 super.onListSet();

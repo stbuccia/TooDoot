@@ -4,9 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.view.View;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 
@@ -31,6 +28,17 @@ public class PostponeDialog extends Dialog {
         fragment = todoFragment;
     }
 
+    private void postponeDay(int days){
+        Date newDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(newDate);
+        c.add(Calendar.DATE, days);
+        newDate = c.getTime();
+        adapter.changeDate(context, position, newDate, (fragment.getCalDate() != null && !Utils.isSameDay(fragment.getCalDate(), newDate)));
+        dismiss();
+
+    }
+
     public void showDialog(){
 
         setTitle("Postpone Day");
@@ -41,66 +49,34 @@ public class PostponeDialog extends Dialog {
         MaterialButton cal_btn = findViewById(R.id.postpone_cal);
         MaterialButton time_btn = findViewById(R.id.postpone_time);
 
-        tomorrow_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Date newDate = new Date();
-                Calendar c = Calendar.getInstance();
-                c.setTime(newDate);
-                c.add(Calendar.DATE, 1);
-                newDate = c.getTime();
+        tomorrow_btn.setOnClickListener(view -> postponeDay(1));
+
+        week_btn.setOnClickListener(view -> postponeDay(7));
+
+        cal_btn.setOnClickListener(view -> {
+            final Calendar selCalendar = Calendar.getInstance();
+            selCalendar.setTime(new Date());
+            DatePickerDialog StartTime = new DatePickerDialog(getContext(), R.style.datepicker, (view12, year, monthOfYear, dayOfMonth) -> {
+                selCalendar.set(year, monthOfYear, dayOfMonth);
+                Date newDate = selCalendar.getTime();
                 adapter.changeDate(context, position, newDate, (fragment.getCalDate() != null && !Utils.isSameDay(fragment.getCalDate(), newDate)));
                 dismiss();
-            }
+            }, selCalendar.get(Calendar.YEAR), selCalendar.get(Calendar.MONTH), selCalendar.get(Calendar.DAY_OF_MONTH));
+            StartTime.show();
         });
 
-        week_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Date newDate = new Date();
-                Calendar c = Calendar.getInstance();
-                c.setTime(newDate);
-                c.add(Calendar.DATE, 7);
-                newDate = c.getTime();
-                adapter.changeDate(context, position, newDate, (fragment.getCalDate() != null && !Utils.isSameDay(fragment.getCalDate(), newDate)));
+        time_btn.setOnClickListener(view -> {
+            final Calendar selCalendar = Calendar.getInstance();
+            selCalendar.setTime(new Date());
+            TimePickerDialog StartTime = new TimePickerDialog(getContext(), R.style.TimePickerTheme, (view1, hour, min) -> {
+                selCalendar.set(Calendar.HOUR_OF_DAY, hour);
+                selCalendar.set(Calendar.MINUTE, min);
+                Date time = selCalendar.getTime();
+
+                adapter.changeTime(context, position, time);
                 dismiss();
-            }
-        });
-
-        cal_btn.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   final Calendar selCalendar = Calendar.getInstance();
-                   selCalendar.setTime(new Date());
-                   DatePickerDialog StartTime = new DatePickerDialog(getContext(), R.style.datepicker, new DatePickerDialog.OnDateSetListener() {
-                       public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                           selCalendar.set(year, monthOfYear, dayOfMonth);
-                           Date newDate = selCalendar.getTime();
-                           adapter.changeDate(context, position, newDate, (fragment.getCalDate() != null && !Utils.isSameDay(fragment.getCalDate(), newDate)));
-                           dismiss();
-                       }
-                   }, selCalendar.get(Calendar.YEAR), selCalendar.get(Calendar.MONTH), selCalendar.get(Calendar.DAY_OF_MONTH));
-                   StartTime.show();
-               }
-           });
-
-        time_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Calendar selCalendar = Calendar.getInstance();
-                selCalendar.setTime(new Date());
-                TimePickerDialog StartTime = new TimePickerDialog(getContext(), R.style.TimePickerTheme, new TimePickerDialog.OnTimeSetListener() {
-                    public void onTimeSet(TimePicker view, int hour, int min) {
-                        selCalendar.set(Calendar.HOUR_OF_DAY, hour);
-                        selCalendar.set(Calendar.MINUTE, min);
-                        Date time = selCalendar.getTime();
-
-                        adapter.changeTime(context, position, time);
-                        dismiss();
-                    }
-                }, selCalendar.get(Calendar.HOUR_OF_DAY), 0, true);
-                StartTime.show();
-            }
+            }, selCalendar.get(Calendar.HOUR_OF_DAY), 0, true);
+            StartTime.show();
         });
 
         show();

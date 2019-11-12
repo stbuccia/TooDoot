@@ -11,6 +11,6 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/task_priority"
         android:background="@null"
-        android:text="Add Priority"
+        android:text="@string/add_priority"
         style="@style/MyAddButton"/>
 </HorizontalScrollView>

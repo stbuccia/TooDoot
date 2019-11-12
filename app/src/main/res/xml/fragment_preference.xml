@@ -6,7 +6,7 @@
     >
 
     <Preference
-        android:title="Load todo.txt file"
+        android:title="@string/load_todotxt"
         android:key="todotxtPicker"
 
         app:iconSpaceReserved="false"
@@ -15,7 +15,7 @@
         />
 
     <Preference
-        android:title="Change todo.txt directory"
+        android:title="@string/change_dir"
         android:key="dirPicker"
 
         app:iconSpaceReserved="false"
@@ -24,7 +24,7 @@
         />
 
     <Preference
-        android:title="Set a minimum notification priority"
+        android:title="@string/notification_priority"
         android:key="priorityPicker"
 
         app:iconSpaceReserved="false"
@@ -33,7 +33,7 @@
         />
 
     <Preference
-        android:title="Set Notification Time Reminder"
+        android:title="@string/notification_time"
         android:key="notificationTime"
 
         app:iconSpaceReserved="false"
