@@ -27,6 +27,7 @@
         android:title="@string/notification_priority"
         android:key="priorityPicker"
 
+
         app:iconSpaceReserved="false"
         app:allowDividerAbove="true"
         app:allowDividerBelow="true"
@@ -35,6 +36,16 @@
     <Preference
         android:title="@string/notification_time"
         android:key="notificationTime"
+
+        app:iconSpaceReserved="false"
+        app:allowDividerAbove="true"
+        app:allowDividerBelow="true"
+        />
+
+    <CheckBoxPreference
+        android:title="@string/hide_completed_task"
+        android:key="hideCompleted"
+        android:defaultValue="false"
 
         app:iconSpaceReserved="false"
         app:allowDividerAbove="true"

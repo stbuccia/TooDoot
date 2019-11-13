@@ -62,4 +62,5 @@
     <string name="set_lists">Set Lists</string>
     <string name="all">All</string>
     <string name="search_text">Search Name +Tag @List (P)</string>
+    <string name="hide_completed_task">Hide completed task</string>
 </resources>

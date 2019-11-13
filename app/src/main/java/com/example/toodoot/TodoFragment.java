@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,8 +31,8 @@ public class TodoFragment extends Fragment  {
     private RecyclerView.LayoutManager mLayoutManager;
     private Date calDate = null;
 
-    FloatingActionButton button;
-    ArrayList<Task> myTasks;
+    private FloatingActionButton button;
+    private ArrayList<Task> myTasks = new ArrayList<>();
 
     public void setCalDate(Date date){
         calDate = date;
@@ -41,6 +42,19 @@ public class TodoFragment extends Fragment  {
         return calDate;
     }
 
+    public ArrayList<Task> filterCompleted(ArrayList<Task> initTasks){
+        ArrayList<Task> tasks = new ArrayList<>();
+        if (PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("hideCompleted", false)){
+            for (Task task : initTasks){
+                if (!task.isComplete())
+                    tasks.add(task);
+            }
+        }
+        else {
+            tasks = initTasks;
+        }
+        return tasks;
+    }
     public TodoFragment(ArrayList<Task> initTasks){
         myTasks = initTasks;
     }
@@ -57,6 +71,7 @@ public class TodoFragment extends Fragment  {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
+        myTasks = filterCompleted(myTasks);
         mAdapter = new TaskAdapter(myTasks);
 
         mRecyclerView.setAdapter(mAdapter);

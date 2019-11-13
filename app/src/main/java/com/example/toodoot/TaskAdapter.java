@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormat;
@@ -183,12 +184,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         Task task = tasklistFiltered.get(position);
         if (isChecked) {
             task.completeTask();
+            if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("hideCompleted", false)) {
+                tasklist.remove(task);
+                tasklistFiltered.remove(task);
+            }
         } else {
             task.uncompleteTask();
         }
         task.updateTaskInFile(context);
         sortTask(tasklistFiltered);
-        notifyItemMoved(position, tasklistFiltered.indexOf(task));
+        if (tasklistFiltered.indexOf(task) > -1)
+            notifyItemMoved(position, tasklistFiltered.indexOf(task));
+        else
+            notifyItemRemoved(position);
 
     }
 

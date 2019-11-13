@@ -2,6 +2,7 @@ package model;
 
 import android.app.Notification;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import androidx.preference.PreferenceManager;
@@ -13,7 +14,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.text.Format;
@@ -80,6 +80,7 @@ public class Task implements Serializable {
         creation_date = new Date();
         uncompleteTask();
     }
+
 
     public Task(String text) throws ParseException {
         Format formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -232,14 +233,16 @@ public class Task implements Serializable {
         textdef = getTextTask();
         String text = textdef + "\n";
         //write the task in the beginning of file
-        File file = new File(Utils.getFilePath(PreferenceManager.getDefaultSharedPreferences(context)));
+        File dir = new File (Utils.getDirPath(PreferenceManager.getDefaultSharedPreferences(context),context));
+        dir.mkdirs();
+        File file = new File(dir, Utils.getFilename(PreferenceManager.getDefaultSharedPreferences(context)));
         try {
             RandomAccessFile f = new RandomAccessFile(file, "rw");
             f.seek(f.length());
             f.write(text.getBytes());
             f.close();
         }
-        catch(IOException e){
+        catch(Exception e){
             System.out.println(e.getMessage());
         }
 
@@ -247,9 +250,10 @@ public class Task implements Serializable {
 
     public static ArrayList<Task> getSavedTasks(Context context){
         ArrayList<Task> tasks = new ArrayList<Task>();
-        File file = new File(Utils.getFilePath(PreferenceManager.getDefaultSharedPreferences(context)));
+        File file = new File(Utils.getFilePath(PreferenceManager.getDefaultSharedPreferences(context), context));
         try {
             Scanner scanner = new Scanner(file);
+            //Utils.checkExternalMedia(context);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 try{
@@ -260,15 +264,19 @@ public class Task implements Serializable {
                 }
             }
         } catch(FileNotFoundException e) {
-            Toast.makeText(context, "todo.txt non found", Toast.LENGTH_LONG).show();
+            SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+            editor.putString("dir", context.getFilesDir().toString());
+            editor.commit();
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return tasks;
 
     }
 
     public void updateTaskInFile(Context context){
-        File file = new File(Utils.getFilePath(PreferenceManager.getDefaultSharedPreferences(context)));
+        File file = new File(Utils.getFilePath(PreferenceManager.getDefaultSharedPreferences(context), context));
         try {
+
             BufferedReader fileIn = new BufferedReader(new FileReader(file));
             StringBuffer inputBuffer = new StringBuffer();
             String line;
@@ -295,10 +303,11 @@ public class Task implements Serializable {
 
     public void removeTaskInFile(Context context){
         //Copy all file except interested line
-        File file = new File(Utils.getFilePath(PreferenceManager.getDefaultSharedPreferences(context)));
-        File tmp = new File(Utils.getDirPath(PreferenceManager.getDefaultSharedPreferences(context))+ "/tmp.txt");
+        File file = new File(Utils.getFilePath(PreferenceManager.getDefaultSharedPreferences(context), context));
+        File tmp = new File(Utils.getDirPath(PreferenceManager.getDefaultSharedPreferences(context), context)+ "/tmp.txt");
         try {
             BufferedReader fileIn = new BufferedReader(new FileReader(file));
+            FileWriter fw = new FileWriter(tmp);
             BufferedWriter fileTmp = new BufferedWriter(new FileWriter(tmp));
             String line;
 
@@ -399,6 +408,7 @@ public class Task implements Serializable {
     }
 
     public void setDescription(String description) {
+        this.description = description.replaceAll("\\s+$", "");
         this.description = description.replaceAll("\\s+","_");
     }
 

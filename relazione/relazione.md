@@ -139,6 +139,7 @@ La schermata delle impostazioni permette di modificare le preferenze dell'applic
 + Cambiare cartella del `todo.txt`, quindi spostare quest'ultimo
 + Impostare la priorità minima per le notifiche 
 + Modificare l'ora di ricevimento giornaliero delle notifiche
++ Nascondere i nel `TodoFragment` i task completati
 
 ![Impostazioni](./img/impostazioni.jpg){width=30% height=10%}
 

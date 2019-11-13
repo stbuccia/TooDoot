@@ -19,6 +19,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
@@ -127,11 +128,11 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             public void onListSet(){
                         
                 if (list_chips != null)
-                    for (int j = 0; j < list_chips.length; j++){
+                    for (Chip list_chip : list_chips) {
                         try {
-                            chipgroup.removeView(list_chips[j]);
+                            chipgroup.removeView(list_chip);
+                        } catch (Exception ignored) {
                         }
-                        catch (Exception e){}
                     }
 
                 super.onListSet();
@@ -149,11 +150,11 @@ public class AddTaskFragment extends BottomSheetDialogFragment{
             @Override
             public void onListSet() {
                 if (list_chips != null)
-                    for (int j = 0; j < list_chips.length; j++){
+                    for (Chip list_chip : list_chips) {
                         try {
-                            chipgroup.removeView(list_chips[j]);
+                            chipgroup.removeView(list_chip);
+                        } catch (Exception ignored) {
                         }
-                        catch (Exception e){}
                     }
 
                 super.onListSet();

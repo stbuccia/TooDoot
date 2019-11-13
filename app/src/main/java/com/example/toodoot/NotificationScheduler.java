@@ -122,14 +122,10 @@ public class NotificationScheduler {
                     for (int j = 0; j < tags.size(); j ++)
                         listString.append(tags.get(j) + " ");
 
-
-
-
                     Intent notificationIntent = new Intent(context, cls);
                     notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                     notificationIntent.setAction("OPEN" + i);
-                    notificationIntent.putExtra("id", i);
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_UPDATE_CURRENT);
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(context);

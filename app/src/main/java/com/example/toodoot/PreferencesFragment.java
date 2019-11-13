@@ -4,6 +4,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 
 import androidx.preference.Preference;
@@ -69,32 +70,30 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         setPreferencesFromResource(R.xml.fragment_preference, rootKey);
 
         ChooserDialog chooserDialog =  new ChooserDialog(context)
-                .withFilter(false, false)
                 .withDateFormat("HH:mm")
                 .displayPath(true)
                 .withFileIconsRes(false, R.drawable.ic_insert_drive_file_24px, R.drawable.ic_folder_24px)
-
+                .withStartFile(Environment.getExternalStorageDirectory().getAbsolutePath())
                 .withOnCancelListener(dialog -> {
                     Log.d("CANCEL", "CANCEL");
                     dialog.cancel();
                 });
 
         Preference filePicker = findPreference("todotxtPicker");
-        filePicker.setSummary(Utils.getFilePath(prefs));
+        filePicker.setSummary(Utils.getFilePath(prefs, context));
 
         Preference dirPicker = findPreference("dirPicker");
-        dirPicker.setSummary(Utils.getDirPath(prefs));
+        dirPicker.setSummary(Utils.getDirPath(prefs, context));
 
         filePicker.setOnPreferenceClickListener(preference -> {
 
             chooserDialog
-                    .withStartFile(Utils.getDirPath(prefs))
                     .withFilter(false, false)
                     .withChosenListener((path, pathFile) -> {
                         PreferencesFragment.this.loadTodoTxt(pathFile.getName(), pathFile.getParent());
 
-                        filePicker.setSummary(Utils.getFilePath(prefs));
-                        dirPicker.setSummary(Utils.getDirPath(prefs));
+                        filePicker.setSummary(Utils.getFilePath(prefs, context));
+                        dirPicker.setSummary(Utils.getDirPath(prefs, context));
                     })
                     .build().show();
             return true;
@@ -102,14 +101,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
 
         dirPicker.setOnPreferenceClickListener(preference -> {
             chooserDialog
-                    .withStartFile(Utils.getDirPath(prefs))
                     .withFilter(true, false)
                     .withChosenListener((path, pathFile) -> {
                         PreferencesFragment.this.changeDir(path);
-                        moveFile(Utils.getFilePath(prefs), path);
+                        moveFile(Utils.getFilePath(prefs, context), path);
 
-                        filePicker.setSummary(Utils.getFilePath(prefs));
-                        dirPicker.setSummary(Utils.getDirPath(prefs));
+                        filePicker.setSummary(Utils.getFilePath(prefs, context));
+                        dirPicker.setSummary(Utils.getDirPath(prefs, context));
                     })
                     .build()
                     .show();
@@ -148,6 +146,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
             showTimePickerDialog(Utils.getNotificationHour(prefs),Utils.getNotificationMin(prefs), setTime);
             return true;
         });
+
+
+        /*SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("hideCompleted", hideCompleted.isChecked());*/
 
     }
 

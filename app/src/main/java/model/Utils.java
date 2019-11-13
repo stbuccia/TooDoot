@@ -1,10 +1,11 @@
 package model;
 
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Environment;
 
 import com.example.toodoot.R;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -139,16 +140,16 @@ public class Utils {
 
     }
 
-    public static String getDirPath(SharedPreferences preferences){
-        return preferences.getString("dir", Environment.getExternalStorageDirectory().getAbsolutePath());
+    public static String getDirPath(SharedPreferences preferences, Context context){
+        return preferences.getString("dir", context.getFilesDir().toString());
     }
 
     public static String getFilename(SharedPreferences preferences){
         return preferences.getString("filename", "todo.txt");
     }
 
-    public static String getFilePath(SharedPreferences preferences){
-        return getDirPath(preferences) + "/" + getFilename(preferences);
+    public static String getFilePath(SharedPreferences preferences, Context context){
+        return (new File(getDirPath(preferences, context), getFilename(preferences))).getAbsolutePath();
     }
 
     public static int getNotificationHour(SharedPreferences preferences){
@@ -158,4 +159,25 @@ public class Utils {
     public static int getNotificationMin(SharedPreferences preferences){
         return preferences.getInt("notificationMin", 0);
     }
+
+    /*
+    public static void checkExternalMedia(Context context){
+        boolean mExternalStorageAvailable = false;
+        boolean mExternalStorageWriteable = false;
+        String state = Environment.getExternalStorageState();
+
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            // Can read and write the media
+            mExternalStorageAvailable = mExternalStorageWriteable = true;
+        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            // Can only read the media
+            mExternalStorageAvailable = true;
+            mExternalStorageWriteable = false;
+        } else {
+            // Can't read or write
+            mExternalStorageAvailable = mExternalStorageWriteable = false;
+        }
+        Toast.makeText(context, "\n\nExternal Media: readable="
+                +mExternalStorageAvailable+" writable="+mExternalStorageWriteable, Toast.LENGTH_LONG).show();
+    }*/
 }

@@ -62,5 +62,6 @@
     <string name="set_lists">Imposta Liste</string>
     <string name="all">Tutti</string>
     <string name="search_text">Cerca Nome +Tag @Lista (P)</string>
+    <string name="hide_completed_task">Nascondi task completati</string>
 
 </resources>
