@@ -55,7 +55,7 @@
     <string name="uncompleted">Da completare</string>
     <string name="task_completed">Task Completati</string>
     <string name="every_priority_not">Notiche per tutti i task</string>
-    <string name="min_priority_not">Notifiche per task con priorità maggiore o uguale a</string>
+    <string name="min_priority_not">Notifiche per task con priorità maggiore o uguale a </string>
     <string name="select_priority">Seleziona Priorità</string>
     <string name="unknown_priority">Nessuna</string>
     <string name="set_tags">Imposta Tag</string>
