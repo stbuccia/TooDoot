@@ -2,7 +2,7 @@
     <string name="app_name">TooDoot</string>
     <string name="title_todo">ToDo</string>
     <string name="title_calendar">Calendar</string>
-    <string name="title_graphic">Graphic</string>
+    <string name="title_graphic">Charts</string>
     <string name="search">Search</string>
     <string name="setting">Settings</string>
     <string name="textview">TextView</string>
@@ -15,7 +15,7 @@
     <string-array name="nav_item_activity_titles">
         <item>ToDo</item>
         <item>Calendar</item>
-        <item>Graphic</item>
+        <item>Charts</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->

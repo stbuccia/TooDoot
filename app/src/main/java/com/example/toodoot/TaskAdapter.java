@@ -35,6 +35,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
     private ArrayList<Task> tasklist;
     private ArrayList<Task> tasklistFiltered;
     private String charString = "";
+    private RecyclerView recyclerView;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
@@ -79,6 +80,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
         View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.task, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        this.recyclerView = recyclerView;
+        super.onAttachedToRecyclerView(recyclerView);
     }
 
     private void clearViews(ViewHolder holder){
@@ -201,13 +208,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
     }
 
 
+
     public void insertItem(Task task, String txt){
         tasklist.add(task);
         getFilter().filter(txt);
         sortTask(tasklist);
         sortTask(tasklistFiltered);
-        if (tasklistFiltered.indexOf(task) >= 0)
+        if (tasklistFiltered.indexOf(task) >= 0) {
+            recyclerView.scrollToPosition(tasklistFiltered.indexOf(task));
             notifyItemInserted(tasklistFiltered.indexOf(task));
+        }
     }
 
     public void changeDate(Context context, int position, Date date, boolean toRemove){
@@ -280,11 +290,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
             Calendar date1 = Calendar.getInstance();
             Calendar date2 = Calendar.getInstance();
 
+            if (t1.isComplete() && t2.isComplete()){
+
+            }
             date1.setTime(t1.getDate());
             date2.setTime(t2.getDate());
 
-            date1 = Utils.setEndDay(date1);
-            date2 = Utils.setEndDay(date2);
+            date1 = Utils.setStartDay(date1);
+            date2 = Utils.setStartDay(date2);
 
             if (t1.getTime() != null)
                 date1 = Utils.setTime(date1, t1.getTime());
@@ -292,7 +305,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> im
             if (t2.getTime() != null)
                 date2 = Utils.setTime(date2, t2.getTime());
 
-            return date1.compareTo(date2);
+
+            if (t1.isComplete() && t2.isComplete())
+                return date2.compareTo(date1);
+            else
+                return date1.compareTo(date2);
 
         }
     }

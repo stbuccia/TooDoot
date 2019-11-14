@@ -108,9 +108,9 @@ public class Utils {
     }
 
     public static int getPriorityResColor(int val){
-        if (val > 6)
+        if (val > 3)
             return R.color.lowPriorityColor;
-        else if (val > 3)
+        else if (val > 1)
             return R.color.mediumPriorityColor;
         else
             return R.color.highPriorityColor;

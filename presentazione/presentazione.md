@@ -28,7 +28,6 @@ theme:
 L'applicazione si interfaccia a un file di testo formato `todo.txt`
 
 + Facilmente leggibile e modificabile
-+ Facilmente modificabile
 + Possibile la sincronizzazione su più dispositivi
 + Semplice
 + Leggero
@@ -46,9 +45,9 @@ L'applicazione si interfaccia a un file di testo formato `todo.txt`
 + **Descrizione:** Informazioni aggiuntive sull'attività
 + **Priorità:** Importanza dell'attività, è associata una priorità ad ogni lettera dalla A (priorità alta) alla Z (priorità bassa)
 + **Data:** Giorno in cui deve essere svolta l'attività
-+ **Tempo:** Ora in cui deve essere svolta l'attività
++ **Ora:** Ora in cui deve essere svolta l'attività
 + **Liste (o contesti):** Corrisponde al posto o alla situazione in cui viene svolta l'attività
-+ **Tag:** Qualunque tipo di tag relativo all'attività
++ **Tag:** Qualunque tipo di parola chiave relativa all'attività
 
 :::
 
@@ -340,3 +339,4 @@ La gestione delle notifiche è delegata a due componenti
 + Più lingue disponibili
 + Attività selezionabili direttamente dalla lista, per poter eseguire la stessa operazione su attività diverse
 + Schermata Todo personalizzabile con intervallo temporale personalizzabile
++ Aggiungere coppie chiave valore di qualsiasi tipo

@@ -148,9 +148,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         });
 
 
-        /*SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("hideCompleted", hideCompleted.isChecked());*/
-
     }
 
 
